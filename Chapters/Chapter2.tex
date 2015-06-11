@@ -1,0 +1,198 @@
+%*******10********20********30********40********50********60********70********80
+
+% For all chapters, use the newdefined chap{} instead of chapter{}
+% This will make the text at the top-left of the page be the same as the chapter
+
+\chap{Θεωρητικό Υπόβαθρο και Σχετική Βιβλιογραφία} \label{c:complex}
+%Theory of communication complexity. From classical to quantum.
+
+This chapter explains the basic concepts and technologies involved in this project: Augmented Reality, the Leap Motion Controller’s technology, the definition of gesture recognition and categorization, targeting a pinch gesture for our purpose. The following section shows the relevant related work reviewed.
+
+
+
+\section{Επαυξημένη Πραγματικότητα}
+
+%AR=Combination of Computer Graphics & COmputer Vision
+Ο συνδυασμός αλγορίθμων και μεθόδων των δύο
+αυτών συγγενών επιστημών είναι το κλειδί για την επίτευξη σημαντικών αποτελεσμάτων σε
+εφαρμογές που επεξεργάζονται εικόνες και εξάγουν πληροφορίες από αυτές
+
+
+Η επαυξημένη πραγματικότητα, διεθνώς γνωστή ως augmented reality (AR), είναι το επιστημονικό πεδίο που ασχολείται με το συνδυασμό του πραγματικού κόσμου με δεδομένα παραγόμενα από έναν υπολογιστή. Αυτά προσθέτουν επιπλέον πληροφορίες στον πραγματικό κόσμο και βελτιώνουν την αντίληψη που έχει ο άνθρωπος για την πραγματικότητα. Σήμερα γίνονται προσπάθειες για την αξιοποίηση των δυνατοτήτων της πολλά υποσχόμενης εν λόγω τεχνολογίας σε διάφορους τομείς, μέσω της ανάπτυξης εφαρμογών που απευθύνονται σε πληθώρα ανθρώπων, με διαφορετικά ενδιαφέροντα και ασχολίες. Οι εφαρμογές επαυξημένης πραγματικότητας που αναπτύχθηκαν είναι εσωτερικού χώρου, η πρώτη, και εξωτερικού χώρου, η δεύτερη, και στηρίζονται στην αναγνώριση ενός επίπεδου αντικειμένου για την επαύξηση της σκηνής. Πρόκειται για εφαρμογές κονσόλας Win32 που εκτελούνται σε ηλεκτρονικούς υπολογιστές με λειτουργικό σύστημα Windows και υποστηρίζουν την επαύξηση της πραγματικότητας με τρισδιάστατα μοντέλα σε πραγματικό χρόνο μέσω της κάμερας του υπολογιστή και μέσω αρχείων βίντεο. Η γενική μεθοδολογία που ακολουθήθηκε είναι η είσοδος των στοιχείων του εσωτερικού προσανατολισμού της κάμερας, της εικόνας του πρότυπου επίπεδου αντικειμένου και του τρισδιάστατου μοντέλου, η εξαγωγή χαρακτηριστικών στην εικόνα του επίπεδου αντικειμένου και στο εκάστοτε στιγμιότυπο προς επαύξηση, η ψηφιακή συνταύτιση των εικόνων αυτών, η εξάλειψη των άκυρων ομολογιών, η εύρεση της γεωμετρικής σχέσης που συνδέει τις δύο εικόνες, ο εντοπισμός του επίπεδου αντικειμένου στο στιγμιότυπο και τέλος ο υπολογισμός των στοιχείων του εξωτερικού προσανατολισμού του στιγμιότυπου. Με βάση τα τελευταία, με γνώση της εσωτερικής γεωμετρίας της κάμερας και με θεώρηση της κλίμακας, της θέσης και του προσανατολισμού του τρισδιάστατου μοντέλου επαύξησης εντός του πραγματικού κόσμου, είναι δυνατή η τοποθέτησή του με το σωστό τρόπο και στην κατάλληλη θέση στο παράθυρο θέασης της επαυξημένης σκηνής
+%
+
+Augmented reality (AR) is a field of computer science research that combines real world and digital data. It is on the edge of becoming a well-known and commonplace feature in consumer applications. Printed books (e.g. Dibitassut) have additional AR content. As a technology, augmented reality is now on the top of the “technology hype curve”. New augmented reality applications mushroom all the time. Even children’s toys increasingly have AR links to digital content. For example, in 2010 Kinder launched chocolate eggs with toys linked to AR content if presented to a webcam. Traditional AR systems, such as systems for augmenting lines and records in sport events on TV, used to be expensive and required special devices. 
+
+This opens mass markets for augmented reality applications as the potential users already have the suitable platform for AR. Furthermore, cloud computing and cloud services enable the use of huge databases even on mobile devices.  
+
+
+
+In order for the computer to generate contextual information, it must first understand the user’s context. The parameters of this context are limited to environmental information and the user’s position and orientation within that environment. With such information, the computer can position the augmented information correctly relative to the surrounding environment. This alignment of virtual objects with real scene objects is known as registration. 
+
+
+The most common definition given by [24] refers to Augmented Reality as an interactive technology that combines real and virtual imagery in real time by registering virtual content onto real world. On a typical AR system, the working process can be divided in two main tasks along the general steps: tracking and registration and it is intended to detect a known pattern stored in memory (marker tracking)[25]. The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker[25]. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
+
+
+
+Augmented reality (AR) combines real world and digital data. At present, most AR research uses live video images, which the system processes digitally to add computer-generated graphics. In other words, the system augments the image with digital data. Encyclopaedia Britannica [20] gives the following definition for AR: “Augmented reality, in computer programming, a process of combining or ‘augmenting’ video or photographic displays by overlaying the images with useful computer-generated data.” Augmented reality research combines the fields of computer vision and computer graphics. The research on computer vision as it applies to AR includes among others marker and feature detection and tracking, motion detection and tracking, image analysis, gesture recognition and the construction of controlled environments containing a number of different sensors. Computer graphics as it relates to AR includes for example photorealistic rendering and interactive animations. Researchers commonly define augmented reality as a real-time system. However, we also consider augmented still images to be augmented reality as long as the system does the augmentation in 3D and there is some kind of interaction involved.
+
+%AR-VR
+The performance requirements of an AR system can be contrasted to a Virtual Reality (VR) system. A virtual reality system is one where the user is immersed in a scene that is completely synthetic, yet perceived to be real. To create a realistic, virtual scene, the detail level of the generated objects must be high and the rendering must be performed in real-time. This level of detail generates a performance hit to the system in order to render such objects. The virtual objects in an AR system however, are not required to be at any particular detail level. The realistic quality of the virtual objects in an AR system is constrained only by the application. The other, and most significant rendering difference between the two types of systems, is the percentage of scene content that is rendered. An AR system that renders only a few simple virtual objects in a scene will require far less rendering power than that of a VR system rendering the entire scene.
+
+
+The real-time requirement of VR is not a strict requirement of AR. The merging of the real scene with virtual objects can be done in real-time (online), or it can be done at a later time (offline). Depending on the AR application, each could be acceptable. Augmenting a recorded football game with virtual yard line markers can be done in realtime while viewers watch the live game on television. If the same game is not to be viewed live, then the augmentation could be done after the game and displayed whenever the broadcast occurs. In general, the application requirements are flexible in an AR system, whereas the performance requirements of a VR are the same for all VR systems. A second notable contrast between the two systems is the problem of registration. Since registration deals with the merging of real and synthetic objects, VR systems are not concerned with registration. The positions of all objects in a VR scene are described in terms of a common coordinate system. This means that the VR system has the correct registration for free. In terms of performance, the lower rendering cost of AR is counterbalanced by the cost of registration.
+
+The other aspect of the system that works in conjunction with the rendering component is the equipment used to track the user and display the scene. In the VR system, devices are used to track the user along with a display showing the rendered scene. In the AR system, there are several different combinations of equipment used to track and inform the user.
+
+
+\subsection{Ιστορική Αναδρομή}
+Tom Caudell, a researcher at aircraft manufacturer Boeing coined the term augmented reality in 1992. He applied the term to a head-mounted digital display that guided workers in assembling large bundles of electrical wires for aircrafts [21]. This early definition of augmented reality was a system where virtual elements were blended into the real world to enhance the user’s perception. Figure 1 presents Caudell’s head-mounted augmented reality system. Later in 1994, Paul Milgram presented the reality-virtuality continuum [22], also called the mixed reality continuum. One end of the continuum contains the real environment, reality, and the other end features the virtual environment, virtuality. Everything in between is mixed reality (Figure 2). A Mixed Reality (MR) system merges the real world and virtual worlds to produce a new environment where physical and digital objects co-exist and interact. Reality here means the physical environment, in this context often the visible environment, as seen directly or through a video display.In 1997, Ronald Azuma published a comprehensive survey on augmented reality [23] and due to the rapid development in the area produced a new survey in 2001 [24]. He defines augmented reality as a system identified by three characteristics: 􀁸 it combines the real and the virtual 􀁸 it is interactive in real time 􀁸 it is registered in 3D. Milgram and Azuma defined the taxonomy for adding content to reality or virtuality. However, a system can alter the environment in other ways as well; it can, for example, change content and remove or hide objects. In 2002, Mann [25] added a second axis to Milgram’s virtuality-reality continuum to cover other forms of alteration as well. This two-dimensional realityvirtuality- mediality continuum defines mediated reality and mediated virtuality (see left illustration in Figure 3). another. A system can change reality in different ways. It may add something (augmented reality), remove something (diminished reality) or alter it in some other way (modulated reality). Mann also presented the relationships of these areas in the Venn diagram (see right illustration in Figure 3). In diminished reality, we remove existing real components from the environment. Thus, diminished reality is in a way the opposite of augmented reality. Today most definitions of augmented reality and mixed reality are based on the definitions presented by Milgram, Azuma and Mann. However, the categorisation is imprecise and demarcation between different areas is often difficult or volatile, and sometimes even contradictory. For example, Mann defined virtual reality as a sub area of mixed reality, whereas Azuma completely separates total virtuality from mixed reality. We define virtual reality (VR) as an immersive environment simulated by a computer. The simplest form of virtual reality is a 3D image that the user can explore interactively from a personal computer, usually by manipulating keys or the mouse. Sophisticated VR systems consist of wrap-around display screens, actual VR rooms, wearable computers, haptic devices, joysticks, etc. We can expand virtual reality to augmented virtuality, for instance, by adding real elements such as live video feeds to the virtual world. Augmented reality applications mostly concentrate on visual augmented reality and to some extent on tactile sensations in the form of haptic feedback. This work also focuses on visual AR; other senses are covered briefly in Sections 2.5 Multisensory augmented reality and 8.4 Future of augmented reality.
+
+
+
+\subsection{Εφαρμογές}
+
+Augmented reality technology is beneficial in several application areas. It is well
+suited for on-site visualisation both indoors and outdoors, for visual guidance in
+assembly, maintenance and training. Augmented reality enables interactive games
+and new forms of advertising. Several location-based services use augmented
+reality browsers. In printed media, augmented reality connects 3D graphics and
+videos with printed publications. In addition, augmented reality has been tested in
+medical applications and for multi-sensory purposes. The following presents a few
+examples of how visual AR has been used, and multi-sensory AR will be discussed
+later in Section 2.5.
+
+In interior design, augmented reality enables users to virtually test how a piece of
+furniture fits in their own living room. Augmented reality interior design applications
+often use still images. However, the user interactions happen in real-time and the
+augmentation is in 3D. For example in our AR interior application [12], the user
+takes images of the room and uploads them onto a computer (see Figure 8). The
+user can then add furniture, and move and rotate it interactively. A more recent
+example of augmented reality interior design is VividPlatform AR+ [32]. Vivid
+Works presented it at the 2010 Stockholm Furniture Fair. VividPlatform AR+ also
+uses still images. Our experience is that users find still images convenient for interior design. However, interior design can use live video in PC environments or
+on mobile phones as well [33].
+Outdoor visualisation systems normally use live video. Figure 9 shows an example
+of real-time augmented reality outdoor visualisation [34].
+Building projects can also be visualised using an augmented reality web camera.
+The augmented reality web camera can have several user interactions. Using a
+PTZ camera, the user can pan, tilt and zoom in on the view as in [9], for example.
+If the system has connection to the BIM (Building Information Model), the user can
+interact with materials and browse through the timeline of a construction project as
+we demonstrated in [1].
+In assembly, augmented reality applications can show the instructions for the
+assembler at each stage. The system can display the instructions on a headmounted
+display as e.g. in our assembly demonstration [2], on a mobile phone
+[35] or on a normal display (see Figure 10). The user can interact with an assembly
+system using voice commands, gestures or a keypad as we demonstrated in
+[7] and [6]. The benefits of augmented reality instructions compared to a printed manual are clear. The user can see instructions from all viewpoints and concentrate
+on assembly without having to scan through the paper manual.An AR system can aid maintenance work with augmented information, similarly to
+assembly. For instance, a mobile augmented reality system can provide maintenance
+workers relevant information from a database [37]. A mobile device is a
+good choice for displaying information in many cases. However, if the maintenance
+task is more of a hands-on assembly type of task, a head-mounted display
+is often a better choice. ARMAR is an augmented reality system for maintenance
+and repair developed at Columbia University [38, 39]. It uses a head-mounted
+display to show AR instructions for the maintenance worker, see Figure 11. The
+qualitative survey with ARMAR showed that the mechanics found the augmented
+reality condition intuitive and satisfying for the tested sequence of tasks [40].Besides assembly and engine maintenance, augmented reality is also used for
+teaching maintenance and repair, and for training purposes in several other fields
+as well.
+In the game industry, AR has had a breakthrough. AR enables interaction with
+the user and the environment. Augmented reality can make games more attractive.
+For example, mobile game developer int13 [41] believes that “Augmented
+Reality is a promising idea to enhance the player's gaming experience in providing
+exciting new ways to control his actions, through position and 3D moves.”
+In addition, accuracy is less critical in games than in industrial or medical applications.
+Figure 12 is an example of a Kinder augmented reality game. A toy car
+found in a Kinder Surprise egg will launch an interactive game on a computer. The
+game detects the object (in this case the toy car) and then uses gesture detection.
+The user controls the race with hand gestures imitating steering wheel movements.
+Augmented reality mobile games are very popular; in November 2011, a quick
+search in the App Store resulted in about 200 mobile AR applications for the iPhone.
+Figure 13 shows one example of a mobile AR game, AR Defender (by int13,
+2010), which works on iPhone and Samsung platforms, for example. It uses markers
+for camera registration, an example of which is shown in the lower right-hand
+corner of the left image in Figure 13.SpecTrek (Games4All, 2011) is another augmented reality game for Android
+phones. It uses GPS and a camera to guide the user to capture ghosts from the
+environment. In the map view, it shows the locations of the ghosts. In the camera view,
+it augments the ghosts in the view and allows the user to catch them (Figure 14).
+
+Besides games, location-based augmented reality services are popular on mobile platforms. One example is Wikitude World Browser, which uses GPS, a compass and the camera of the mobile device to augment location-based information for the user. It functions on several platforms (Symbian, Android and iPhone). Wikitude Drive also uses Navteq’s maps to create augmented navigation instructions. Figure 15 shows examples of Wikitude World Browser. Currently several AR mobile browsers are on the market: Layar, Junaio Glue, Acrossair Browser, Yelp monocle, Robot Vision’s Bing Local Search, PresseLite applications, etc. AR browsers have two main approaches. The first approach is to have one browser and then different information environments, and the user can then choose which information the application augments. Layar, Junaio Glue and Wikitude use this approach. (In Junaio, the environments are called “channels”, in Wikitude “worlds” and in Layar “layers”). The user can choose to see tourist information, for example. The other approach is to assign each information layer to a separate application. PresseLite uses this approach; Paris metro Guide and London Cycle Hire for the Tube are separate programs. Yelp is a system used for sharing user reviews and recommendations on restaurants, shopping, nightlife, services, etc. Its Monocle add-on functionality bridges this social media with real world environments using augmented reality. It is probably the world’s first social media browser. The user interface has motion detection; the user activates the monocle by shaking the phone.
+
+Augmented reality by its nature is well suited to advertising. In 2010, different
+companies launched advertising campaigns using AR. One of these is Benetton’s
+campaign (2010) IT’S:MY:TIME. It connects their advertisements in journals, on
+billboards and in product catalogues with augmented reality. They use the same
+symbology in all of them (Figure 16). The small icons indicate that the user can
+use a webcam or download an application from the App Store. The AR application
+then augments videos on top of the marker, e.g. in the catalogue. The PC version
+uses Adobe Flash Player, which most users already have installed on the computer
+and thus do not need to download anything new.
+
+Augmented reality technology is used to enrich printed media. Esquire magazine published an augmented reality issue in December 2009, Süddeutche Zeitung released their first issue with AR content in August 2010 (Figure 17). In Esquire’s case, users were able to see AR content when they showed the magazine to a PC webcam. In the case of Süddeutche Zeitung, users could see the content with a mobile phone after downloading the application. In Finland, Katso and TVSeiska magazines used AR in cooperation with VTT in advertising a new animated children series called Dibitassut in April 2010. Brazilian newspaper O estado de Sao Paulo has featured regular AR content since 2009.
+
+The idea of an augmented reality book, “the magic book” is at least ten years old [42]. However, it took a while before the technology was robust enough for mass markets. Aliens \& UFOs [43] was probably the first published book with AR content. In 2010, publishers released several AR books, e.g. Dinosaurs Alive\! [44], Fairyland Magic [45], Dibitassut [46] and [47], and the trend continues. Dibitassut (“Dibidogs” in English) has a program made by VTT, which users can download and install on their own computers. Users can see augmented animations using a webcam (see Figure 18).
+
+\subsection{Μέθοδοι Επαύξησης της Πραγματικότητας}
+
+
+
+\section{Pinhole Camera Model}
+\subsection{Intrinsics}
+\subsection{Extrinsics}
+\section{Camera Calibration}
+
+\section{Tracking}
+\subsection{Marker Tracking}
+    
+\subsection{Markerless Tracking}
+
+
+
+
+
+\section{Αναγνώριση Χειρονομιών}
+
+Human interaction with computer technology has for many years been a machine-centric form of communication. It has relied on the user’s ability to conform to interface strategies that better suit the technology than the user. As the use of computer technology spreads, the physical and expressive limitations of current interaction methods are increasingly counter-productive. Current interface technology such as the mouse and keyboard associated with desktop computers has become ubiquitous in mainstream computing. This role is based on application interface technology that has been used for decades. As the application domain expands, this technology will reveal its performance inhibitions. In an effort to overcome the barrier associated with current interface solutions, much research is being done in the domain of gesture recognition. Because gesture recognition is a natural form of human expression, it seems reasonable to apply it to the communication channel of Human-Computer Interaction (HCI). Several techniques for capturing gesture have been proposed [OKA02, ULHA01, CROW95]. Gesture interpretation for HCI requires the measurability of hand, arm and body configurations. Initial methods were attempted to directly measure hand movements using glove-based strategies. These methods required that the user be attached to the computer through the connecting cables. This restricts the user significantly in their environment.
+
+Overcoming this contact-based interpretation requires the inference-based methods of computer vision. As processor power continues to rise, the once complex algorithms of the field are becoming available as real-time applications. Most computer vision-based gesture recognition strategies focus on static hand gestures known as postures. However, it has been argued that the motion within gesture communication conveys as much meaning as the postures themselves. Examples include global hand motion and isolated fingertip motion analysis. The interpretation of gesture can be broken down into three phases: modeling, analysis and recognition. Gesture modeling involves the schematic description of a gesture system that accounts for its known or inferred properties. Gesture analysis involves the computation of the model parameters based on detected image features captured by the camera. The recognition phase involves the classification of gestures based on the computed model parameters. These phases are outlined in figure 2.12.
+
+Although much research has been done in the field of gesture recognition, HCI interaction involving accurate, real-time interpretation is a long way off. The key to simplifying the domain of human gesture possibilities is to construct a gesture model which clearly describes the sub-domain of gesture that will be classified by the associated system.
+
+
+
+To determine an appropriate model for a given HCI system, the application must be clearly defined. Simple gesture requirements result in simple gesture models. Likewise, complex gesture interpretation, involves defining a complex model.
+
+Gesture is defined as the use of body and motion as a form of expression and social interaction. This interaction must be interpreted for communication to be successful. Gesture interpretation is considered a psychological issue, which plays a role in the taxonomy of the varying types of human gesture. Figure 2.13 outlines one such taxonomy.
+
+It is crucial for any gesture recognition system to distinguish between the higher level classifications such as gesture versus unintentional movements and manipulation versus communicative. It has been suggested that the temporal domain of human gesture, for example, can help classify a gesture from unintentional movement. The temporal aspect of gesture has three phases: preparation, nucleus, and retraction [PAVL97]. The preparation phase involves the preparatory movement of the body from its rest position. The nucleus phase involves a definite form of body, while the retraction phase describes the return of the body to its rest position. The preparation and retraction phase are characterized by rapid motion, whereas the nucleus phase shows relatively slow motion. Some measurable stray from these temporal properties could indicate unintentional movement as opposed to gestures in the classification process. Two forms of modeling are being explored; appearance and 3D model-based modeling. Appearance-based modeling deals with the direct interpretation of gesture from images using templates. Image content features such as contours, edges, moments and even fingertips can form a basis for parameter extraction with respect to the gesture model chosen. Three-dimensional model-based modeling is used to describe motion and posture in order to then infer the gesture information. Volumetric models are visually descriptive, but are complex to interpret using computer vision. Skeletal models describe joint angles which can be used to infer posture and track motion.
+\subsection{Αναγνώριση Blob}
+\subsection{Αναγνώριση Χειρονομίας Τσιμπήματος}
+Successful gesture recognition requires clear classification of the model parameters. This process can be difficult when attempting feature extraction schemes that rely on complex computer vision techniques. For example, contours can be misinterpreted when used for the recognition of gesture so their use is usually restricted to tracking. On the other hand, slight changes in hand rotation while presenting the same posture can be interpreted as different postures using geometric moments. Temporal variance is an important issue that needs to be studied in more detail. For example, hand clapping should be recognized properly regardless if it is done slowly or quickly. Hidden Markov Models (HMMs) have shown promise in distinguishing gesture in the presence of duration and variation changes
+
+Another recognition approach is to use motion history images (MHIs) or temporal templates. Motion templates accumulate the motion history of a sequence of visual images into a single two-dimensional image. Each MHI is parameterized by the time history window that was used for its computation. Multiple templates with varying history window times are gathered to allow time duration invariance. This process is computationally simple, but recognition problems can stem from the presence of artifacts in the images when auxiliary motions are present. Although it seems that 3D model-based approaches can capture the richest set of hand gestures in HCI, the applications that use such methods are rarely real-time. The most widely used gesture recognition approaches use appearance-based models. Current applications in the field of hand gesture related to HCI are attempting to replace the keyboard and mouse hardware with gesture recognition. Exciting possibilities with helping physically-challenged individuals and the manipulation of virtual objects are being explored.
+
+
+
+\section{Διαδραστική Επαυξημένη Πραγματικότητα}
+\subsection{Χειρισμός Εικονικών Αντικειμένων μέσω Χειρονομιών}
+
+Immersed in an environment containing virtual information, the user is left with few mechanisms for interacting with the virtual augmentations. The use of hardware devices [VEIG02] can be physically restrictive given the special freedom goals of Augmented Reality. Interaction with virtual augmentation through a physical mediator such as a touch screen [ULHA01] is becoming a common practice. An interesting alternative is the use of natural human gestures to communicate directly with the environment. Gesture recognition has been explored mainly for the purpose of communicative interaction. Gesture systems have explored many aspects of hand gesture including three-dimensional hand posture [HEAP96] and fingertip motion [OKA02, ULHA01, CROW95]. The system presented in this chapter attempts to bridge these two fields of study by describing a hand gesture system that is used for manipulative interaction with the virtual augmentation. Although natural human gestures are too complex to recognize in realtime, simple gesture models can be defined to allow a practical interactive medium for real-time Augmented Reality systems.
+
+\section{Προκλήσεις και προβλήματα}
+
+The diversity of AR platforms, devices, tools and applications is stunning. Overall,
+augmented reality is a pronounced visualisation method, which is used in many
+application areas. It is especially advantageous in on-site real-time visualisations
+of database information and for purposes where there is a need to enhance the
+3D perceptive skills of the user. Augmented reality enables natural interactions
+and is a good tool to create interactive games and enhance user experience in
+other areas as well. In this work, we aim to give a thorough overview of the whole
+field, whilst concentrating on the fundamental issues of single-camera visual augmented
+reality.
+
+
+In conclusion, the augmented reality application developer needs to take into consideration several different issues: technical, application and other issues affecting the user experience. The main technological issues relate directly to the definition of augmented reality (real-time, interactive, 3D, combining real and virtual). Application issues arise from the ease of creating AR applications. Other important issues relate to user experience. The main technological issues in augmented reality are 􀁸 performance 􀁸 interaction 􀁸 alignment.
+
+The main application issues are 􀁸 content creation 􀁸 authoring. Other important issues affecting the user experience are 􀁸 visual perception 􀁸 user interface 􀁸 devices 􀁸 power consumption. Next, we review what we mean by these issues and how they affect the usability and user experience of an AR application. An augmented reality system needs to be able to perform in real-time. Otherwise, the system may augment old or flawed information, or the augmentation may not correspond to the current state of the environment. Performance issues are characteristic to all AR algorithm and application development. Research results from other fields (e.g. image processing) are not directly applicable to AR. For instance, traditional image inpainting methods do not fulfil the real-time requirement, and therefore they cannot be used for diminished reality as such (see Section 6.2). Performance is an issue especially in mobile environment where the processing power and memory are limited. The user should be able to interact with the system naturally. The usability and the user experience are disturbed if the interaction is unnatural. The interaction needs to be natural in the user interface level as we discussed in the Section 7.1. The same holds true at the application level; the interaction between the real world objects and virtual objects needs to be smooth as well. Application needs to adapt virtual elements according to real scene, as for example in our interior design application where the user was able to adjust virtual lights easily according to real ones (see Section 6.1.3). At times, the application needs to remove existing objects virtually to be able to augment virtual objects on the same place. We discussed in Section 6.2 how to handle this kind of interaction with diminished reality. The camera calibration needs to be correct and the tracking needs to be accurate. Otherwise, the augmented data is shifted in the real environment: the virtual overlay is in the wrong place or it flutters. People find this alignment error annoying. In Chapter 3, we concentrated on marker-based approaches for accurate tracking, and in Chapter 4, on alternative tracking methods, mainly feature-based tracking and hybrid tracking methods. In addition, Appendix C gives an overview of camera calibration. The content creation is also an important aspect of application development. An application can visualise information from a database (e.g. in augmented assembly) or provide textual information (e.g. in AR browsers). Sometimes the information in database is in unsuitable format and format conversion is needed. In addition, when no database is available someone needs to create the content. Furthermore, if nice graphics are required, they need to be created to the approboth mobile environments and high quality visualisation. Besides content creation, authoring is a big application issue as we discussed in Section 7.4. Creation of AR applications should be brought to a non-expert nonprogramming level, where users can combine objects, interactions and events at a conceptual level. Visual perception should support the purpose of the application as we discussed in Chapter 6. Some applications require (photo-)realistic rendering, other applications benefit from focus and content -type highlighting of augmented objects. The user should be able to concentrate on the task, and the visual perception should sustain the task, without distracting the user. The user interface should be, as always, easy to use and intuitive. It should support the task at hand and make the user experience smooth as discussed in Section 7.1. The AR application should run on the appropriate device; mobile applications on lightweight devices, high-end visualisations on larger good-quality monitors. Furthermore, the terminal device should be taken into account already at the application design stage. There is no point in implementing computationally intensive methods on mobile phones if the application would then run on a slow frame rate. Devices often play very important role in the development process. The diversity of mobile platforms is perhaps the main obstacle for wider use of mobile AR applications. Applications need to be ported mostly to each platform separately, which deprives resources from application development. Furthermore, mobile devices are an ideal platform for consumer applications; they are equipped with cameras and new models with various additional sensors; people carry them with them all the time. Likewise, in special applications where an expert operates the system, it is feasible to invest in special devices such as HMDs, 3D displays, additional sensors, etc. if they support the task. One more aspect that significantly affects user experience is power consumption. Many applications require the user to be able to move freely, and thus wireless devices are optimal and then battery life plays a big role. A mobile application that discharges the battery in 15 minutes is unrealistic. We once tested a HMD where the camera ran out of batteries in less than two hours. The user had to change the batteries often, which was annoying especially as the camera and projector were wired to a computer anyway. It is hard to imagine this kind of setup in practical use, e.g. in a factory. In conclusion, the most important issue of augmented reality application development is the user experience, which is affected by all technological, application and other issues.

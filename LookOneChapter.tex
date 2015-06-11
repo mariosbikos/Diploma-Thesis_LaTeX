@@ -1,0 +1,346 @@
+% This File makes it pocible to only compile one chapter
+% without the Frontpages, makes it easier to focus...
+
+% just write the chapter you want in the input-statement,
+% change the root-document to compile under settings,
+% If you need the Bibliography; simply comment out the begin/end comment!
+
+\documentclass[a4paper, 11pt, oneside, draft]{Thesis}
+\input{Settings/Packages.tex}
+\begin{document}
+
+%% ----------------------------------------------------------------
+\input{Chapters/Chapter1}
+
+
+\newtheorem{define}{Definition}
+%\newcommand{\Z}{{\mathbb{Z}}}
+%\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\bit}{\set{0,1}}
+\newcommand{\Ball}[2]{\mathit{Ball}(#1,#2)}
+\newcommand{\Vol}[2]{\mathit{Vol}_{2}(#1,#2)}
+\newcommand{\length}[1]{\left\vert #1 \right\vert}
+%\newcommand{\wt}[1]{\mathit{wt}\left( #1 \right)}
+
+\usepackage{psfig}
+\usepackage{epsfig}
+
+
+\oddsidemargin=0.15in
+\evensidemargin=0.15in
+\topmargin=-.5in
+\textheight=9in
+\textwidth=6.25in
+
+\begin{document}
+
+
+\lecture{8}{October 2, 2002}{Madhu Sudan}{Laura  Serban}
+
+%%%% body goes in here %%%%
+
+
+\section{Overview}
+\label{sec:overview}
+
+\begin{itemize}
+\item Construction of Justesen Codes
+\item Plotkin Bound
+\item Hamming-Elias-Bassalygo Bound
+\item Johnson Bound
+\end{itemize}
+
+
+\section{What we have achieved so far}
+\label{sec:summary}
+
+So far, we have examined three types of codes:
+\begin{itemize}
+\item{\bf Atomic Codes}: Hamming, Hadamard, Reed-Solomon, and  Reed-Muller codes
+\item{\bf Random Codes}
+\item{\bf Concatenated Codes}: Forney and Justesen Codes
+\end{itemize}
+
+The last two types of codes are asymptotically good. However, while the
+Random Codes are non-constructible, the Concatenated Codes provide us with
+an explicit way of producing asymptotically good codes. Further in the
+course we will focus on decoding algorithms for some of the codes examined
+so far, and on applications of coding theory to other areas of Computer
+Science. \\
+
+Since we have failed to give an explicit construction for the Justesen
+Codes in the previous lectures, for completion, we will take up that task
+here.
+
+\section{Construction of Justesen Codes}
+\label{sec: justesen-codes}
+
+Consider $n = q = 2^l$ and the field $\F_{2^l}$. For any message $m =
+(c_{0}, c_{1}, \ldots, c_{k-1}) \in \F_{2^l}^{k}$ define the polynomial
+$p(x) = \sum_{i=1}^{i=k}c_{i}x^{i}$.  Encode $m$ as the concatenation of
+$(p(\alpha), \alpha p(\alpha))$ for each $\alpha \in \F_{2^l}$. The
+message length is $kl$ bits since each message is represented as $k$
+elements of the field $F_{2^l}$. The blocklength is $2l2^l$ since
+$p(\alpha)$ is $l$ bits long and the pairs $(p(\alpha), \alpha p(\alpha))$
+are concatenated for all $2^l$ elements of $F_{2^l}$. The minimum distance
+is asymptotic to $(2^l-k)l$, i.e.  $c(2^l-k)l$ where $c$ is a global
+constant. We will not prove this result here.  Thus, Justesen codes are
+$(l2^{l+1}, kl, c(2^l-k)l)_{2}$ codes. Surprisingly, by appending a
+low-performace Reed-Solomon code with a translation of itself, we obtain a
+code with remarkably good asymptotic properties.
+
+
+\section{Plotkin Bound}
+\label{sec: plotkin-bound}
+
+To motivate our first bound, let us re-examine the bounds we have so far.  
+On the one hand, we have the Singleton and Hamming upper bounds on codes
+which show that $R \leq 1 - \delta$ and $R \leq 1 - H(\delta/2)$,
+respectively, the latter dominating the former. On the other hand, the
+Gilbert-Varshamov bound shows that there exist random codes with rate $R
+\geq 1 - H(\delta)$. The Plotkin bound addresses the largest gap between
+these bounds.  More precisely, it rules out the existence of codes of
+positive rate and minimum relative distance larger than $\frac{1}{2}$.
+
+
+
+\begin{theorem}[Plotkin]
+Let $C$ be a code with relative minimum distance $\delta$ and rate $R$. 
+
+\begin{description}
+
+\item[Plotkin 1] If $\delta = \frac{1}{2} + \epsilon$, then $|C| \leq
+\frac{1}{2\epsilon} + 1$. That is, if the relative minimum distance of the
+code exceed $\frac{1}{2}$, there are only a constant number of allowable
+codewords, i.e. the rate of the code tends to zero as the blocklength
+becomes large.
+
+\item[Plotkin 2] If $\delta = \frac{1}{2}$, then $|C| \leq 2n$. 
+
+\item[Plotkin 3] The rate of the code satisfies $R \leq 1 - 2\delta$.
+
+\end{description}
+\end{theorem}
+
+{\bf Observations}
+\begin{itemize}
+\item The Simplex Code meets the first Plotkin bound within a constant factor.
+\item The Hadamard Code meets the second Plotkin bound tightly.
+\end{itemize} 
+
+Next, we will prove the first Plotkin bound. The last two bounds are left
+as an exercise. \\
+
+{\bf Proof Idea}: Embed the Hamming space into the Euclidean space.
+Specifically, define a map from $\{0, 1\}$ to $\R$ such that $0$
+corresponds to $1$, and $1$ correspond $-1$, respectively. We can then
+inductively define a map from ${0, 1}^n$ to $\R^n$.  Therefore any object
+in the Hamming Space $\{0, 1\}^n$ can be represented by a vector in the
+Euclidean Space. The embedding function has the following easy and useful
+properties.
+
+\begin{fact} 
+For any $x \in C \subset\{0, 1\}^n$, the corresponding vector in the
+$n$-dimensional Euclidean space $v_{x}$ has length $\sqrt{n}$, i.e.
+$||v_{x}||^{2} = n$. 
+\end{fact}
+
+\begin{fact}
+For any $x, y \in C \subset \{0, 1\}^n$, with Hamming distance 
+$\Delta(x, y)$ the inner product of the corresponding vectors in 
+the $n$-dimensional Euclidean space,  $v_{x}$ and $v_{y}$ is 
+$<v_{x}, v_{y}> = n - 2\Delta(x, y)$. 
+\end{fact}
+
+Thus two codewords that are far from each other in the Hamming space 
+have a small inner product. In particular, if two codewords differ in 
+more than half of the positions the angle between their corresponding 
+vectors in Euclidian space is obtuse. \\
+
+Let us now translate the first version of the Plotkin Bound to the 
+Euclidean space. All vectors corresponding are scaled to length one. 
+
+\begin{fact}[Plotkin 1 Euclidean Space]
+Given $k$ vectors $v_{1}, v_{2}, \ldots, v_{k} \in \R^{n}$ of unit length 
+such that $<v_{i}, v_{j}> \leq -\alpha$, $k \leq 1 + \frac{1}{\alpha}$. 
+To obtain the first version of the Plotkin Bound take $\alpha = 2\epsilon$.
+\end{fact} 
+
+We will give two proofs of the fact above. One is intuitive, but fairly 
+involved, the other is short and simple, but doesn't provide much 
+intuition. In the proofs belown require only that the length of 
+each vector $v_i$ is at most one, rather than exactly $1$.\\
+
+\begin{proof}[Proof 1 - Intuitive]
+Without loss of generality let $v_{1} = (1, 0, \ldots, 0)$. Since $<v_1,
+v_i> \leq \alpha$, $v_{i}$ must be of the form $v_{i} = (-\alpha_{i},
+u_{i})$ where $\alpha_{i} \leq \alpha$ and $u_{i} \in \R_{n-1}$, for any
+$i$, $2 \leq i \leq k$. Then, for any $i, j$ such that $2 \leq i, j \leq
+k$. Note that:
+
+\begin{eqnarray*} 
+		<u_{i}, u_{j}> & = &  <v_{i}, v_{j}> - \alpha_{i}\alpha_{j} \\
+		& \leq & <v_{i}, v_{j}> - \alpha^{2} \\
+		& \leq & -\alpha - \alpha^{2} = -\alpha(1 + \alpha)
+		\end{eqnarray*}
+
+So the $u_{i}$'s form a set of $k-1$ vectors of length at most $1$ such
+that for the inner product of any two is at most $-\alpha(1 + \alpha)$. We
+repeat the argument above for this new set of vectors. Note that at every
+round the number of vectors decreases by one. Continuing this argument for
+more than $\frac{1}{\alpha} + 1$ steps we construct a set of vectors of
+length at most $1$ such that the inner product of any two of them is less
+than $-1$. This is clearly impossible. Therefore, we should be left with
+zero vectors after at most $\frac{1}{\alpha} + 1$ rounds, whcih implies
+that $k \leq \frac{1}{\alpha} + 1$. \\
+
+We can actually do even better by observing that $<u_{i}, u_{i}> \leq 1 -
+\alpha_{i}^2 \leq 1 - \alpha^2$. We can scale each $u_{i}$ up by a factor
+of $\frac{1}{\sqrt{1 - \alpha^2}}$ while still maitaining the required
+properties of the set. The new sets of vectors thus constucted will have
+inner products that are less than $-\alpha$ by a larger quantity. \\
+
+The Plotkin Bound is tight. To see that in Euclidean space reverse
+engineer the inductive proof above to construct a set of vectors that
+satisfies the bound tightly. In the Hamming space, one can proof tightness
+by examples of specific codes that achieve the bound.
+
+\end{proof} \\
+
+\begin{proof}[Proof 2]
+
+Let $z = v_{i} + v_{2} + \ldots v_{k}$. Recall that $<v_{i}, v_{i} > \leq
+1$ since the length of $v_{i}$ is at most one, and $<v_{i}, v_{j} > \leq
+-\alpha$ for all $1 \leq i, j \leq k$. Compute
+
+\begin{eqnarray*}
+	<z, z> & = & \sum_{i, j}<v_i, v_j> \\
+ & = & \sum_{i}<v_i, v_i> + \sum_{i \neq j}<v_i, v_j> \\ 
+	& \leq & k + k(k-1)(-\alpha) = k(1 + (1 - k)\alpha)  \\
+\end{eqnarray*}
+
+But $<z, z> \geq 0 \Rightarrow  k(1 + (1 - k)\alpha) \geq 0 
+\Rightarrow k \leq 1 + \frac{1}{\alpha}$.  
+
+\end{proof}
+
+Next we state the Euclidean version of the second Plotkin Bound. 
+
+\begin{fact}[Plotkin 2 Euclidean Space]
+Given $k$ vectors $v_{1}, v_{2}, \ldots, v_{k} \in \R^{n}$ of length at
+most one such that $<v_{i}, v_{j}> \leq -\alpha$, then $k \leq 2n + 1$. If
+the vectors are non-zero, the bound becomes $k \leq 2n$.  
+\end{fact}
+
+The proof of this fact is similar to the proof for the first Plotkin 
+about. A rigurous analysis can be found in the {\it Lecture Notes from 2001}. 
+
+
+
+\section{Hammilton-Elias-Bassalygo Bound}
+\label{sec:  hammilton-elias-bassalygo-bound}
+
+
+The current state of affairs for upper bounds involves both the Hamming
+and the Plotkin bounds. More specifically, for small values of the
+$\delta$, the Hamming bound is better than the Plotkin bound, while the
+Plotkin bound is stronger for larger values of the relative minimum
+distance. Our next upper bound is always stronger than the Hamming bound
+although it is very close to the Hamming bound for small values of
+$\delta$. Before we introduce it, we define a new notion of
+error-correcting codes, which will be later refered to as "list-decodable"
+codes.
+
+\begin{definition}[(t,l)-error-correcting codes]
+A code $C$ is $(t, l)$ error-correcting if for every vector $x \in \{0, 1\}^n$, 
+the $|Ball(x, t) \bigcap  C| \leq l$.  
+\end{definition}
+
+That is, if at most t errors happen, the intial codeword could any $l$
+given codewords. Note that this a generalization of the Hamming notion of
+error-correcting codes. In particular, an error-correcting code in the
+Hammming sense (all the codes we have encountered so far) is $(t, 1)$
+error-correcting.
+
+\begin{theorem}[Hammilton-Elias-Bassalygo Bound]
+If $C$ is $(t, l)$ error-correcting then 
+$$ |C| \leq \frac{l2^n}{\vol_{2}(t, n)} 
+\approx l2^{n(1 - H(\frac{t}{n}))} $$
+\end{theorem}
+
+\begin{proof}
+Draw a ball of radius $t$ around each codeword. Each point lies in at most
+$l$ balls. Otherwise, a point $x \in \{0, 1\}^n$ the ball of radius $t$
+around that $x$ would contain more than $l$ codewords, contradicting the
+definition of a $(t, l)$ error-correcting code. Since there are only $2^n$
+distinct points in the Hamming space $|C|\vol_{2}(t, n) \leq l2^{n}$ which
+yields the bound.  
+\end{proof}
+
+In order to get asymptotic results, we would like to relate the (relative) 
+minimum distance of a code to its l-error-correcting radius for $l > 1$. 
+
+\begin{theorem}[Johnson Bound]
+A $(n, k, \delta n)_{2}$ code is $(t, O(n))$ error-correcting where 
+$\frac{t}{n} = \frac{1}{2}(1 - \sqrt{1 - 2\delta})$. 
+\end{theorem}
+
+Our first sanity check confirms that 
+$\frac{\delta}{2} \leq \frac{1}{2}(1- \sqrt{1 - 2\delta})  \leq
+\delta$. We next attempt to give some intuition as to why the quantity
+$1 - \sqrt{1 - 2\delta}$ is appropriate. Construct a non-linear code that has
+large minimum distance, but has one Hamming ball of radius $t$ containing
+$\exp(n)$ codewords. This ensures that the code is not $(t, l)$
+error-correcting. Fix a ball of radius $t$ around the origin in the
+Hamming space of dimension $n$, and define a random code inside it.  We
+can show that we can pick exponentially many codewords inside this ball
+before any two become too close to each other.
+
+
+\end{document}
+
+
+
+
+
+Tables are good \cite{ATraveler} which is shown in \ref{table: you} and 
+\ref{table: whether}!
+\begin{table}[ht] 
+    \centering 
+    \begin{tabular}{|r|l|}
+        \hline
+        7C0 & hexadecimal \\
+        3700 & octal \\ \cline{2-2}
+        11111000000 & binary \\
+        \hline \hline
+        1984 & decimal \\
+        \hline
+    \end{tabular}
+    \caption[You-table]{Table for you}
+    \label{table: you} % is used to refer this table in the text 
+\end{table} 
+
+\begin{table}[ht] 
+    \centering 
+    \begin{tabular}{ | l | l | l | p{5cm} |}
+        \hline
+        Day & Min Temp & Max Temp & Summary \\ \hline
+        Monday & 11C & 22C & A clear day with lots of sunshine. \\ \hline
+        Tuesday & 9C & 19C & Cloudy with rain, \\ \hline
+        Wednesday & 10C & 21C & Rain will still linger for the morning.\\
+        \hline
+    \end{tabular}
+    \caption[Weather table]{Whether table for tomorrow}
+    \label{table: whether} 
+\end{table} 
+%% ----------------------------------------------------------------
+
+\begin{comment}
+    \label{Bibliography}
+    \lhead{\emph{Bibliography}}
+    \bibliographystyle{unsrtnat}
+    \bibliography{Bibliography}
+\end{comment}
+
+
+\end{document}

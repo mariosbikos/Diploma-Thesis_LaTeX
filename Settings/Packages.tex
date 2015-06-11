@@ -1,0 +1,62 @@
+
+
+\usepackage[Greek,Latin]{ucharclasses}
+
+
+% Language declaration
+\usepackage{xltxtra,xgreek}
+
+\setTransitionsForGreek{\setlanguage{greek}}{\setlanguage{english}} 
+% Instead of american, any other language can be used
+
+\usepackage{fontspec}
+
+\setmainfont[
+ BoldFont={GFSDidotBold.otf}, 
+ ItalicFont={GFSDidotItalic.otf},
+ BoldItalicFont={GFSDidotBoldItalic.otf}
+ ]{GFSDidot.otf}
+
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+%physics package 
+
+% \DeclareMathOperator{\Sample}{Sample}
+\let\vaccent=\v % rename builtin command \v{} to \vaccent{}
+\renewcommand{\v}[1]{\ensuremath{\mathbf{#1}}} % for vectors
+\newcommand{\gv}[1]{\ensuremath{\mbox{\boldmath$ #1 $}}} 
+% for vectors of Greek letters
+\newcommand{\uv}[1]{\ensuremath{\mathbf{\hat{#1}}}} % for unit vector
+\newcommand{\abs}[1]{\left| #1 \right|} % for absolute value
+\newcommand{\avg}[1]{\left< #1 \right>} % for average
+\let\underdot=\d % rename builtin command \d{} to \underdot{}
+\renewcommand{\d}[2]{\frac{d #1}{d #2}} % for derivatives
+\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}} % for double derivatives
+
+\newcommand{\ket}[1]{\left| #1 \right>} % for Dirac bras
+\newcommand{\bra}[1]{\left< #1 \right|} % for Dirac kets
+
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2} \right|
+ \left. #2 \vphantom{#1} \right>} % for Dirac brackets
+\newcommand{\matrixel}[3]{\left< #1 \vphantom{#2#3} \right|
+ #2 \left| #3 \vphantom{#1#2} \right>} % for Dirac matrix elements
+
+% Include any extra LaTeX packages required
+\usepackage[square, numbers, comma, sort&compress]{natbib}  % Use the "Natbib" style for the references in the Bibliography
+\usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
+%5%\usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
+
+
+\hyphenation{Ulti-ma-te-ly}
+\hyphenation{vir-tu-al}
+\hyphenation{intro-du-ce}
+\hyphenation{pre-se-nt}
+\hyphenation{ma-ni-pu-la-ti-on}
+\hyphenation{imple-me-nted}

@@ -1,0 +1,56 @@
+%*******10********20********30********40********50********60********70********80
+
+% For all chapters, use the newdefined chap{} instead of chapter{}
+% This will make the text at the top-left of the page be the same as the chapter
+
+\chap{Υλοποίηση Εφαρμογής} \label{c:exper}
+%Εξεταζομενο σεναριο
+Στα κεφάλαια \ref{c:complex} και \ref{c:crypto}, διερευνήσαμε τη δύναμη της Κβαντικής Πληροφορίας στα πλαίσια της πολυπλοκότητας επικοινωνίας και της κρυπτογραφίας. Τα Κβαντικά Αποτυπώματα, μάλιστα, προσφέρουν τόσο εκθετική εξοικονόμηση στο κόστος της πολυπλοκότητας επικοινωνίας όσο και απεριόριστη ασφάλεια σε κρυπτογραφικά πρωτόκολλα. Σε αντίθεση με τις κλασικές υλοποιήσεις τους, όμως, στα πρωτόκολλα κβαντικής επικοινωνίας και κρυπτογραφίας, η πειραματική τους επιτευξιμότητα παίζει εξίσου σημαντικό ρόλο με τη θεωρητική τους επινόηση. Εκτός από το πρωτόκολλο Κβαντικής Διανομής Κλειδιού (QKD), το οποίο έχει ήδη εγκατασταθεί πάνω σε πολύπλοκα δίκτυα και μεγάλες αποστάσεις \cite{QKDexp1,QKDexp2}, δεν υπάρχει άλλο πρωτόκολλο με την ίδια τύχη. Αυτό συμβαίνει, κυρίως, λόγω των σύνθετων κβαντικών καταστάσεων πολλών qubits που απαιτούνται για τη μετάδοση της πληροφορίας. Επομένως, υπάρχει ένα μεγάλο πλήθος κβαντικών πρωτοκόλλων επικοινωνίας των οποίων οι πειραματικές υλοποιήσεις δεν είναι εφικτές με την τρέχουσα τεχνολογία.
+
+
+
+
+\section{Πειραματική Εγκατάσταση}
+
+Our applications design and architecture has been built so that the Realsense 3D Camera can be mounted on top of an Oculus Rift HMD. Through the HMD user would be able to see the color stream from Realsense camera, creating a video see-through display. However, due to time and complexity constraints, we decided that the integration of Oculus rift within our application would be excessive. Hence, it has been decided to work in an experimental setup which would simulate the parameters of height and viewpoint, proving that our approach could work with Oculus rift and Realsense 3D Camera seamlessly. In order to interact with the content and evaluate the pinch gesture interaction, we setup a testing area, on which the markerboard is placed on a table, easily reachable by a user sitting in front of it. The Realsense 3D Camera stands on a tripod in a height of approximately 60cm pointing its eld of view towards the markerboard target in order to encompass the area of interaction above the target. Finally, the laptop is placed in front of the users view where the augmented video captured by the camera is displayed. The Realsense 3D camera is connected to the laptop which runs the application.
+
+
+\section{Βαθμονόμηση}
+
+
+
+
+\section{Αναγνώριση Χειρονομίας Τσιμπήματος}
+
+\section{Απεικόνιση Εικονικών Αντικειμένων} \label{s:rendering}
+
+\section{Μετακίνηση Εικονικών Αντικειμένων} \label{s:manipulation}
+
+
+\section{Αντιμετώπιση Απόκρυψης Αντικειμένων} \label{s:occlusion}
+For a user to successfully perform tasks in mixed reality environments, a certain level of im- mersion should be provided by the system. In most approaches occlusions are not taken into consideration, so virtual objects are always rendered on top of physical objects. However, to create an immersive and realistic experience, the occlusion between virtual and real objects has to be managed correctly, so that users can look at a scene where virtual content blends with the natural environment. Such an approach allows us to achieve high level of user immersion since the augmented objects occlude the users hands properly; something which is not possible with conventional AR. In OpenGL, when an object is rendered, the depth of a generated pixel (z coordinate) is stored in a buffer, called the z-buffer or depth buffer. This buffer is usually arranged as a two-dimensional array (x-y) with one element for each screen pixel. If another object of the scene must be rendered in the same pixel, the method compares the two depths and overrides the current pixel if the object is closer to the observer. The chosen depth is then saved to the z-buffer, replacing the old one. In the end, the z-buffer will allow the method to correctly reproduce the usual depth perception: a close object hides a farther one.
+
+The main problem when dealing with occlusion is that usually there is no depth information of the real scene. In order to overcome this problem, the depth of the real world from the users viewpoint has to be employed. In the current work, we use the Realsense 3D cameras depth sensor to aid in the process of acquiring the depth map of the environment scene. The Realsense 3D Camera can measure the distance of everything it sees, creating a depth map. This way the depth of every pixel of the depth frame can be estimated. The depth image is basically a 640480 (although it can be smaller) matrix where each pixel value represents the distance from the camera to that point in space (expressed in mm). When a video card renders a virtual scene it computes occlusion from the depth buffer, i.e. the z distance of every object in the virtual scene. Usually when another virtual object must be rendered in the same pixel of the z-buffer, the method compares the 2 depths and overrides the current pixel, if the object is closer to the observer, which in this case is our camera. The trick is to initialize the Z-Buffer of OpenGL with the depth values taken from the Realsense 3D Camera depth image before rendering any 3D virtual object and after rendering the quad which shows the color video stream. By doing so, when the chess pieces are rendered, they will be occluded by what it appears to be real-life objects such as our hand. Its like simulating a render of the entire environment in 3D and using the resulting z-buffer values. So, in order to handle occlusion in our application, we had to map the whole depth image to the color image, transform the values in millimeters to meters and then write to the OpenGLs z-buffer. Before we jump into writing in the z-buffer we need to consider what kind of projection we use (ortho or perspective). So we have to modify the data based on the perspective view that the virtual objects are rendered. In our case virtual objects are drawn using perspective projection. For a perspective projection, the relationship between Z and depth is non-linear. Speci cally, it's of the form
+
+EQUATION
+
+
+Also we have to bear in mind that points in front of the viewpoint have negative Z coordinates. After applying this transformation to the depth data we can write the data to the z-buffer.Once we write our depth data to the buffer, we can see that virtual object and real objects (such as our hands) blend naturally together.
+
+
+
+
+\section{Ενσωμάτωση Μηχανής Σκακιού}
+
+After the implementation of the pinch gesture detection algorithm, we decided that for our applications purposes, user should be able to play against the computer. This way, a natural sequence of chess events would take place and the application would simulate a real chess game against an opponent, something that would help with the evaluation of the system. In order for the user to be able to play against a computer, normally, we need to implement arti cial intelligence algorithms so that our program could think the next move based on the past moves made by the user. However the implementation of these algorithms for our chess game was out of the scope of this thesis and a simple way for AI functionality integration had to be investigated. This is where the chess engines emerge. A chess engine is a computer program that that receives a board position as input, analyzes the position of chess pieces and calculates the best move based on that board within a given amount of possible effort (in most cases a time limit). The chess engine estimates the next moves, but typically does not interact directly with the user. Most chess engines do not have their own graphical user interface (GUI) but are rather console applications that communicate with a GUI via a standard protocol. This allows the user to play against multiple engines without learning a new user interface for each, and allows different engines to play against each other. The GUI, in this case, is our application so far. What we need is a way to connect it with the chess engine properly. Nowadays, the most used way of communication with a chess engine is the Universal Chess Interface (UCI) Protocol. The Universal Chess Interface (UCI) is an open communication protocol that enables a chess program's engine to communicate with its user interface through a set of speci c commands. In order to integrate a chess engine to the augmented reality chess game, we need to exchange commands(strings) with a chess engine. A chess engine receives commands via standard input from an application and outputs its responses to standard output. So it has no graphical user interface, no mouse input, no pictures, just a plain console window, it is nothing more than an executable. To communicate with the engines executable, we decided to use a feature provided by Qt, through a class named QProcess which allows to start an executable le and easily read and write string commands from and to it. The interaction with the engine starts with a uci command that tells the engine to identify itself. It then receives commands that may change the values of options and the way output is presented by the engine. Afterwards, the engine takes as an input from our application the users completed move, and outputs the next best move for the enemy pieces. The chess engine is told to spend a speci c amount of time to search for a best move. It starts its search and considers the best move before the time limit expires. For our application we considered that the time limit should be really small(40ms) so that we can get immediate feedback from our program. Usually, chess engines dont have the ability to know whether or not a move command by the user is a valid one or not, based on the pieces type and the state of the board. However, we used the iCE Engine[link] which stores the possible moves for every chess piece and when an invalid move is taken as an input from the user, it returns the string Invalid chess move. This feature really helped us in changing the architecture of our code logic and makes it even easier for the user not to execute a wrong move at all. What is more, the engine we used can output the outcome of the game, so that our program can detect if the user won or lost the game. So we implemented the basic functionality to send and receive strings to and from the engine and according to these strings the correct actions can be taken in our program.
+
+
+
+
+
+
+
+
+
+
+ 

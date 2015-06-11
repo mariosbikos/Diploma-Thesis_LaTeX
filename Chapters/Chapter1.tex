@@ -1,0 +1,70 @@
+%*******10********20********30********40********50********60********70********80
+
+% For all chapters, use the newdefined chap{} instead of chapter{}
+% This will make the text at the top-left of the page be the same as the chapter
+
+\chap{Εισαγωγή} \label{c:intro}
+
+
+\section{Γενική Περιγραφή}
+
+
+
+A new field of research, whose goal is the seamless presentation of computer-driven information with a user’s natural perspective of the world, is Augmented Reality (AR). 
+Augmented Reality (AR) applications turn devices with cameras into magic lenses, through which real and virtual objects appear to coexist in the same space.  This illusion is achieved by superimposing virtual content on top of the real world. To improve the feeling of presence in mixed reality worlds, a certain level of immersion should be provided by the system. This can be achieved through the interaction with virtual objects, which is a challenging area for further research. 
+
+A variety of interaction techniques have been used to manipulate virtual objects in AR applications. However, most of the approaches are based on 2D touch screen pointing and clicking, and these methods suffer from having limited input area, using 2D input for 3D interaction. All these break the illusion that the users can interact directly with the virtual objects in the real world and are not pushing towards seamless interactions between the user and the virtual content.
+
+Recent research has shown that allowing physical interaction between free-hand and virtual objects enhances user experience and increases the realism of virtual content in the real world. Compared to conventional device-centric interaction methods, natural gesture-based interfaces offer a more intuitive experience for AR applications. Combined with depth information, gesture interfaces can extend AR interaction into full 3D space. There have been different approaches using computer vision and image processing techniques to detect gestures, however, in the last few years, low-cost depth sensing devices as Kinect or Leap Motion have offered great opportunities to track hand gestures and detect natural free-hand interactions that can be applied to mixed reality environments.
+
+%
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+%already used-use refs
+Most of the advances on augmented reality (AR) are related to tracking techniques and display technologies[13][4], however the interaction with virtual objects -usually limited to touch-screen displays- is still a challenging area that needs further improvements in order to address seamless interactions between the user and the augmented environment On previous works[6][7][8][9], the gesture recognition has been implemented using image processing techniques to detect hand gestures, using a single camera. The current possibilities that low-cost depth sensors like Kinect or Leap-Motion offer, can help to locate gestures within a certain space (our Augmented Reality space) and, in this manner, enable us to use the hand/fingers’ pose information to support the interaction with the virtual content. Research has been done in this area using Kinect[14][15], to infer, for example, the physical objects of a tabletop [16], and use the information to place the virtual content. The problem of interaction with virtual objects with physical gestures in an augmented reality environment is a challenging task that faces several problems that breaks the user experience [5]. According to [17], the hands-fingers interaction within augmented environments faces two major challenges: 1. The user’s fingers should be able to physically interact with virtual and real objects in an almost seamless way, a physically correct collision detection and processing with virtual objects is key[17]. 2. The mutual visual occlusion between virtual and real elements has to be of convincing quality. The correct occlusions between the user’s fingers and the virtual objects in the AR space should be as correct as possible[17].
+
+
+
+
+
+
+
+\section{Συνεισφορά}
+
+
+
+Τι είναι η Επαυξημένη Πραγματικότητα? Ποια τεχνολογία και ποιοι αλγόριθμοι επιτρέπουν την επυξηση μιας πραγματική σκηνής με τρισδιάστατο περιεχόμενο; What is the technology and what are the algorithms that allow us to augment 3D content in reality? What are the limits and possibilities of the technology? This work answers these questions. We describe the pipeline of augmented reality applications. We explain algorithms and methods that enable us to create the illusion of an augmented coexistence of digital and real content. We discuss the best ways to manage interactions in AR systems. We also discuss the limits and possibilities of AR technology and its use.
+
+
+Σκοπός της παρούσας διπλωματικής εργασίας είναι ο συνδυασμός των φωτογραμμετρικών γνώσεων και μεθόδων με αλγορίθμους της όρασης υπολογιστών, για την ανάπτυξη εφαρμογών επαυξημένης πραγματικότητας βάσει επίπεδου προτύπου και τη διερεύνηση των αποτελεσμάτων που μπορούν να επιτευχθούν. Στο πλαίσιο αυτό, ορίστηκαν τρεις στόχοι που πρέπει να έχουν εκπληρωθεί με το πέρας της εργασίας αυτής. Ο πρώτος στόχος αφορά στην κατανόηση της έννοιας της επαυξημένης πραγματικότητας και στον ορισμό μίας διαδικασίας που μπορεί να ακολουθηθεί προκειμένου να επιτευχθεί το τελικό αποτέλεσμα, βάσει αναγνώρισης ενός επίπεδου πρότυπου αντικειμένου με χρήση φωτογραμμετρικών μεθόδων και τεχνικών της όρασης υπολογιστών. Ο δεύτερος στόχος είναι η κατανόηση του θεωρητικού υποβάθρου των αλγορίθμων και των διαδικασιών που ορίστηκαν να εφαρμοστούν. Τέλος, ο τρίτος στόχος είναι ο προγραμματισμός των εφαρμογών με βάση τη διαδικασία που ορίστηκε για την εξέταση των τελικών αποτελεσμάτων.
+
+
+
+In this thesis, we attempt to use 3D gesture interaction as an alternative input technique for AR. We propose and implement a solution to integrate a pinch gesture detection technology within the augmented reality environment to offer a more robust and seamless integration of the user gestures with the virtual objects, speci cally using the Intels Realsense RGB-D sensor device. We demonstrate our tracking system in an augmented reality chess game allowing a user to interact with virtual chess pieces.
+
+
+The main contribution of this thesis will be the integration of a color and depth sensors capa- bilities into an AR environment in order to provide better interaction with the virtual content. In our approach we used the Realsense Dev Kit has the advantage of being smaller compared to the Kinect. Since the Realsense 3D camera was recently released, there are not many studies related to the use of it, which is an advantage to conduct future studies with this technology. The pinch gesture is one of the most common gestures for interaction with digital interfaces. It is de ned as the movement of expansion and contraction of a nger spread. It has been used for different purposes depending on target applications, e.g. the zooming metaphor by contracting and expanding, scaling or picking. It resembles a grabbing or picking action and offers natural signal to select or move an object in an interactive system and due to the nature of the thumb and index ngers, the pinch grabbing is precise and has high performance. While interacting with real objects, it is used in chess games from almost every average player. For our purpose, the pinch is a pivotal gesture to implement interactions within our Augmented Reality space. The gesture-based interaction will be narrowed to design and use a single pinch gesture detection algorithm. The goal of this work is to study, implement and integrate a pinch gestures tracking technique in the AR space, using a color and depth sensor device, ultimately aiming for the optimization of the interaction between the user and the virtual objects in an AR environment, focusing on the interaction with a single pinch gesture. The implemented algorithms will be tested using a chess game application and occlusion handling techniques will be implemented to provide an immersive experience to the users utilizing the depth data.
+
+
+\section{Δομή της εργασίας}
+
+Η εργασία διαιρείται σε πέντε κεφάλαια, εκ των οποίων τα τέσσερα πρώτα είναι κυρίως θεωρητικά, αλλά αναγκαία για την κατανόηση της έννοιας της επαυξημένης πραγματικότητας, της διαδικασίας που ακολουθήθηκε και του προγραμματιστικού υποβάθρου, ενώ το τελευταίο επικεντρώνεται στην ανάπτυξη των εφαρμογών, στην περιγραφή τους, στην παράθεση της μεθοδολογίας που ακολουθήθηκε και στην παρουσίαση των αποτελεσμάτων.
+Συγκεκριμένα, το πρώτο κεφάλαιο αποτελεί μία εισαγωγή στην επαυξημένη πραγματικότητα.
+Δίνεται ο ορισμός της και τα βασικά χαρακτηριστικά των εφαρμογών της, περιγράφεται η εξέλιξή της στο χρόνο και παρουσιάζονται οι κύριοι τομείς στους οποίους μπορεί να συνεισφέρει. Παράλληλα, αναφέρονται οι τεχνολογίες θέασης των επαυξημένων σκηνών αλλά και οι μέθοδοι τοποθέτησης των εικονικών πληροφοριών στον πραγματικό κόσμο. Τέλος, καταγράφονται οι κύριες προκλήσεις τις οποίες αντιμετωπίζουν οι δημιουργοί εφαρμογών επαυξημένης πραγματικότητας για την επίτευξη της ρεαλιστικής επαύξησης των σκηνών του πραγματικού κόσμου.
+Το δεύτερο κεφάλαιο αναφέρεται στην ψηφιακή συνταύτιση χαρακτηριστικών σημείων, η οποία εφαρμόστηκε κατά την ανάπτυξη των εφαρμογών για την εύρεση των ομολογιών μεταξύ της εικόνας του επίπεδου πρότυπου αντικειμένου και της εικόνας του στο εκάστοτε στιγμιότυπο. Για λόγους πληρότητας, παρουσιάζονται στην αρχή του κεφαλαίου εν συντομία οι βασικές κατηγορίες της ψηφιακής συνταύτισης, ενώ το υπόλοιπο κεφάλαιο επικεντρώνεται στην ψηφιακή συνταύτιση χαρακτηριστικών σημείων. Η τελευταία διεξάγεται σε δύο γενικά στάδια, το πρώτο εκ των οποίων είναι η ανίχνευση και η περιγραφή των σημείων
+
+Το τέταρτο κεφάλαιο αναφέρεται στο προγραμματιστικό περιβάλλον εργασίας. Ειδικότερα, γίνεται μία εισαγωγή στη γλώσσα προγραμματισμού των εφαρμογών C++, περιγράφονται τα βασικά στοιχεία ενός περιβάλλοντος ανάπτυξης προγραμμάτων C++, γίνεται αναφορά στο συγκεκριμένο περιβάλλον που χρησιμοποιήθηκε για την υλοποίηση των εφαρμογών και παρουσιάζονται οι βιβλιοθήκες που χρησιμοποιήθηκαν. Αυτές είναι η βιβλιοθήκη OpenCV οι σχετικές βιβλιοθήκες με τη διεπαφή προγραμματισμού εφαρμογών OpenGL, καθώς επίσης και η βιβλιοθήκη GLM: An Alias Wavefront OBJ file Library. Η βιβλιοθήκη OpenCV χρησιμοποιείται προκειμένου να υπολογιστούν τα στοιχεία του εξωτερικού προσανατολισμού του εκάστοτε στιγμιότυπου, αλλά και για τη βαθμονόμηση της μηχανής. Η ΟpenGL χρησιμοποιείται για τη σωστή τοποθέτηση του τρισδιάστατου μοντέλου στο στιγμιότυπο και τη θέαση της επαυξημένης σκηνής, ενώ η βιβλιοθήκη GLM χρησιμοποιείται για την εισαγωγή και εμφάνιση των τρισδιάστατων μοντέλων που διατίθενται σε μορφότυπο OBJ. Επιπλέον, στο κεφάλαιο αυτό επισημαίνονται κάποιες διαφορές των OpenCV και OpenGL, σχετικά με τα συστήματα συντεταγμένων που χρησιμοποιούν, και περιγράφονται οι μετασχηματισμοί που πραγματοποιούνται στην OpenGL προκειμένου ένα μοντέλο να παρουσιαστεί με το σωστό τρόπο σε ένα παράθυρο του υπολογιστή. Στο πέμπτο και τελευταίο κεφάλαιο της παρούσας εργασίας παρουσιάζονται οι εφαρμογές επαυξημένης πραγματικότητας που αναπτύχθηκαν. Περιγράφεται λεπτομερώς η μεθοδολογία που ακολουθήθηκε, αναφέρονται οι δυνατότητες των εφαρμογών και παρουσιάζονται τα αποτελέσματά τους. Επίσης, γίνεται αναφορά στις βαθμονομήσεις που διεξήχθησαν για την κάλυψη των απαιτήσεων των εφαρμογών και στο μορφότυπο OBJ, στο οποίο διατέθηκαν τα τρισδιάστατα μοντέλα επαύξησης της πραγματικότητας. Τέλος, μετά το κεφάλαιο αυτό ακολουθούν γενικά συμπεράσματα και σκέψεις για το μέλλον, που αποτελούν προτάσεις για μελλοντική επέκταση και βελτίωση των εφαρμογών.
+
+
+Τα πρώτα Κεφάλαια \ref{c:complex} και \ref{c:finger} αποτελούν μια ανασκόπηση της θεωρίας των Κβαντικών Αποτυπωμάτων στο πλαίσιο της Πολυπλοκότητας της Επικοινωνίας. Το Κεφάλαιο \ref{c:complex} ορίζει βασικές έννοιες στην Κλασσική και Κβαντική Πολυπλοκότητα Επικοινωνίας, ενώ το Κεφάλαιο \ref{c:finger} πραγματεύεται ειδικότερα τα Κβαντικά Αποτυπώματα. Στο Κεφάλαιο \ref{c:crypto} διερευνούμε τα Κβαντικά Αποτυπώματα από τη σκοπιά της Κβαντικής Κρυπτογραφίας, εξηγούμε την ικανότητά τους στην απόκρυψη πληροφορίας και επιδεικνύουμε  τη χρήση τους ως Κβαντικές Ψηφιακές Υπογραφές. Προτείνουμε ένα σχήμα Κβαντικών Χρημάτων δημοσίου κλειδιού (public-key), το οποίο αποδεικνύεται ασφαλές έναντι κλασσικών και κβαντικών επιθέσεων. Τέλος, στο Κεφάλαιο \ref{c:exper} εξετάζουμε τις πειραματικές υλοποιήσεις των Κβαντικών Αποτυπωμάτων που έχουν προταθεί στην επιστημονική κοινότητα εστιάζοντας ιδιαίτερα σε μια πρόσφατη πειραματική διαδικασία που χρησιμοποιεί σύμφωνες καταστάσεις φωτός (coherent states) στην κατάσταση λειτουργίας time-bin (time-bin mode) \cite{constant}, η οποία καθιστά το πρωτόκολλο Κβαντικών Χρημάτων που προτείνουμε, εν μέρει πειραματικώς υλοποιήσιμο.
