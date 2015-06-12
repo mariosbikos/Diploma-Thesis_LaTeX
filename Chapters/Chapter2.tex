@@ -6,22 +6,29 @@
 \chap{Θεωρητικό Υπόβαθρο και Σχετική Βιβλιογραφία} \label{c:complex}
 %Theory of communication complexity. From classical to quantum.
 
-This chapter explains the basic concepts and technologies involved in this project: Augmented Reality, the Leap Motion Controller’s technology, the definition of gesture recognition and categorization, targeting a pinch gesture for our purpose. The following section shows the relevant related work reviewed.
+Στο συγκεκριμένο κεφάλαιο γίνεται επεξήγηση των βασικών εννοιών και τεχνολογιών που αναφέρονται στην εργασία.  the basic concepts and technologies involved in this project: Augmented Reality, the Leap Motion Controller’s technology, the definition of gesture recognition and categorization, targeting a pinch gesture for our purpose. 
+
+Επιπλέον γίνεται ανασκόπηση των σχετικών επιστημονικών εργασιών και εφαρμογών, καθώς και των ανοικτών προκλήσεων στον ερευνητικό τομέα.
 
 
 
 \section{Επαυξημένη Πραγματικότητα}
 
+%Thomas-cie
+Augmented reality is the registration of computer-generated graphical information over a user’s view of the physical world. Supplemental information that is spatially located relative to the user can help to enhance their understanding of the world around them. AR is made up of a combination of virtual and real environments, although the exact make up may vary significantly. Milgram and Kishino used these properties to define a reality-virtuality continuum [Milgram and Kishino 1994], which can be used to compare the various forms of MR by placing them onto a spectrum. At one end of the continuum is the physical world, at the other end are the fully synthetic virtual environments (VR); AR is located somewhere in between, since it is a combination of the two. On the far left of the continuum is the physical world, with no virtual information at all. Moving to the right in the continuum is AR, where artificial objects are added to the physical world. Further to the right in the continuum (but not all the way to the right) is augmented virtuality, where physical world objects (such as a live display of a remote view) are added into a fully immersive virtual environment. On the far right side is a completely synthetic environment, with no information from the physical world being presented. Every type of 3D environment can be placed somewhere along this spectrum, and can be used to easily compare and contrast their properties. Mixed reality is defined as the combination of augmented and augmented virtuality. In his outstanding survey of the discipline, Azuma defines AR systems as those that contain the following three characteristics [Azuma 1997]: (1) it combines the real and virtual; (2) is interactive in real-time; and (3) is registered in 3D. This definition does not limit AR to the use of head-mounted displays (allowing for projectors and handheld displays), but excludes noninteractive media such as movies and television shows. To overlay 3D virtual models onto the user’s view, an AR system requires some form of displayed computer-generated information to be combined with a sensor that can measure the position and orientation of the user’s view. As the user moves through the physical world, the display is updated by the computer in real-time. The accuracy of the virtual objects registered to the physical world influences the realism of the fusion that the user experiences.
+
+
 %AR=Combination of Computer Graphics & COmputer Vision
 Ο συνδυασμός αλγορίθμων και μεθόδων των δύο
-αυτών συγγενών επιστημών είναι το κλειδί για την επίτευξη σημαντικών αποτελεσμάτων σε
-εφαρμογές που επεξεργάζονται εικόνες και εξάγουν πληροφορίες από αυτές
+αυτών συγγενών επιστημών είναι το κλειδί για την επίτευξη σημαντικών αποτελεσμάτων σε εφαρμογές που επεξεργάζονται εικόνες και εξάγουν πληροφορίες από αυτές
 
 
-Η επαυξημένη πραγματικότητα, διεθνώς γνωστή ως augmented reality (AR), είναι το επιστημονικό πεδίο που ασχολείται με το συνδυασμό του πραγματικού κόσμου με δεδομένα παραγόμενα από έναν υπολογιστή. Αυτά προσθέτουν επιπλέον πληροφορίες στον πραγματικό κόσμο και βελτιώνουν την αντίληψη που έχει ο άνθρωπος για την πραγματικότητα. Σήμερα γίνονται προσπάθειες για την αξιοποίηση των δυνατοτήτων της πολλά υποσχόμενης εν λόγω τεχνολογίας σε διάφορους τομείς, μέσω της ανάπτυξης εφαρμογών που απευθύνονται σε πληθώρα ανθρώπων, με διαφορετικά ενδιαφέροντα και ασχολίες. Οι εφαρμογές επαυξημένης πραγματικότητας που αναπτύχθηκαν είναι εσωτερικού χώρου, η πρώτη, και εξωτερικού χώρου, η δεύτερη, και στηρίζονται στην αναγνώριση ενός επίπεδου αντικειμένου για την επαύξηση της σκηνής. Πρόκειται για εφαρμογές κονσόλας Win32 που εκτελούνται σε ηλεκτρονικούς υπολογιστές με λειτουργικό σύστημα Windows και υποστηρίζουν την επαύξηση της πραγματικότητας με τρισδιάστατα μοντέλα σε πραγματικό χρόνο μέσω της κάμερας του υπολογιστή και μέσω αρχείων βίντεο. Η γενική μεθοδολογία που ακολουθήθηκε είναι η είσοδος των στοιχείων του εσωτερικού προσανατολισμού της κάμερας, της εικόνας του πρότυπου επίπεδου αντικειμένου και του τρισδιάστατου μοντέλου, η εξαγωγή χαρακτηριστικών στην εικόνα του επίπεδου αντικειμένου και στο εκάστοτε στιγμιότυπο προς επαύξηση, η ψηφιακή συνταύτιση των εικόνων αυτών, η εξάλειψη των άκυρων ομολογιών, η εύρεση της γεωμετρικής σχέσης που συνδέει τις δύο εικόνες, ο εντοπισμός του επίπεδου αντικειμένου στο στιγμιότυπο και τέλος ο υπολογισμός των στοιχείων του εξωτερικού προσανατολισμού του στιγμιότυπου. Με βάση τα τελευταία, με γνώση της εσωτερικής γεωμετρίας της κάμερας και με θεώρηση της κλίμακας, της θέσης και του προσανατολισμού του τρισδιάστατου μοντέλου επαύξησης εντός του πραγματικού κόσμου, είναι δυνατή η τοποθέτησή του με το σωστό τρόπο και στην κατάλληλη θέση στο παράθυρο θέασης της επαυξημένης σκηνής
+Η επαυξημένη πραγματικότητα, διεθνώς γνωστή ως augmented reality (AR), είναι το επιστημονικό πεδίο που ασχολείται με το συνδυασμό του πραγματικού κόσμου με δεδομένα παραγόμενα από έναν υπολογιστή. Αυτά προσθέτουν επιπλέον πληροφορίες στον πραγματικό κόσμο και βελτιώνουν την αντίληψη που έχει ο άνθρωπος για την πραγματικότητα. Σήμερα γίνονται προσπάθειες για την αξιοποίηση των δυνατοτήτων της πολλά υποσχόμενης εν λόγω τεχνολογίας σε διάφορους τομείς, μέσω της ανάπτυξης εφαρμογών που απευθύνονται σε πληθώρα ανθρώπων, με διαφορετικά ενδιαφέροντα και ασχολίες. 
+
+Οι εφαρμογές επαυξημένης πραγματικότητας που αναπτύχθηκαν είναι εσωτερικού χώρου, η πρώτη, και εξωτερικού χώρου, η δεύτερη, και στηρίζονται στην αναγνώριση ενός επίπεδου αντικειμένου για την επαύξηση της σκηνής. Πρόκειται για εφαρμογές κονσόλας Win32 που εκτελούνται σε ηλεκτρονικούς υπολογιστές με λειτουργικό σύστημα Windows και υποστηρίζουν την επαύξηση της πραγματικότητας με τρισδιάστατα μοντέλα σε πραγματικό χρόνο μέσω της κάμερας του υπολογιστή Η γενική μεθοδολογία που ακολουθήθηκε είναι η είσοδος των στοιχείων του εσωτερικού προσανατολισμού της κάμερας, της εικόνας του πρότυπου επίπεδου αντικειμένου και του τρισδιάστατου μοντέλου, η εξαγωγή χαρακτηριστικών στην εικόνα του επίπεδου αντικειμένου και στο εκάστοτε στιγμιότυπο προς επαύξηση, η ψηφιακή συνταύτιση των εικόνων αυτών, η εξάλειψη των άκυρων ομολογιών, η εύρεση της γεωμετρικής σχέσης που συνδέει τις δύο εικόνες, ο εντοπισμός του επίπεδου αντικειμένου στο στιγμιότυπο και τέλος ο υπολογισμός των στοιχείων του εξωτερικού προσανατολισμού του στιγμιότυπου. Με βάση τα τελευταία, με γνώση της εσωτερικής γεωμετρίας της κάμερας και με θεώρηση της κλίμακας, της θέσης και του προσανατολισμού του τρισδιάστατου μοντέλου επαύξησης εντός του πραγματικού κόσμου, είναι δυνατή η τοποθέτησή του με το σωστό τρόπο και στην κατάλληλη θέση στο παράθυρο θέασης της επαυξημένης σκηνής
 %
 
-Augmented reality (AR) is a field of computer science research that combines real world and digital data. It is on the edge of becoming a well-known and commonplace feature in consumer applications. Printed books (e.g. Dibitassut) have additional AR content. As a technology, augmented reality is now on the top of the “technology hype curve”. New augmented reality applications mushroom all the time. Even children’s toys increasingly have AR links to digital content. For example, in 2010 Kinder launched chocolate eggs with toys linked to AR content if presented to a webcam. Traditional AR systems, such as systems for augmenting lines and records in sport events on TV, used to be expensive and required special devices. 
+Η επαυξημένη πραγματικότητα είναι μία επιστημονική περιοχή της έρευνας της Επιστήμης των Υπολογιστών που συνδύαζει τον πραγματικό κόσμο με ψηφιακά δεδομένα. Τείνει να γίνει ένα ευρέως γνωστό και κοινότυπο χαρακτηριστικό  των καταναλωτικών εφαρμογών. Printed books (e.g. Dibitassut) have additional AR content. As a technology, augmented reality is now on the top of the “technology hype curve”. New augmented reality applications mushroom all the time. Even children’s toys increasingly have AR links to digital content. For example, in 2010 Kinder launched chocolate eggs with toys linked to AR content if presented to a webcam. Traditional AR systems, such as systems for augmenting lines and records in sport events on TV, used to be expensive and required special devices. 
 
 This opens mass markets for augmented reality applications as the potential users already have the suitable platform for AR. Furthermore, cloud computing and cloud services enable the use of huge databases even on mobile devices.  
 
@@ -134,14 +141,14 @@ Augmented reality technology is used to enrich printed media. Esquire magazine p
 
 The idea of an augmented reality book, “the magic book” is at least ten years old [42]. However, it took a while before the technology was robust enough for mass markets. Aliens \& UFOs [43] was probably the first published book with AR content. In 2010, publishers released several AR books, e.g. Dinosaurs Alive\! [44], Fairyland Magic [45], Dibitassut [46] and [47], and the trend continues. Dibitassut (“Dibidogs” in English) has a program made by VTT, which users can download and install on their own computers. Users can see augmented animations using a webcam (see Figure 18).
 
-\subsection{Μέθοδοι Επαύξησης της Πραγματικότητας}
+\subsection{Μέθοδοι Επαύξησης}
 
 
 
 \section{Pinhole Camera Model}
 \subsection{Intrinsics}
 \subsection{Extrinsics}
-\section{Camera Calibration}
+\section{Βαθμονόμηση}
 
 \section{Tracking}
 \subsection{Marker Tracking}
@@ -153,6 +160,18 @@ The idea of an augmented reality book, “the magic book” is at least ten year
 
 
 \section{Αναγνώριση Χειρονομιών}
+%Από εργασία μου δερματά
+
+H αναγνώριση χειρονομιών είναι η διαδικασία κατά την οποία οι χειρονομίες οι οποίες γίνονται από τον χρήστη αναγνωρίζονται από έναν δέκτη. Η αναγνώριση και η ερμηνεία των χειρονομιών απαιτεί από τη μηχανή την ικανότητα να μετρήσει τις δυναμικές ή στατικές παραμορφώσεις του χεριού, του βραχίονα ή ακόμα και άλλων μερών του ανθρωπίνου σώματος, τα οποία συμμετέχουν στην κίνηση.
+
+Σε κάθε σύστημα αναγνώρισης χειρονομιών το πρώτο στάδιο είναι η συλλογή δεδομένων από τον χρήστη.Οι πρώτες συσκευές συλλογής δεδομένων βασιζόντουσαν στη χρήση data gloves και καλωδίων, πράγμα που εμπόδιζε την φυσικότητα στην αλληλεπίδραση του χρήστη.Οι σημερινές προσεγγίσεις αξιοποιούν την χρήση βιντεοκάμερων και τεχνικών υπολογιστικής όρασης που καταγράφουν το αντικείμενο και με τεχνικές αναγνώρισης αναλύουν και ερμηνεύουν τις χειρονομίες.
+
+Πολλές και ποικίλες είναι οι προσεγγίσεις των ερευνητών στην αναγνώριση των χειρονομιών.Αυτά που διαφέρουν σε κάθε προσέγγιση είναι ο τρόπος με τον οποίο κάθε ερευνητής κατάφερε να συλλέξει δεδομένα και οι τεχνικές επεξεργασίας εικόνας που εφάρμοσε για να εξάγει χαρακτηριστικά.
+
+Οι νοηματικές χειρονομίες μπορούν να είναι πολύ σύνθετες, περιέχοντας ταυτόχρονες κινήσεις διάφορων σημείων, ωστόσο πρέπει να περιγραφούν στον υπολογιστή με τρόπο απλό και σαφή.
+
+Pinch It is defined as the movement of expansion and contraction of a nger spread. It has been used for different purposes depending on target applications, e.g. the zooming metaphor by contracting and expanding, scaling or picking. It resembles a grabbing or picking action and offers natural signal to select or move an object in an interactive system and due to the nature of the thumb and index ngers, the pinch grabbing is precise and has high performance.
+
 
 Human interaction with computer technology has for many years been a machine-centric form of communication. It has relied on the user’s ability to conform to interface strategies that better suit the technology than the user. As the use of computer technology spreads, the physical and expressive limitations of current interaction methods are increasingly counter-productive. Current interface technology such as the mouse and keyboard associated with desktop computers has become ubiquitous in mainstream computing. This role is based on application interface technology that has been used for decades. As the application domain expands, this technology will reveal its performance inhibitions. In an effort to overcome the barrier associated with current interface solutions, much research is being done in the domain of gesture recognition. Because gesture recognition is a natural form of human expression, it seems reasonable to apply it to the communication channel of Human-Computer Interaction (HCI). Several techniques for capturing gesture have been proposed [OKA02, ULHA01, CROW95]. Gesture interpretation for HCI requires the measurability of hand, arm and body configurations. Initial methods were attempted to directly measure hand movements using glove-based strategies. These methods required that the user be attached to the computer through the connecting cables. This restricts the user significantly in their environment.
 

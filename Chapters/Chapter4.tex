@@ -5,6 +5,10 @@
 
 \chap{Υλοποίηση Εφαρμογής} \label{c:exper}
 %Εξεταζομενο σεναριο
+
+Visual mixed and augmented realities have historically been applied to the gaming application domain. A number of academic mixed and augmented reality
+research projects
+
 Στα κεφάλαια \ref{c:complex} και \ref{c:crypto}, διερευνήσαμε τη δύναμη της Κβαντικής Πληροφορίας στα πλαίσια της πολυπλοκότητας επικοινωνίας και της κρυπτογραφίας. Τα Κβαντικά Αποτυπώματα, μάλιστα, προσφέρουν τόσο εκθετική εξοικονόμηση στο κόστος της πολυπλοκότητας επικοινωνίας όσο και απεριόριστη ασφάλεια σε κρυπτογραφικά πρωτόκολλα. Σε αντίθεση με τις κλασικές υλοποιήσεις τους, όμως, στα πρωτόκολλα κβαντικής επικοινωνίας και κρυπτογραφίας, η πειραματική τους επιτευξιμότητα παίζει εξίσου σημαντικό ρόλο με τη θεωρητική τους επινόηση. Εκτός από το πρωτόκολλο Κβαντικής Διανομής Κλειδιού (QKD), το οποίο έχει ήδη εγκατασταθεί πάνω σε πολύπλοκα δίκτυα και μεγάλες αποστάσεις \cite{QKDexp1,QKDexp2}, δεν υπάρχει άλλο πρωτόκολλο με την ίδια τύχη. Αυτό συμβαίνει, κυρίως, λόγω των σύνθετων κβαντικών καταστάσεων πολλών qubits που απαιτούνται για τη μετάδοση της πληροφορίας. Επομένως, υπάρχει ένα μεγάλο πλήθος κβαντικών πρωτοκόλλων επικοινωνίας των οποίων οι πειραματικές υλοποιήσεις δεν είναι εφικτές με την τρέχουσα τεχνολογία.
 
 
@@ -28,6 +32,66 @@ Our applications design and architecture has been built so that the Realsense 3D
 
 
 \section{Αντιμετώπιση Απόκρυψης Αντικειμένων} \label{s:occlusion}
+
+In this section, the depth estimation of real world is described.
+The depth estimation is used to compose the image
+of the virtual objects and the image of the real world without
+occlusion conflicts. In order to avoid occlusion conflicts, we
+need the depth information of only the region onto which
+virtual objects are projected. When the positions of virtual
+objects are known, the region for depth estimation can be
+limited as shown in Figure 4. Therefore, the depth estimation
+region of real world can be determined by projecting
+a CG object’s bounding box using the model-view matrix
+estimated in Section 3.1. The following steps describe a
+method of depth estimation of real world.
+1. A position of the CG object in the world coordinate
+system is transformed into its position in the camera
+coordinate system using the estimated model-view matrix
+M.
+2. A bounding box of the virtual object is projected onto
+the left image as shown in Figure 4. A depth estimation
+region is obtained as a bounding rectangle of the
+projected box. The same process is done for the right
+image as well.
+3. By adopting the Sobel filter, edges are detected in the
+region of depth estimation on the left and right images
+4. Stereo matching is performed and the depth value is
+computed. Note that only pixels on detected edges in
+the left image are matched to those in the right image,
+matching window size is 5 x 5 pixels, and similarity
+measure is the sum of absolute differences (SAD). In
+the same way, the right image as a reference image is
+matched to the left image.
+5. Matching errors are excluded by considering the consistency
+between left-to-right and right-to-left matchings.
+The depth values at the pixels between the edges
+are interpolated.
+
+By using the estimated model-view matrix and the depth
+map of the real world, CG images of virtual objects are
+mixed into the image of real world. At this stage, the depth
+of real world and each virtual object are compared. When
+the real objects are closer to the user’s viewpoint, a transparent
+virtual object is drawn at the 3-D position where the
+real objects exist. By using a hardware z buffering algorithm,
+the virtual objects that are farther than the transparent
+objects are not actually drawn on the frame buffer. Therefore
+the composed image is looked as if the real objects are
+occluding the virtual objects. These rendering steps are illustrated
+with examples in Figure 5.
+First, only the background image of a real scene is rendered
+on the frame buffer as in Figure 5 (a). Z-buffer value
+is also set to the farthest value through out the screen. Then,
+Z-buffer of the real objects are set to the depth of the real
+objects in Figure 5 (c). The regions of real objects are illustrated
+with gray levels of depth in Figure 5 (b). Finally, the
+virtual objects are rendered by using the model-view matrix
+in Figure 5 (d),(e). These steps are applied to both left and right images for obtaining a stereo pair of composite
+images.
+
+%-----
+
 For a user to successfully perform tasks in mixed reality environments, a certain level of im- mersion should be provided by the system. In most approaches occlusions are not taken into consideration, so virtual objects are always rendered on top of physical objects. However, to create an immersive and realistic experience, the occlusion between virtual and real objects has to be managed correctly, so that users can look at a scene where virtual content blends with the natural environment. Such an approach allows us to achieve high level of user immersion since the augmented objects occlude the users hands properly; something which is not possible with conventional AR. In OpenGL, when an object is rendered, the depth of a generated pixel (z coordinate) is stored in a buffer, called the z-buffer or depth buffer. This buffer is usually arranged as a two-dimensional array (x-y) with one element for each screen pixel. If another object of the scene must be rendered in the same pixel, the method compares the two depths and overrides the current pixel if the object is closer to the observer. The chosen depth is then saved to the z-buffer, replacing the old one. In the end, the z-buffer will allow the method to correctly reproduce the usual depth perception: a close object hides a farther one.
 
 The main problem when dealing with occlusion is that usually there is no depth information of the real scene. In order to overcome this problem, the depth of the real world from the users viewpoint has to be employed. In the current work, we use the Realsense 3D cameras depth sensor to aid in the process of acquiring the depth map of the environment scene. The Realsense 3D Camera can measure the distance of everything it sees, creating a depth map. This way the depth of every pixel of the depth frame can be estimated. The depth image is basically a 640480 (although it can be smaller) matrix where each pixel value represents the distance from the camera to that point in space (expressed in mm). When a video card renders a virtual scene it computes occlusion from the depth buffer, i.e. the z distance of every object in the virtual scene. Usually when another virtual object must be rendered in the same pixel of the z-buffer, the method compares the 2 depths and overrides the current pixel, if the object is closer to the observer, which in this case is our camera. The trick is to initialize the Z-Buffer of OpenGL with the depth values taken from the Realsense 3D Camera depth image before rendering any 3D virtual object and after rendering the quad which shows the color video stream. By doing so, when the chess pieces are rendered, they will be occluded by what it appears to be real-life objects such as our hand. Its like simulating a render of the entire environment in 3D and using the resulting z-buffer values. So, in order to handle occlusion in our application, we had to map the whole depth image to the color image, transform the values in millimeters to meters and then write to the OpenGLs z-buffer. Before we jump into writing in the z-buffer we need to consider what kind of projection we use (ortho or perspective). So we have to modify the data based on the perspective view that the virtual objects are rendered. In our case virtual objects are drawn using perspective projection. For a perspective projection, the relationship between Z and depth is non-linear. Speci cally, it's of the form
