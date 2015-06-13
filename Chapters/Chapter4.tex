@@ -6,6 +6,11 @@
 \chap{Υλοποίηση Εφαρμογής} \label{c:exper}
 %Εξεταζομενο σεναριο
 
+The suitable architecture and frameworks presented previously, chapter 3 are implemented in
+this section, starting with a summary of the development tools and equipment required. At first,
+we show the implementation of the basic scenario in the Unity engine, after we present the
+description of the evaluation performed with two tasks and the experimental set-up used.
+
 Visual mixed and augmented realities have historically been applied to the gaming application domain. A number of academic mixed and augmented reality
 research projects
 
@@ -26,12 +31,51 @@ Our applications design and architecture has been built so that the Realsense 3D
 
 \section{Αναγνώριση Χειρονομίας Τσιμπήματος}
 
-\section{Απεικόνιση Εικονικών Αντικειμένων} \label{s:rendering}
+%wang,popovi
+Pinch / Click Detection A robust pinch detector is the basis
+of our gestures, and we address it separately from 3D tracking.
+Our pinch detection is based on detecting separation of
+the tips of the index finger and thumb in at least one of the
+two camera images. First, we check for extrema [18] of the
+silhouette close to the predicted locations of the index finger
+and thumb from our 3D pose estimate. Thumb-index separation
+is detected if the geodesic distance between the extrema
+is longer than the Euclidean distance. If no separation is detected
+in either view, we register a pinch (Figure 12).
 
-\section{Μετακίνηση Εικονικών Αντικειμένων} \label{s:manipulation}
+%--
+
+
+The pinch is a basic gesture that can be used to interact on a 3D space rather than a pointing gesture that is usually used on 2D view systems, which is simpler and well performed. On a user-based gesture taxonomy developed [22], [30], several gestures such as ponting, pinch, grab, stretch (using both hands) have been classified according to user experience. The pinch gesture in an AR interaction space is performed several times to imply natural movements and other gestures like selection, shrink/stretch in different axis, rotation, either using one hand or both[30]. Hence, its recognition is fundamental for following basic interactions. On this work, we have implemented a pinch recognition algorithm that triggers a grabbing action to move and release virtual objects in the AR scene based on the hand coordinates exposed from the Leap Motion’s API. The algorithm, Figure 14 runs on a Hand Controller -explained in the next section- which gets the information tracked from the device. Once a hand is recognized, a list of fingers ordered from thumb[0] to pinky[4] are obtained. It consists on identify the thumb fingertip (thumb = finger[0]); calculate a fixed threshold value experimentally based on a proportion of 0.7 times the thumb’s size; from the Fingers list, obtain the fingertip position of each remaining fingers and compare the euclidean distance, equation 3.1 from the thumb to the current finger positions with the threshold value, if the resulting PinchDistance is lower, then a flag is activated, indicating that a pinch has been performed.Afterwards, the grabbing function is performed when the pinch flag is activated. It generates a bounding sphere around the pinch position of the thumb and initializes a vector GrabDistance that will be used to store the difference of distance from the pinch position to the found collided object -this is used to grab only a single object that is closer to the pinch position-; then it identifies each object that collides with the bounding sphere and updates the GrabDistance vector with the difference of the pinch position and the collided object. If the updated distance is less than the GrabDistance of the previous collided object, the object is set as grabbed and a force -a vector calculated from the difference of the pinch position and the position of the grabbed object- is added to the rigid body of the object in order to follow the position of the pinch. When the PinchDistance is higher, the grabbing and pinching flags are disabled. This grabbing function is based on [1] example algorithms.The design is compared with a built-in pinch strength measure from the SDK, the most recent version of the Leap Motion’s SDK provides an automatic measure of the pinch strength value that ranges from [0-1], where 0 corresponds to the open hand with fingers extended and 1 to a full pinch, varying while you move the thumb and other fingers toward each other. On the next chapter 4, the evaluation is explained in more detail
+
+
+\section{Tαυτοποίηση Συστημάτων Συντεταγμένων}
+
+Coordinate Systems Matching A first step is to consider a unified coordinate system between the AR target and hand tracking sensor. The simplest coordinate systems matching is based on the assumption that our AR marker and sensor are placed on the same origin, when this is not the case, i.e. the sensor and marker are placed in different areas from the camera view perspective, a translation of the Leap Motion’s pose matrix needs to be performed by using the AR marker as a reference. A solution to this, is to use the image target to act as the world center and bring the Leap Motion’s coordinate system by multiplying the inverse pose of our main target (image target) by the pose of the Leap Motion’s target. This creates an offset matrix that can be used to bring points from Leap Motion to image target coordinate system[47]. Nevertheless, for our prototype purpose, it is assumed that the AR marker and sensor are placed in the same origin, where it matches both coordinate systems. This is done, both programmatically, through the game engine and physically where are adjusted in the same origin from a camera view perspective as seen on the Figure.
+
+
+\section{Απεικόνιση Εικονικών Αντικειμένων} \label{s:rendering}
+%σελ 25 jimenez
+Although the Unity platform deals with the graphics and integration of libraries for this project, it is necessary to give a deeper review of the process by explaining the target pose calculation and content positioning in the AR framework and the hand controller’s integration. The AR framework exposes a 3x4 Pose Matrix, equation 3.2 that represents the pose of a target with respect to the camera plane. The left 3X3 matrix expresses the rotation matrix, which indicates how the target is rotated while the right column is the translation vector, which is the position of the target as seen from the camera[47], e.g. an identity matrix indicates that the target is parallel to the camera plane (rotation) and a vector (0,0,0) indicates the camera and the target are in the same position.
+
+To position content on the target, the first step is to know the projection matrix -4x4 matrix that projects the scene to the image plane of the camera[49]- that is created with the intrinsic camera calibration parameters, vuforia uses a right handed coordinate system (with the camera origin pointing into the positive z-axis, x-axis to the right and y-axis is downwards) because it is the same coordinate system for targets (just rotated 90 degrees around the x axis: x-axis to the right, y-axis is upwards and z-axis points out of the target-plane; in Unity, z-axis is upwards and y-axis points out of the target)[47]. Once we know the projection matrix we need to set a perspective frustrum from it, where a near and far planes must be set and the size of our trackable -defined in the dataset with feature- should fall within these two planes, Figure 18.
+With these requirements in mind, the virtual content (vertices, normals, indices, texture coordinates)
+is placed according to the pose matrix calculated at runtime.
+The Leap Motion coordinates can be used to move a virtual object, firstly, normalizing and
+transforming to suitable coordinates in the interaction box, Figure 13 explained previously.
+
+\section{Χειρισμός Εικονικών Αντικειμένων} \label{s:manipulation}
+%ΠΩΣ ΜΕΤΑΚΙΝΟΥΝΤΑΙ ΤΑ ΠΙΟΝΙΑ ΜΕ ΒΑΣΗ ΤΟΝ ΑΛΓΟΡΙΘΜΟ ΜΟΥ
+%wang-paris-popovi
+
+-Object translation 
+When the user pinches with one hand,
+we select the closest object, and translate according to the
+pinching hand.
 
 
 \section{Αντιμετώπιση Απόκρυψης Αντικειμένων} \label{s:occlusion}
+%OCCLUSION HANDLING
 
 In this section, the depth estimation of real world is described.
 The depth estimation is used to compose the image

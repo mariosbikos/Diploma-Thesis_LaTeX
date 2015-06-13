@@ -4,7 +4,11 @@
 % This will make the text at the top-left of the page be the same as the chapter
 
 \chap{Ανάλυση \& Σχεδιασμός} \label{c:crypto}
-
+On this chapter, we describe the considerations to follow in an interactive Augmented Reality
+scenario, the integration of Augmented Reality and Hand-motion tracking technologies along
+with an algorithm suitable for our purpose seen in the problem statement, chapter 1, focusing on
+a single pinch gesture and the basis of the intended system development described in a technical
+workflow as well as the limitations in the design process
 
 \section{Η Συσκευή Intel RealSense\textregistered 3D F200 }
 
@@ -40,20 +44,47 @@ RealSense can add hand recognition to existing game systems such as the Oculus R
 
 
 \section{Επιλογή Εργαλείων Ανάπτυξης}
+%PEΣ ΓΙΑ ARUCO,OPENCV,KLP
 
 There have been a number of supporting technologies developed for AR gaming. The most notable is the ARToolkit [Kato and Billinghurst 1999], as this is historically the most popular AR development library. ARToolkit’s public availability, ease of use,robustness, and low cost of entry, allowed for a rapid uptake of this technology.
+%ξιμενεζ
+3.2 Choice of frameworks Prior to the design and during a process of testing, the libraries and frameworks to use was an essential aspect to consider to carry out this project. As explained in the previous chapter 2.2, the Leap Motion device was chosen because of its capabilities against other tracking devices, it provides support for different languages and due to its size, is potentially portable; despite it doesn’t provides direct manipulation of the raw data, the exposed information is robust enough as it provides the coordinates, velocities and direction vectors of the tracked fingers an palm. Nonetheless, we needed to look for options compatible with its development platforms. Among a variety of libraries for Augmented Reality, the Qualcomm Vuforia library[47] has been chosen due to its robustness on tracking using fiducial markers, images, text, comparing to other such as ARToolkit which only tracks fiducial markers. The current version 2.8 (April 2014) has support for different development platforms (Java, C++, Unity3D) and devices, is well documented and its API provides a comprehensive guide through its different capabilities; additionally, and comparing to Metaio, it has a free license, even for commercial purposes [47]. On the other hand, at an initial stage, the 3D graphics library OpenGL ES -a version of OpenGL for mobile devices-, that is well known and widely available in multiple platforms, was the best choice to work, however OpenGL works with low level functions to render graphics, and nontrivial tasks to interact with graphics would have increase the programming complexity. To facilitate the development, the solution was to use a game engine, Unity3D has multi-platform support and well documented API through scripting, is good for rapid development of good quality applications and both Vuforia and Leap Motion have support for Unity3D.
 
 
-\section{Multiple Marker Tracking}
+\section{Multiple Marker Tracking BY ARUCO}
+%ΑΝΑΛΥΣΕ ΤΟ ARUCO FEATURE KAI ΠΩΣ ΓΙΝΕΤΑΙ ΤΟ MARKER TRACKING ΑΠΟ ΤΗΝ ARUCO ΚΑΙ ΤΟ BOARD.
+
+
+
 \section{Αναγνώριση Χειρονομίας Τσιμπήματος}
+%ΠΩΣ ΑΚΡΙΒΩΣ ΚΑΝΩ ΤΗ ΧΕΙΡΟΝΟΜΙΑ ΤΣΙΜΠΗΜΑΤΟΣ-ΤΑ ΘΕΩΡΗΤΙΚΑ ΜΕΡΗ
+
+
+
+Before describing the gestures that we implemented in our
+system, we first discuss the challenges that we faced while
+we designed our system and the high-level principles that we
+followed to address them.
+
+A small number of simple hand poses Although a human hand has 27 DOFs, only a few poses are comfortable and can be reproduced without training. Guided by this idea, we built our system mostly on the pinch pose inspired by Andrew Wilson’s [26] Thumb and Fore-Finger Interface. We use pinching as an analog of the mouse click to indicate the selection of an object. We also explore pointing for specifying remote locations, and touching the desktop with fingers to turn the desk surface into a multi-touch interface. 
+
+-Use precise and memorable gestures 
+To create precise and memorable gestures, we use metaphors that correspond closely to physical actions. We directly map 3D physical positions to virtual positions. Once a user understands a virtual scene, reaching for the object leverages his physical intuition to reach for a point in 3D space. We also adopt a physicallybasedmentalmodel to design hand gestures for rotation. Motivated by work showing that users tend to perform rotation and translation separately [15], we decouple camera rotation and camera translation as two distinct gestures to provide precise and physically-based control for both. 
+
+-Limited hand motion 
+Unrestricted 3D interactions and large movements are tiring and only useful for short periods of time. We exploit the desktop environment to address the fatigue issue and design our system such that users can rest their elbows or forearms on the desk most of the time. Inspired by the Eden system, [11], we also allow the user to pass objects between the hands (throw-and-catch) to minimize dragging. We also amplify the user’s 3D motion so that only small gestures are needed, e.g. we map a 10◦ hand rotation to 20◦ in the modeler.
+
+
 
 Once the captured video frame has been stabilized and occlusion has been detected and defined in terms of binary blobs, the interaction problem becomes one of gesture recognition. As described in chapter 4, target occlusion is detected and defined relative to the target plane. Since all virtual augmentation is defined relative to the target plane, interaction between real and virtual objects can occur within this common coordinate system. One of the most significant contributions of this thesis is the following handbased interaction system using gesture recognition. Our goal is to provide a simple gesture recognition system for two-dimensional manipulative interaction. Currently, using a mouse to manipulate a window interface is commonplace. Our system provides a mouse-like gesture based interface to an immersed AR user without the need for the cumbersome mouse. To simulate a mouse requires the recognition of both point and select gestures in order to generate the appropriate mouse-down and mouse-up events at the indicated location. This goal is achieved without the need for a sophisticated gesture recognition system such as [OKA02] involving complex finger tracking for gesture inference through motion. Instead, the gesture model is specialized for the task of mouse replacement. Performing the gesture analysis in pattern-space simplifies the image processing and creates a very robust gesture recognition system.
 
 In order to define the appropriate gestures, the requirements of the application must be defined in detail. The requirements of the gesture system discussed in this thesis are: • real-time performance • commercial pc and camera hardware • hand-based interaction without hardware or glove-based facilities The real-time requirement of the system poses great restriction on the level of gesture recognition that can be implemented. Commercial hardware may also limit system performance, as well as limit the quality of image capture on which all computer visionbased, image analysis techniques rely. The third requirement forces the use of computer vision to recognize hand gestures, which is performance bound by the processor. Given these restrictions an interactive application is described and a particular hand gesture model is defined. The goal of this interaction system is to provide the user with a virtual interface to control the augmentation system properties. In other words, the goal is to allow the user to change system parameters through gestures in real-time. The interface is designed to be a control panel that is augmented on the planar pattern. The user should be able to interact directly with this augmented control panel on the 2D planar pattern. This allows the user to directly manipulate the set of controls provided on the panel. The original 2D planar target pattern can be fixed in the environment or carried by the user and shown to the camera when the interaction is desired. For these reasons it is assumed that only one hand will be free to perform the gestures over the target pattern. With the application requirements described, a gesture model can be defined. Complex manipulation such as finger tapping can be recognized with the use of multiple cameras to capture finger depth information. However, under the constraints of a single camera system, the occlusion blob detection described in the previous chapter provides only two-dimensional information about the occluding hand. For this reason, the gesture language is based exclusively on hand posture. The hand is described in pixel-space as the union of the detected occlusion blobs (the occluder set found in chapter 4). Each blob representing a finger or a set of grouped fingers. Given that our goal is to replace a mouse, there are only two classifications to which the recognized hand postures can belong: a pointing posture and a selecting posture. The notion of pointing and selecting can vary between applications, so they must be clearly defined for each application. In this application, pointing is the act of indicating a location on the planar target relative to its top left corner. Selecting is the act of indicating the desire to perform an action with respect to the pointer location. In terms of the gesture model, the parameters associated with each posture are: a pointer location defined by the prominent finger tip and a finger count defined by the number of fingers detected by the system. With the gesture model defined, a gesture system can be constructed.
 
 The gesture recognition system proposed in this chapter applies the defined gesture model to a working Augmented Reality application system. The system flow is shown in figure 5.1. The system begins by analyzing the captured video frame using computer vision techniques. At this point, posture analysis is performed to extract the posture parameters in order to classify the gesture. If classification succeeds, the recognized gesture is translated into the event-driven command understood by the interactive application.
-\section{Ανίχνευσης Θέσης Τσιμπήματος}
 
+
+\section{Ανίχνευσης Θέσης Τσιμπήματος}
+%ΠΩΣ ΑΝΙΧΝΕΥΕΤΑΙ Η 3D ΘΕΣΗ ΤΣΙΜΠΗΜΑΤΟΣ ΜΕ ΒΑΣΗ ΤΗ ΜΕΘΟΔΟΛΟΓΙΑ ΜΟΥ
 
 
 To determine the location of the user’s point and select actions, a pointer location must be chosen from the hand point set. To simplify this process, the current system constraints were exploited and a number of assumptions were made. The first useful constraint deals with the amount of target occlusion permitted. The planar tracking system used for augmentation assumes that approximately half of the target corners are visible at all times during the tracking phase. To satisfy this constraint, only a portion of a hand can occlude the target at any given time. For this reason, the assumption is made that the only portion of the hand to occlude the target will be the fingers. From this we get: Assumption 1: Separated fingers will be detected as separate blobs in the image analysis phase. Due to the simplicity of the desired interaction, a second assumption was made: Assumption 2: Fingers will remain extended and relatively parallel to each other.

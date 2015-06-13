@@ -12,6 +12,7 @@
 Βέβαια, τα εγγενή πλεονεκτήματα του σχήματος που προτείνουμε έναντι των υπόλοιπων προκύπτουν από τις πολλά υποσχόμενες πειραματικές υλοποιήσεις των Κβαντικών Αποτυπωμάτων με χρήση στοιχείων της Κβαντικής Οπτικής, όπως αναλύσαμε στο \cref{c:exper}. Ταυτόχρονα, όμως, πρέπει να εξεταστεί αν με την προτεινόμενη υλοποίηση μέσω σύμφωνων καταστάσεων (coherent states) παραμένουν ανέπαφες οι αποκρύπτουσες ιδιότητες των Κβαντικών Αποτυπωμάτων. Είμαστε αισιόδοξοι για μια θετική έκβαση, καθώς η θεωρία πίσω από τους τυχαίους ψευδο-γραμμικούς κώδικες των Gavinsky και Ito \cite{secrets} παρέχει απεριόριστη ασφάλεια ακόμη και αν ανακτηθεί από τον αντίπαλο ολόκληρη η κωδική λέξη π.χ. μετρώντας τη φάση κάθε παλμού σε ένα Οπτικό Κβαντικό Αποτύπωμα (βλ. \cref{c:exper}). Συνοψίζοντας, η εργασία αυτή αποτελεί μια προσπάθεια διεύρυνσης της ερευνητικής προσέγγισης για πειραματικώς υλοποιήσιμα πρωτόκολλα Κβαντικής Κρυπτογραφίας, που βασίζονται σε Κβαντικά Αποτυπώματα.
 
 
+
 Based on the results obtained, the future work include several improvements to the current prototype and additional features to manage a seamless interaction in AR. The fully mobile compatibility is a goal that should be addressed, as mentioned previously, its integration on mobile devices would permit to design a variety of applications, and an early approach with AR is an area of value. The occlusion handling of real hand is an important next step to replace the virtual hand, Vuforia provides access to the background video, from which it is possible to use it as texture and get rid of the virtual hand by replacing a real hand visualization as texture by segmenting it and generating shaders from it. Increase the recognition of more gestures, based on the taxonomy for AR interaction reviewed in the chapter 3, which would consists on implement the gestures and create a gesture-manager to deal with the control and correct recognition of different gestures. Use of machine learning techniques to get better results on the gesture recognition. Although the gesture recognition is based on the pinch positions, machine learning techniques could be implemented to infer gestures in time, defining a ground truth data set with movement’s directions specific for the Leap Motion, where the raw data is not exposed but if we rely on its data, machine learning techniques could improve effectively the gesture recognition. Improve the visual feedback to enhance the user’s perception of the virtual world, as the treatment of shadows and illumination in the AR. There are some implementations already carried out to deal with this feature.
 
 
@@ -26,11 +27,46 @@ An interesting feature of HMD-based AR is that different kinds of information ma
 A tabletop AR version of the fantasy game Jumanji, set in Singapore, was developed by Zhou et al. [2004]. Instead of employing dangerous creatures, the game virtually transports the user to Singapore shopping locations. The user employs dice with MXRToolkit3 fiducialmarkers (similar to ARToolkitmarkers) as the means for game control. The use of physical dice adds a nice tangible feel to the game. Minatani et al. [2007] developed an AR version of Othello with the ARToolkit as the tracking technology. What makes this a very interesting game is the fact that you play a remote user with a physical board. Your opponent and the opponent’s pieces are displayed to each player as virtual objects. The authors explored the rendering space to enable users to “feel” as if the other player was sitting at the same table.
 
 
+\subsection{Eye Tracking}
+Using tiny cameras to observe user pupils and determine
+the direction of their gaze is a technology with potential for
+AR. The difficulties are that it needs be incorporated into the
+eye-wear, calibrated to the user to filter out involuntary eye
+movement, and positioned at a fixed distance. With enough
+error correction, gaze tracking alternatives for the mouse
+such as Stanford‟s EyePoint17 [94] provides a dynamic history
+of user‟s interests and intentions that may help the UI
+adapt to the future contexts.
 \subsection{Φωτορεαλιστική Απεικόνιση}
 
-Fischer et al. [2006] developed an AR painting system that changes the physical and virtual objects which can be viewed in one of three types of styles: a cartoonlike style consisting of colored patches and silhouettes; a painterly style consisting of small brush strokes emulating a pointillist painting style; and a black-and-white technical illustration style. The authors have been investigating a number of nonphotorealistic rendering techniques to emulate different forms of art and cartooning [Fischer et al. 2005].
+Το 2006, o Fischer et al. ανέπτυξαν ένα σύστημα ζωγραφικής επαυξημένης πραγματικότητας, το οποίο αλλάζει τα φυσικά και εικονικά αντικείμενα, με αποτέλεσμα να μπορούν να απεικονιστούν με 3 διαφορετικούς τρόπους: με τρόπο που θυμίζει γελοιογραφία που αποτελείται από χρωματιστές κηλίδες και σιλουέτες, με τρόπο που επιτρέπει τη χρήση μικρών πινελιών που προσομοιώνουν πουαντιγιστική τεχνοτροπία ζωγραφικής και, τέλος, ένα είδος ασπρόμαυρης τεχνικής απεικόνισης. Οι συγγραφείς ερεύνησαν έναν αριθμό διαφορετικών μεθόδων μη φωτορεαλιστικής απεικόνισης, με σκοπό να προσομοιώσουν διαφορετικές μορφές τέχνης και γελοιογραφιών [Fischer et al. 2005].
+
+
 \subsection{Σκιές και Ανίχνευση Σύγκρουσης }
+
+
 \subsection{Απτική Ανάδραση }
+
+The haptic sense is divided into the kinaesthetic sense
+(force, motion) and the tactile sense (tact, touch). Force
+feedback devices like joysticks and steering wheels can
+suggest impact or resistance and are well-known among
+gamers. A popular 6DOF haptic device in teleoperation and
+other areas is the PHANTOM (Fig. 11). It optionally provides
+7DOF interaction through a pinch or scissors extension.
+Tactile feedback devices convey parameters such as roughness,
+rigidity, and temperature. Benali-Khoudja et al. [27]
+survey tactile interfaces used in teleoperation, 3D surface
+simulation, games, etc.
+Data gloves use diverse technologies to sense and actuate
+and are very reliable, flexible and widely used in VR for
+gesture recognition. In AR however they are suitable only for
+brief, casual use, as they impede the use of hands in real
+world activities and are somewhat awkward looking for
+general application. Buchmann et al. [37] connected buzzers
+to the fingertips informing users whether they are „touching‟
+a virtual object correctly for manipulation, much like the
+CyberGlove with CyberTouch by SensAble15.
 
 \section{Το μέλλον της Επαυξημένης Πραγματικότητας}
 
@@ -57,3 +93,47 @@ Future augmented reality development interconnects with robotics in several leve
 
 In James Cameron’s film Avatar (2009), humans are mining a valuable mineral on Pandora, an Earth-like moon with an atmosphere poisonous to humans. The venue is in Alpha Centauri star system in far future. Pandora is inhabited by the Na’vi, three-metre-tall, blue-skinned humanoids. In order to explore Pandora scientists create Na’vi-Human hybrid bodies, which a genetically matched human can mentally operate. The human operating a hybrid body has an illusion of being inside the avatar body, although lying in an avatar link tank at the base. This kind of avatar technology is far in the future, but perhaps not as far as we might think. Researchers have demonstrated that it is possible to create a perceptual illusion of body swapping, i.e. being in a body other than one’s own [295]. The illusion of being in a different body is possible to achieve even with an artificial body of extreme size. Test persons experienced being Barbie (30 cm) as well as a large doll (4 m) in the experiments reported in [296]. The key factor affecting the perception of being in another body is synchronous multisensory input: the user needs to feel touch when she or he sees the artificial body touched. In the abovementioned Barbie/doll experiment, the test person was lying on a table with a head-mounted video display. On the other table was a doll (of a different size). The camera providing the video images for the test person was mounted on a tripod on the place where the dolls head would have been, facing the body. This way the user had the feeling of looking at the doll’s body from a first-persons view. The multi-sensory input was created by touching the doll’s body (in view) and simultaneously touching the participant’s body (out-of view) at the corresponding location. Based on these findings it would be possible to create an illusion of being inside a virtual avatar as well. A human would explore the world through a virtual avatar’s eyes (and see the virtual body from a first-person perspective). With a haptic suit, it would be possible to “feel” virtual collisions that the avatar experiences. This could be the future of Second Life. Furthermore, in the field of Brain-Computer Interface (BCI) and Brain-Machine Interface (BMI), people have been able to create direct neural interfaces to operate artificial limbs, for example (e.g. [297, 298]). Studies with monkeys (which have neural systems that are considered to be very similar to those of humans) demonstrate the ability to control a computer or a robotic arm with their thoughts [299]. In addition, modern humanoid robots such as ASIMO [300] are able to mimic human movements: walk, run, climb stairs, grab with a hand, etc. Creating a real avatar experience becomes a matter of cross-disciplinary cooperation in the future. In principle, people could merge all these technologies and use direct neural interface to operate a humanoid robot. The robot would have cameras on head and these cameras would provide the view for the user (rendered using a retinal display). The robot’s microphones would record audio, which is played to the user’s headphones. The humanoid robot would naturally be equipped with a number of sensors, and their input would be transferred to the user using a multi-sensory (haptic, thermal, etc.) suit.
 Embodied and tangible haptic input/output devices enable transferring sense of touch between the virtual and real world. The person using such a device is able to sense physical interaction with a remote or virtual person. Multi-sensory environments are a substantial research area. For example, researchers in CUTE centre (National University of Singapore and Keio University) and MXR Lab in Singapore have done a lot of research in the area of multisensory environments. Huggy pajama [301] is one of their research projects (see Figure 102), where the system is able to transfer a hug over the internet. The user at the other end touches an input device embedded with sensors. The information is transferred to the other end, where the other user receives the same touch from an output device equipped with a haptic interface. Kissenger (aka Kiss Messenger) is a similar system; with special input/output devices, it is able to transfer a kiss over the internet [302] (see Figure 103).Augmented reality systems most commonly employ haptic, visual and audio sensory feedback. The immersive feeling increases if even more senses receive input from the system.Sense of taste is composed of five basic tastes (sweet, salty, bitter, sour, umami), which are relatively easy to produce by blending the appropriate chemicals. Nonetheless, the actual gustation is a combination of taste, smell and food texture, plus some other factors. Therefore, it is possible to bluff sense of taste to some extent with scent and visuals as in the Meta Cookie demonstration we discussed in Section 2.5.2. However, humans can recognise thousands of different smells and are able to detect smells even in infinitesimal quantities. Therefore, it is impossible to produce a set of primary smells to produce all possible smells for the virtual environment (unlike primary colours (red, green, blue) for sense of sight). Sensation is ultimately formed in the human brain when the brain analyses electrical pulses coming from sense organs. Therefore senses can be provoked digitally, by feeding electrical pulses to sensory nerves. The digital taste interface presented in [304] produced sense of taste by actuating the tongue through electrical and thermal stimulations. The experimental results suggested that sourness and saltiness are the main sensations that could be evoked while there is evidence of sweet and bitter sensations too. In medical science, devices enabling digitally produced vision and audition have been used for over a decade (e.g. cochlear implants for deaf). Today’s multi-sensory interface devices are still clumsy and it will take a while before the input/output devices are mature enough to feel natural. In the future, digital gustatory devices become more accurate, and perhaps researchers will be able to produce a substantial amount of digital odours as well support a wide variety of virtual tastes and odours. The haptic devices will improve, immersive display systems become feasible, etc. The way users experience virtual environments is going to change. In future multi-sensory mixed reality environments people will be able to sense temperature, touch, taste, smell, etc., and the whole of the atmosphere. Such environments will support immersive vision and sound systems, and people will be able to sense physical interaction with virtual characters. Today people share their experiences in social media; they send multimedia messages; they use mobile video conferencing to show what they see (the “see-what-I-see” paradigm). The future mixed reality aims to enable a “sense-what-I-sense” paradigm. Telepresence is brought to a new level. People accept the idea that they could love or be loved by a robot [305], and people fall in love with celebrities they have never personally met. It is not farfetched to imagine an intimate relationship with a virtual character. The future multi-sensory mixed reality environment will be able to provide a “multi-sensorysecond- life” where people can interact, communicate and live together with avatars mastered by other humans, robots or computer. Naturally, this development will provoke some ethical issues, which we leave open in this discussion. Furthermore, researchers have been able to reconstruct images that people have seen from brain activity using functional magnetic resonance imaging (fMRI) [306]. The future brain interface could be bidirectional; the system reads from the user’s brain what she/he senses and simulates the other user’s brain accordingly. This would really be sharing experiences.
+
+
+%thomas cie
+My experience with the limitations of current technology is similar to problems reported in the literature. The availability of affordable sensors with the required precision and accuracy has been and still is a real issue. There is no sense in developing gaming technology that is way beyond the price of current consumer-grade technology. I found that the collaboration between technologists and game design/artists creates successful games. As with any electronic gaming, this process is a fusion of the power of modern computing technological advances and creative graphics, storytelling, gameplay, and design. Technology is never going to outperform good gameplay. New technology will enable game designers to develop different and innovative gaming styles
+
+
+%krevelen
+Imagine a technology with which you could see more than
+others see, hear more than others hear, and perhaps even
+touch, smell and taste things that others can not. What if we
+had technology to perceive completely computational elements
+and objects within our real world experience, entire
+creatures and structures even that help us in our daily activities,
+while interacting almost unconsciously through mere
+gestures and speech?
+
+Augmented reality (AR) is this technology to create a
+“next generation, reality-based interface” [77] and is moving
+from laboratories around the world into various industries
+and consumer markets. AR supplements the real world with
+virtual (computer-generated) objects that appear to coexist in
+the same space as the real world. AR was recognised as an
+emerging technology of 2007 [79], and with today‟s smart
+phones and AR browsers we are starting to embrace this very
+new and exciting kind of human-computer interaction
+
+
+%krevelen
+AR has come a long way but still has some distance to go
+before industries, the military and the general public will
+accept it as a familiar user interface. For example, Airbus
+CIMPA still struggles to get their AR systems for assembly
+support accepted by the workers [163]. On the other hand,
+companies like Information in Place estimated that by 2014,
+30\% of mobile workers will be using augmented reality.
+Within 5-10 years, Feiner [57] believes that “augmented
+reality will have a more profound effect on the way in which
+we develop and interact with future computers.” With the
+advent of such complementary technologies as tactile networks,
+artificial intelligence, cybernetics, and (non-invasive)
+brain-computer interfaces, AR might soon pave the way for
+ubiquitous (anytime-anywhere) computing [162] of a more
+natural kind [13] or even human-machine symbiosis as
+Licklider [99] already envisioned in the 1950‟s.
