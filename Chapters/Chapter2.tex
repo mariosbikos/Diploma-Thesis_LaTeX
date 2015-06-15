@@ -6,9 +6,7 @@
 \chap{Θεωρητικό Υπόβαθρο και Σχετική Βιβλιογραφία} \label{c:complex}
 %ΠΕΡΙΓΡΑΦΗ ΤΟΥ ΤΙ ΑΚΡΙΒΩΣ ΠΑΡΟΥΣΙΑΖΕΤΑΙ ΣΤΟ ΚΕΦΑΛΑΙΟ
 
-Στο συγκεκριμένο κεφάλαιο γίνεται επεξήγηση των βασικών εννοιών και τεχνολογιών που αναφέρονται στην εργασία.  the basic concepts and technologies involved in this project: Augmented Reality, the Leap Motion Controller’s technology, the definition of gesture recognition and categorization, targeting a pinch gesture for our purpose. 
-
-Επιπλέον γίνεται ανασκόπηση των σχετικών επιστημονικών εργασιών και εφαρμογών, καθώς και των ανοικτών προκλήσεων στον ερευνητικό τομέα.
+Στο συγκεκριμένο κεφάλαιο γίνεται επεξήγηση των βασικών εννοιών και τεχνολογιών που αναφέρονται στην εργασία. Παρουσιάζονται οι έννοιες της Επαυξημένης Πραγματικότητας, του μοντέλου κάμερας pinhole, της ανίχνευσης δεικτών (markers) και το πεδίο της αναγνώρισης χειρονομιών σε εφαρμογές. Επιπλέον γίνεται ανασκόπηση των σχετικών επιστημονικών εργασιών και εφαρμογών, καθώς και των ανοικτών προκλήσεων στον ερευνητικό τομέα.
 
 
 
@@ -16,268 +14,419 @@
 %ΟΡΙΣΜΟΣ+ΤΙ ΥΠΑΡΧΕΙ ΣΗΜΕΡΑ+ΔΙΑΦΟΡΑ ΑΠΟ VR+ OTI EXEI NA KANEI ME AR APO ERGASIES ALLON
 
 
-%Thomas-cie
-Augmented reality is the registration of computer-generated graphical information over a user’s view of the physical world. Supplemental information that is spatially located relative to the user can help to enhance their understanding of the world around them. AR is made up of a combination of virtual and real environments, although the exact make up may vary significantly. Milgram and Kishino used these properties to define a reality-virtuality continuum [Milgram and Kishino 1994], which can be used to compare the various forms of MR by placing them onto a spectrum. At one end of the continuum is the physical world, at the other end are the fully synthetic virtual environments (VR); AR is located somewhere in between, since it is a combination of the two. On the far left of the continuum is the physical world, with no virtual information at all. Moving to the right in the continuum is AR, where artificial objects are added to the physical world. Further to the right in the continuum (but not all the way to the right) is augmented virtuality, where physical world objects (such as a live display of a remote view) are added into a fully immersive virtual environment. On the far right side is a completely synthetic environment, with no information from the physical world being presented. Every type of 3D environment can be placed somewhere along this spectrum, and can be used to easily compare and contrast their properties. Mixed reality is defined as the combination of augmented and augmented virtuality. In his outstanding survey of the discipline, Azuma defines AR systems as those that contain the following three characteristics [Azuma 1997]: (1) it combines the real and virtual; (2) is interactive in real-time; and (3) is registered in 3D. This definition does not limit AR to the use of head-mounted displays (allowing for projectors and handheld displays), but excludes noninteractive media such as movies and television shows. To overlay 3D virtual models onto the user’s view, an AR system requires some form of displayed computer-generated information to be combined with a sensor that can measure the position and orientation of the user’s view. As the user moves through the physical world, the display is updated by the computer in real-time. The accuracy of the virtual objects registered to the physical world influences the realism of the fusion that the user experiences.
+%verykokou
+Ο όρος επαυξημένη πραγματικότητα, διεθνώς γνωστή ως augmented reality (AR), αναφέρεται στην τεχνολογία που επιτρέπει την προσθήκη ψηφιακών πληροφοριών, που παράγονται από έναν υπολογιστή, στον πραγματικό κόσμο, μέσω κατάλληλων συσκευών. Πρόκειται για ένα ταχέως εξελισσόμενο ερευνητικό πεδίο, το οποίο στοχεύει στον εμπλουτισμό της αντίληψης της πραγματικότητας από το χρήστη.
+
+
+Ιδανικά, τα αντικείμενα που συμπληρώνουν τον πραγματικό κόσμο παρουσιάζονται να συνυπάρχουν στον ίδιο χώρο με αυτόν. Ωστόσο, δεν αποτελούν μόνο οπτικές πληροφορίες. Η επαυξημένη πραγματικότητα, δυνητικά, μπορεί να βελτιώσει και τις πέντε αισθήσεις, και κυρίως – εκτός από την όραση – την ακοή και την αφή, αν και σήμερα η κυρίαρχη χρήση της είναι η προσθήκη οπτικών πληροφοριών στον πραγματικό κόσμο. 
+
+
+Υπάρχουν διάφοροι ορισμοί της επαυξημένης πραγματικότητας, εκ των οποίων ευρέως αποδεκτός είναι ο ορισμός που έδωσε ο Ronald Azuma το 1997 \cite{azuma1997}. Σύμφωνα με αυτόν, η επαυξημένη πραγματικότητα είναι μία παραλλαγή της εικονικής πραγματικότητας (virtual reality), αλλά δε θα πρέπει να συγχέεται με την τελευταία, διότι συμπληρώνει τον πραγματικό κόσμο και δεν τον υποκαθιστά. 
+
+
+
+Στόχος της εικονικής πραγματικότητας είναι η πλήρης «εμβύθιση» του χρήστη σε ένα περιβάλλον πλήρως ελεγχόμενο από υπολογιστή, το οποίο δεν του επιτρέπει να δει τον πραγματικό κόσμο γύρω του. Οι χρήστες εμβυθίζονται σε μία σκηνή που αν και αποτελείται εξ' ολοκλήρου από γραφικά, γίνται αντιληπτή σαν να ήταν πραγματική.  Για να δημιουργηθεί μια ρεαλιστική εικονική σκηνή, το επίπεδο των λεπτομερειών των γραφικών που συνιστούν τα αντικείμενα της εικονικής σκηνής πρέπει να είναι ιδιαίτερα υψηλό και η απεικόνιση πρέπει να πραγματοποιείται σε πραγματικό χρόνο. Ωστόσο όσο υψηλότερο είναι το επίπεδο των λεπτομερειών, τόσο μειώνεται η απόδοση ενός συστήματος προσπαθώντας να τα απεικονίσει. Ο συνθετικός αυτός κόσμος μπορεί να μιμείται τις ιδιότητες ενός πραγματικού κόσμου, είτε αυτός υπάρχει είτε όχι, ή και να διαφέρει σημαντικά από την πραγματικότητα, δημιουργώντας ένα φανταστικό κόσμο, στον οποίο οι φυσικοί νόμοι δεν ισχύουν πλέον [8]. 
+
+
+Η επαυξημένη πραγματικότητα στοχεύει στην ενσωμάτωση συνθετικών πληροφοριών στο πραγματικό περιβάλλον – ή σε ένα βίντεο του πραγματικού περιβάλλοντος – με αποτέλεσμα αυτό να μην αποκρύπτεται εντελώς, αλλά αντίθετα να έχει κυρίαρχο ρόλο. Τα εικονικά αντικείμενα σε ένα περιβάλλον επαυξημένης πραγματικότητας, δεν είναι απαραίτητο να έχουν ένα υψηλό επίπεδο λεπτομερειών. Η ρεαλιστική ποιότητά τους περιορίζεται μόνο από τις παραμέτρους της εφαρμογής. 
+
+Μία ακόμα διαφορά ανάμεσα σε συστήματα επαυξημένης και εικονικής πραγματικότητας βασίζεται στο ποσοστό του περιεχομένου της σκηνής που απεικονίζεται. Ένα σύστημα επαυξημένης πραγματικότητας, στο οποίο απεικονίζονται μόνο μερικά απλά εικονικά αντικείμενα σε μία σκηνή, απαιτεί λιγότερη ισχύ από ένα σύστημα εικονικής πραγματικότητας, στο οποίο πρέπει να απεικονίζεται ολόκληρη η σκηνή.
+
+
+Επιπλέον, διαφορές ανάμεσα στα δύο συστήματα παρατηρούνται στο πρόβλημα του registration(γεωαναφορά). Αφού το registration ασχολείται με τη σωστή τοποθέτηση εικονικών αντικειμένων εντός ενός πραγματικού περιβάλλοντος, τα συστήματα εικονικής πραγματικότητας δεν επηρεάζονται, αφού έχουν να κάνουν μόνο με εικονικές σκηνές. Η θέση όλων των αντικειμένων σε μία σκηνή VR περιγράφεται με βάση ένα κοινό σύστημα συντεταγμένων. Αυτό σημαίνει ότι ένα σύστημα VR έχει πάντα σωστό registration χωρίς να πρέπει να σπαταλά υπολογιστικούς πόρους για την εύρεσή του. Όσον αφορά την απόδοση, το χαμηλό υπολογιστικό κόστος για απεικόνιση γραφικών χαμηλής ποιότητας αντισταθμίζεται από το υπολογιστικό κόστος που απαιτείται για το registration.
+
+Τέλος, στα συστήματα VR, οι συσκευές απεικόνισης χρησιμοποιούνται για να ανιχνεύουν τη τη θέση του χρήστη μαζί με μία οθόνη που απεικονίζει την ψηφιακή σκηνή. Σε ένα σύστημα επαυξημένης πραγματικότητας, υπάρχουν πολλοί διαφορετκοί συνδυασμοί εξοπλισμοί για την ανίχνευση και την πληροφόρηση του χρήστη.
+%---
+
+Τα συστήματα επαυξημένης πραγματικότητας σύμφωνα με την καταπληκτική ερευνητική επισκόπηση του πεδίου από τους Azuma et al. (2001) έχουν τα ακόλουθα τρία χαρακτηριστικά \cite{azuma2001}:
+
+\begin{itemize}
+\item Συνδυάζουν το πραγματική με την εικονική πληροφορία
+\item Επιτρέπουν την αλληλεπίδραση σε πραγματικό χρόνο
+\item Λειτουργούν αναφορικά με τον πραγματικό τρισδιάστατο κόσμο
+\end{itemize}  
+
+
+Τα παραπάνω χαρακτηριστικά καθίστανται σημαντικά στην αξιολόγηση αν ένα σύστημα είναι σύστημα επαυξημένης πραγματικότητας ή όχι. Έτσι, για παράδειγμα, κάποιες ταινίες, μολονότι μπορεί να περιλαμβάνουν φωτορεαλιστικά εικονικά αντικείμενα τα οποία συνδυάζονται ομαλά με το τρισδιάστατο πραγματικό περιβάλλον, δεν είναι διαδραστικές σε πραγματικό χρόνο και επομένως δεν αποτελούν συστήματα επαυξημένης πραγματικότητας \cite{azuma1997}. Αντίθετα, η εισαγωγή των εικονικών δεδομένων οφείλεται σε προεπεξεργασία, η οποία αντιτίθεται με το δεύτερο χαρακτηριστικό των συστημάτων επαυξημένης πραγματικότητας.
+
+%augmented virtuality continuum
+Σύμφωνα με τους Paul Milgram et al. (1994), η επαυξημένη πραγματικότητα ανήκει στην τεχνολογία της μικτής πραγματικότητας (mixed reality) [8].
+
+Στη δημοσίευσή τους, ορίζεται το «συνεχές πραγματικότητας - εικονικότητας» (reality - virtuality continuum), το οποίο μπορεί να χρησιμοποιηθεί για τη σύγκριση των διαφόρων μορφών της μεικτής πραγματικότητας με την τοποθέτησή τους σε ένα φάσμα, όπως φαίνεται στην Εικόνα 1-1. 
+
+Στη μία άκρη του φάσματους βρίσκεται το πραγματικό περιβάλλον, που δεν περιέχει καμία εικονική πληροφορία. Ενώ μετακινούμαστε προς τα δεξιά, εντοπίζεται η επαυξημένη πραγματικότητα, όπου τα τεχνητά αντικείμενα προστίθενται στον φυσικό κόσμο. Αμέσως πιο δεξιά, εντοπίζεται η επαυξημένη εικονικότητα, όπου τα αντικείμενα του φυσικού κόσμου(όπως μία ζωντανή απεικόνιση μίας απομακρυσμένης προβολής) προστίθενται σε ένα πλήρως εικονικό περιβάλλον "εμβύθισης". Φτάνοντας στο δεξί άκρος του φάσματος, παρατηρείται ένα πλήρως συνθετικό περιβάλλον, στο οποίο δεν υπάρχει καμία πληροφορία από τον φυσικό κόσμο.Κάθε είδος 3D περιβάλλοντος μπορεί να τοποθετηθεί κατά μήκος του φάσματος και μπορεί να χρησιμοποιηθεί για την εύκολη σύγκριση των χαρακτηριστικών του.
+
+Επομένως στο περιβάλλον μεικτής πραγματικότητας, αντικείμενα του πραγματικού και του εικονικού κόσμου – δηλαδή οτιδήποτε μεταξύ των άκρων του συνεχούς – παρουσιάζονται μαζί σε μία συσκευή θέασης. Η μεικτή πραγματικότητα περιλαμβάνει τόσο την επαυξημένη πραγματικότητα, όσο και την επαυξημένη εικονικότητα (augmented virtuality). Ενώ στην πρώτη, το περιβάλλον που παρατηρείται είναι κυρίως αληθινό και έχουν προστεθεί βελτιώσεις που παράγονται από υπολογιστή, στην επαυξημένη εικονικότητα το παρατηρούμενο περιβάλλον είναι κυρίως εικονικό και επαυξάνεται με τη χρήση πραγματικών δεδομένων.
+
+%ADD IMAGE OF CONTINUUM
+
+Αυτός ο ορισμός δεν περιορίζει την επαυξημένη πραγματικότητα στη χρήση μόνο συσκευών απεικόνισης που τοποθετούνται στο κεφάλι του χρήστη(HMDs), επιτρέποντας τη χρήση προβολέων και φορητών συσκευών απεικόνισης, αλλά απκλείοντας μη διαδραστικά μέσα όπως οι ταινίες και τα τηλεοπτικά δρώμενα. 
+
+Για να υπερθέσουμε τρισδιάστατα εικονικά μοντέλα σε αυτ΄που βλέπουν οι χρήστες, ένα σύστημα ΑR πρέπει να συνδυάζει τις πληροφορίες που παράγονται από έναν υπολογιστή με αισθητήρες που μπορούν να μετρήσουν τη θέση και τον προσανατολισμό του χρήστη. 
+
+Καθώς ο χρήστης κινείται στο φυσικό κόσμο, η απεικόνιση των πληροφοριών ανανεώνεται σε πραγματικό χρόνο από τον υπολογιστή. Η ακρίβεια της τοποθέτησης των εικονικών αντικειμένων πάνω στο φυσικό κόσμο επηρεάζει τον ρεαλισμό της εμπειρίας του χρήστη.
+
+
+%-----------
 
 
 %AR=Combination of Computer Graphics & COmputer Vision
-Ο συνδυασμός αλγορίθμων και μεθόδων των δύο
-αυτών συγγενών επιστημών είναι το κλειδί για την επίτευξη σημαντικών αποτελεσμάτων σε εφαρμογές που επεξεργάζονται εικόνες και εξάγουν πληροφορίες από αυτές
+Ουσιαστικά η επαυξημένη πραγματικότητα αποτελεί συνδυασμό του κλάδου των Γραφικών Υπολογιστών και της Όρασης Υπολογιστών. Ο συνδυασμός αλγορίθμων και μεθόδων των δύο αυτών συγγενών επιστημών είναι το κλειδί για την επίτευξη σημαντικών αποτελεσμάτων σε εφαρμογές που επεξεργάζονται εικόνες ή βίντεο, εξάγουν πληροφορίες από μία σκηνή και επαυξάνουν τη σκηνή με γραφικά.
+
+Για να μπορέσει ο υπολογιστής να δημιουργήσει συναφείς πληροφορίες, πρέπει πρώτα να κατανοήσει κάποιες παραμέτρους. Οι παράμετροι αυτοί έχουν να κάνουν με πληροφορίες σχετικά με το περιβάλλον στο οποίο βρίσκεται ο χρήστης, καθώς και με τη θέση και τον προσανατολισμό του μέσα στο περιβάλλον αυτό. Με βάση αυτές τις πληροφορίες, ο υπολογιστής μπορεί να τοποθετήσει τις επαυξημένες πληροφορίες σωστά σε σχέση με τoν περιβάλλοντα χώρο. Αυτή η εναρμόνιση των εικονικών αντικειμένων με αντικείμενα της πραγματικής σκηνή είναι γνωστή με τον όρο registration. 
+
+Η ανάπτυξη των τεχνικών της όρασης υπολογιστών συντελεί στην καλύτερη αναγνώριση της σκηνής και την εξαγωγή χαρακτηριστικών που βοηθούν στη γνώση της ακριβούς τοποθεσίας στην οποία πρέπει να τοποθετηθούν τα εικονικά αντικείμενα. Ορισμένες ερευνητικές μέθοδοι που αναπτύχθηκαν στο πεδίο της όρασης υπολογιστών εφαρμόζονται και σε συστήματα επαυξημένης πραγματικότητας. Μερικές από αυτές είναι ο εντοπισμός και η ανίχνευση markers και χαρακτηριστικών μία σκηνής, η ανίχνευση και ο εντοπισμός κίνησης, η ανάλυση εικόνας, η αναγνώριση χειρονομιών και η κατασκευή περιβαλλόντων που περιέχουν έναν αριθμό από διαφορετικούς αισθητήρες.
 
 
-Η επαυξημένη πραγματικότητα, διεθνώς γνωστή ως augmented reality (AR), είναι το επιστημονικό πεδίο που ασχολείται με το συνδυασμό του πραγματικού κόσμου με δεδομένα παραγόμενα από έναν υπολογιστή. Αυτά προσθέτουν επιπλέον πληροφορίες στον πραγματικό κόσμο και βελτιώνουν την αντίληψη που έχει ο άνθρωπος για την πραγματικότητα. Σήμερα γίνονται προσπάθειες για την αξιοποίηση των δυνατοτήτων της πολλά υποσχόμενης εν λόγω τεχνολογίας σε διάφορους τομείς, μέσω της ανάπτυξης εφαρμογών που απευθύνονται σε πληθώρα ανθρώπων, με διαφορετικά ενδιαφέροντα και ασχολίες. 
+Από την άλλη πλευρά, τα γραφικά συντελούν στην επαύξηση της πραγματικότητας με τη φωτορεαλιστική απεικόνιση τρισδιάστατων μοντέλων σε πραγματικό χρόνο, και τις διαδραστικές κινήσεις τους (animations)
 
-Οι εφαρμογές επαυξημένης πραγματικότητας που αναπτύχθηκαν είναι εσωτερικού χώρου, η πρώτη, και εξωτερικού χώρου, η δεύτερη, και στηρίζονται στην αναγνώριση ενός επίπεδου αντικειμένου για την επαύξηση της σκηνής. Πρόκειται για εφαρμογές κονσόλας Win32 που εκτελούνται σε ηλεκτρονικούς υπολογιστές με λειτουργικό σύστημα Windows και υποστηρίζουν την επαύξηση της πραγματικότητας με τρισδιάστατα μοντέλα σε πραγματικό χρόνο μέσω της κάμερας του υπολογιστή Η γενική μεθοδολογία που ακολουθήθηκε είναι η είσοδος των στοιχείων του εσωτερικού προσανατολισμού της κάμερας, της εικόνας του πρότυπου επίπεδου αντικειμένου και του τρισδιάστατου μοντέλου, η εξαγωγή χαρακτηριστικών στην εικόνα του επίπεδου αντικειμένου και στο εκάστοτε στιγμιότυπο προς επαύξηση, η ψηφιακή συνταύτιση των εικόνων αυτών, η εξάλειψη των άκυρων ομολογιών, η εύρεση της γεωμετρικής σχέσης που συνδέει τις δύο εικόνες, ο εντοπισμός του επίπεδου αντικειμένου στο στιγμιότυπο και τέλος ο υπολογισμός των στοιχείων του εξωτερικού προσανατολισμού του στιγμιότυπου. Με βάση τα τελευταία, με γνώση της εσωτερικής γεωμετρίας της κάμερας και με θεώρηση της κλίμακας, της θέσης και του προσανατολισμού του τρισδιάστατου μοντέλου επαύξησης εντός του πραγματικού κόσμου, είναι δυνατή η τοποθέτησή του με το σωστό τρόπο και στην κατάλληλη θέση στο παράθυρο θέασης της επαυξημένης σκηνής
-%
-
-Η επαυξημένη πραγματικότητα είναι μία επιστημονική περιοχή της έρευνας της Επιστήμης των Υπολογιστών που συνδύαζει τον πραγματικό κόσμο με ψηφιακά δεδομένα. Τείνει να γίνει ένα ευρέως γνωστό και κοινότυπο χαρακτηριστικό  των καταναλωτικών εφαρμογών. Printed books (e.g. Dibitassut) have additional AR content. As a technology, augmented reality is now on the top of the “technology hype curve”. New augmented reality applications mushroom all the time. Even children’s toys increasingly have AR links to digital content. For example, in 2010 Kinder launched chocolate eggs with toys linked to AR content if presented to a webcam. Traditional AR systems, such as systems for augmenting lines and records in sport events on TV, used to be expensive and required special devices. 
-
-This opens mass markets for augmented reality applications as the potential users already have the suitable platform for AR. Furthermore, cloud computing and cloud services enable the use of huge databases even on mobile devices.  
+%-------------------------------------------------
 
 
+Ένα τυπικό σύστημα επαυξημένης πραγματικότητας μπορεί να διαιρεθεί σε 2 κύριες εργασίες: το tracking και το registration.
+Πρέπει δηλαδή να ανιχνευθεί ένα γνωστό πρότυπο που είναι αποθηκευμένο στη μνήμη ενός υπολογιστή(marker tracking) \cite{krevelen2010} και έπειτα να προστεθεί ένα εικονικό αντικείμενο στη σκηνή σωστά πάνω σε αυτό το πρότυπο.
 
-In order for the computer to generate contextual information, it must first understand the user’s context. The parameters of this context are limited to environmental information and the user’s position and orientation within that environment. With such information, the computer can position the augmented information correctly relative to the surrounding environment. This alignment of virtual objects with real scene objects is known as registration. 
-
-
-The most common definition given by [24] refers to Augmented Reality as an interactive technology that combines real and virtual imagery in real time by registering virtual content onto real world. On a typical AR system, the working process can be divided in two main tasks along the general steps: tracking and registration and it is intended to detect a known pattern stored in memory (marker tracking)[25]. The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker[25]. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
-
-
-
-Augmented reality (AR) combines real world and digital data. At present, most AR research uses live video images, which the system processes digitally to add computer-generated graphics. In other words, the system augments the image with digital data. Encyclopaedia Britannica [20] gives the following definition for AR: “Augmented reality, in computer programming, a process of combining or ‘augmenting’ video or photographic displays by overlaying the images with useful computer-generated data.” Augmented reality research combines the fields of computer vision and computer graphics. The research on computer vision as it applies to AR includes among others marker and feature detection and tracking, motion detection and tracking, image analysis, gesture recognition and the construction of controlled environments containing a number of different sensors. Computer graphics as it relates to AR includes for example photorealistic rendering and interactive animations. Researchers commonly define augmented reality as a real-time system. However, we also consider augmented still images to be augmented reality as long as the system does the augmentation in 3D and there is some kind of interaction involved.
-
-%AR-VR
-The performance requirements of an AR system can be contrasted to a Virtual Reality (VR) system. A virtual reality system is one where the user is immersed in a scene that is completely synthetic, yet perceived to be real. To create a realistic, virtual scene, the detail level of the generated objects must be high and the rendering must be performed in real-time. This level of detail generates a performance hit to the system in order to render such objects. The virtual objects in an AR system however, are not required to be at any particular detail level. The realistic quality of the virtual objects in an AR system is constrained only by the application. The other, and most significant rendering difference between the two types of systems, is the percentage of scene content that is rendered. An AR system that renders only a few simple virtual objects in a scene will require far less rendering power than that of a VR system rendering the entire scene.
-
-
-The real-time requirement of VR is not a strict requirement of AR. The merging of the real scene with virtual objects can be done in real-time (online), or it can be done at a later time (offline). Depending on the AR application, each could be acceptable. Augmenting a recorded football game with virtual yard line markers can be done in realtime while viewers watch the live game on television. If the same game is not to be viewed live, then the augmentation could be done after the game and displayed whenever the broadcast occurs. In general, the application requirements are flexible in an AR system, whereas the performance requirements of a VR are the same for all VR systems. A second notable contrast between the two systems is the problem of registration. Since registration deals with the merging of real and synthetic objects, VR systems are not concerned with registration. The positions of all objects in a VR scene are described in terms of a common coordinate system. This means that the VR system has the correct registration for free. In terms of performance, the lower rendering cost of AR is counterbalanced by the cost of registration.
-
-The other aspect of the system that works in conjunction with the rendering component is the equipment used to track the user and display the scene. In the VR system, devices are used to track the user along with a display showing the rendered scene. In the AR system, there are several different combinations of equipment used to track and inform the user.
 
 
 \subsection{Ιστορική Αναδρομή}
 %ΣΥΝΤΟΜΗ ΙΣΤΟΡΙΚΗ ΑΝΑΔΡΟΜΗ ΑΠΟ ΑΛΛΕΣ ΕΡΓΑΣΙΕΣ
 
-%krevelen
-
-The first AR prototypes (Fig. 3), created by computer
-graphics pioneer Ivan Sutherland and his students at Harvard
-University and the University of Utah, appeared in the 1960s
-and used a see-through to present 3D graphics [151].
-A small group of researchers at U.S. Air Force‟s Armstrong
-Laboratory, the NASA Ames Research Center, the
-Massachusetts Institute of Technology, and the University of
-North Carolina at Chapel Hill continued research during the
-1970s and 1980s. During this time mobile devices like the
-Sony Walkman (1979), digital watches and personal digital
-organisers were introduced. This paved the way for wearable
-computing [103, 147] in the 1990s as personal computers
-became small enough to be worn at all times. Early palmtop
-computers include the Psion I (1984), the Apple Newton
-MessagePad (1993), and the Palm Pilot (1996). Today, many mobile platforms exist that may support AR, such as personal
-digital assistants (PDAs), tablet PCs, and mobile phones.
-It took until the early 1990s before the term „augmented
-reality‟ was coined by Caudell and Mizell [42], scientists at
-Boeing Corporation who were developing an experimental
-AR system to help workers put together wiring harnesses.
-True mobile AR was still out of reach, but a few years later
-[102] developed a GPS-based outdoor system that presents
-navigational assistance to the visually impaired with spatial
-audio overlays. Soon computing and tracking devices became
-sufficiently powerful and small enough to support
-graphical overlay in mobile settings. Feiner et al. [55] created
-an early prototype of a mobile AR system (MARS) that
-registers 3D graphical tour guide information with buildings
-and artefacts the visitor sees. By the late 1990s, as AR became a distinct field of research,
-several conferences on AR began, including the International
-Workshop and Symposium on Augmented Reality,
-the International Symposium on Mixed Reality, and the
-Designing Augmented Reality Environments workshop.
-Organisations were formed such as the Mixed Reality Systems
-Laboratory2 (MRLab) in Nottingham and the Arvika
-consortium3 in Germany. Also, it became possible to rapidly
-build AR applications thanks to freely available software
-toolkits like the ARToolKit. In the meantime, several surveys
-appeared that give an overview on AR advances, describe its
-problems, classify and summarise developments [17, 19, 28].
-By 2001, MRLab finished their pilot research, and the
-symposia were united in the International Symposium on
-Mixed and Augmented Reality4 (ISMAR), which has become
-the major symposium for industry and research to exchange
-problems and solutions.For anyone who is interested and wants to get acquainted
-with the field, this survey provides an overview of important
-technologies, applications and limitations of AR systems.
-After describing technologies that enable an augmented reality
-experience in Section 2, we review some of the possibilities
-of AR systems in Section 3. In Section 4 we discuss a
-number of common technological challenges and limitations
-regarding human factors. Finally, we conclude with a number
-of directions that the authors envision AR research might
-take
+Η τεχνολογίας της επαυξημένης πραγματικότητας υπαινίσσεται για πρώτη φορά το 1901, μέσα από το μυθιστόρημά του Frank Baum με τίτλο «The Master Key», όπου περιγράφεται ένα ζευγάρι ειδικών γυαλιών, το οποίο υπερθέτει στο μέτωπο του κάθε ανθρώπου, που βρίσκεται στο οπτικό πεδίο εκείνου που φοράει τα γυαλιά, ένα γράμμα το οποίο περιγράφει το χαρακτήρα του. [1] [9].
 
 
-%-----
-Tom Caudell, a researcher at aircraft manufacturer Boeing coined the term augmented reality in 1992. He applied the term to a head-mounted digital display that guided workers in assembling large bundles of electrical wires for aircrafts [21]. This early definition of augmented reality was a system where virtual elements were blended into the real world to enhance the user’s perception. Figure 1 presents Caudell’s head-mounted augmented reality system. Later in 1994, Paul Milgram presented the reality-virtuality continuum [22], also called the mixed reality continuum. One end of the continuum contains the real environment, reality, and the other end features the virtual environment, virtuality. Everything in between is mixed reality (Figure 2). A Mixed Reality (MR) system merges the real world and virtual worlds to produce a new environment where physical and digital objects co-exist and interact. Reality here means the physical environment, in this context often the visible environment, as seen directly or through a video display.In 1997, Ronald Azuma published a comprehensive survey on augmented reality [23] and due to the rapid development in the area produced a new survey in 2001 [24]. He defines augmented reality as a system identified by three characteristics: 􀁸 it combines the real and the virtual 􀁸 it is interactive in real time 􀁸 it is registered in 3D. Milgram and Azuma defined the taxonomy for adding content to reality or virtuality. However, a system can alter the environment in other ways as well; it can, for example, change content and remove or hide objects. In 2002, Mann [25] added a second axis to Milgram’s virtuality-reality continuum to cover other forms of alteration as well. This two-dimensional realityvirtuality- mediality continuum defines mediated reality and mediated virtuality (see left illustration in Figure 3). another. A system can change reality in different ways. It may add something (augmented reality), remove something (diminished reality) or alter it in some other way (modulated reality). Mann also presented the relationships of these areas in the Venn diagram (see right illustration in Figure 3). In diminished reality, we remove existing real components from the environment. Thus, diminished reality is in a way the opposite of augmented reality. Today most definitions of augmented reality and mixed reality are based on the definitions presented by Milgram, Azuma and Mann. However, the categorisation is imprecise and demarcation between different areas is often difficult or volatile, and sometimes even contradictory. For example, Mann defined virtual reality as a sub area of mixed reality, whereas Azuma completely separates total virtuality from mixed reality. We define virtual reality (VR) as an immersive environment simulated by a computer. The simplest form of virtual reality is a 3D image that the user can explore interactively from a personal computer, usually by manipulating keys or the mouse. Sophisticated VR systems consist of wrap-around display screens, actual VR rooms, wearable computers, haptic devices, joysticks, etc. We can expand virtual reality to augmented virtuality, for instance, by adding real elements such as live video feeds to the virtual world. Augmented reality applications mostly concentrate on visual augmented reality and to some extent on tactile sensations in the form of haptic feedback. This work also focuses on visual AR; other senses are covered briefly in Sections 2.5 Multisensory augmented reality and 8.4 Future of augmented reality.
+Τα πρώτα πρωτότυπα επαυξημένης πραγματικότητας(Fig. 3), δημιουργήθηκαν από τον πρωτοπόρο στην επιστήμη των γραφικών υπολογιστών Ivan Sutherland και τους φοιτητές του στα πανεπιστήμια του Harvard και της Utah, την δεκαετία του 1960 [151]. Συγκεκριμένα κατασκεύασαν μία τρισδιάστατη συσκευή απεικόνισης που τοποθετείται στο κεφάλι του χρήστη, ενώ παράλληλα κρέμεται από το ταβάνι, με σκοπό να επαυξήσει την σκηνή με τρισδιάστατες πληροφορίες, παρουσιάζοντας στο χρήστη μία προοπτική εικόνα, η οποία αλλάζει καθώς αυτός κουνά το κεφάλι του ή κινείται σε μία περιορισμένη περιοχή. Λόγω των ειδικών κατόπτρων στα πρίσματα μέσω των οποίων ο χρήστης κοιτάζει, μπορεί να βλέπει ταυτόχρονα τόσο τις εικόνες αυτές όσο και αντικείμενα από τον πραγματικό χώρο. Οι εικόνες που παρουσιάζονται στο χρήστη είναι εικόνες διάφανων τρισδιάστατων αντικειμένων, τα οποία αποτελούνται μόνο από τις κύριες ακμές τους και όχι συμπαγών τρισδιάστατων αντικειμένων, λόγω των τεχνικών περιορισμών της εποχής. Το συγκεκριμένο σύστημα θεωρείται, ωστόσο, το πρώτο σύστημα επαυξημένης πραγματικότητας και είναι πραγματικά καινοτόμο για την εποχή. \cite{sutherland1968head}
+
+
+ 
+
+Το 1975 ο Myron Krueger δημιουργεί ένα εργαστήριο τεχνητής πραγματικότητας με το όνομα "Videoplace" στο Πανεπιστήμιο του Κονέκτικατ στις Ηνωμένες Πολιτείες, το οποίο αποτελείται από δύο ή περισσότερα δωμάτια που μπορεί να απέχουν οποιαδήποτε απόσταση μεταξύ τους, μία οθόνη προβολής σε κάθε δωμάτιο και ειδικό hardware, έτσι ώστε οι χρήστες να βλέπουν την εικόνα τους ως μία λευκή σιλουέτα στην οθόνη προβολής να κάνει τις ίδιες κινήσεις με αυτούς. Ταυτόχρονα, δίνεται η δυνατότητα αλληλεπίδρασης με γραφικά αντικείμενα της οθόνης, όπως κείμενο. Επίσης, η εικόνα κάθε χρήστη μπορεί να χρωματιστεί, να σμικρυνθεί ή να περιστραφεί, ενώ γενικά προσφέρονται πολλοί τρόποι αλληλεπίδρασης, όπως η ζωγραφική με τα δάκτυλα [12], [13], [14]. 
+
+
+Στις αρχές της δεκαετίες του 1990, και συγκεκριμένα το 1992, επινοείται ο όρος "επαυξημένη πραγματικότητα" από δύο επιστήμονες που εργάζονταν στη Boeing, τους Caudell and Mizell [42], οι οποίοι ανέπτυξαν ένα πειραματικό σύστημα επαυξημένης πραγματικότητας για να βοηθήσουν τους εργάτες να συναρμολογήσουν τις πολύπλοκες δέσμες καλωδίων των αεροσκφών[21]. Η εικόνα Figure 1 παρουσιάζει το HMD που αναπτύχθηκε.
+
+
+Το ίδιο έτος, οι Steven Feiner, Blair MacIntyre και Doree Seligmann παρουσιάζουν το πρώτο κύριο άρθρο πάνω σε ένα πρωτότυπο σύστημα επαυξημένης πραγματικότητας (βλ. Εικόνα 1-4). Tο σύστημα αυτό, με την ονομασία KARMA («Knowledge-based Augmented Reality Maintenance Assistance»), χρησιμοποιεί ένα σύστημα HMD για την υποβοήθηση του τελικού χρήστη κατά τη συντήρηση ενός εκτυπωτή laser \cite{feiner1993knowledge}.
+
+
+
+Το 1994, όπως αναφέραμε και σε προηγούμενη ενότητα, ο Paul Milgram παρουσίασε το συνεχές εικονικότητας-πραγματικότητας\cite{milgram1994taxonomy}, το οποίο αποκαλείται και συνεχές επαυξημένης πραγματικότητας. Την ίδια χρονιά, η επαυξημένη πραγματικότητα εισάγεται στο χώρο της τέχνης και της διασκέδασης, αφού δημιουργείται η πρώτη θεατρική παραγωγή επαυξημένης πραγματικότητας με την ονομασία «Dancing in Cyberspace», στην οποία χορευτές και ακροβάτες αλληλεπιδρούν με εικονικά αντικείμενα σε πραγματικό χρόνο, τα οποία προβάλλονται στη σκηνή [1], [17], [20]. 
+
+
+
+Το 1995 ο Jun Rekimoto αναπτύσσει το πρώτο φορητό σύστημα χειρός επαυξημένης πραγματικότητας που βασίζεται σε έγχρωμους επίπεδους στόχους, ευρέως γνωστούς μέχρι σήμερα ως markers, το επονομαζόμενο NaviCam (βλ. Εικόνα 1-5). Το 1996 ο ίδιος δημιουργεί ένα 2D barcode σύστημα για εφαρμογές επαυξημένης πραγματικότητας (βλ. Εικόνα 1-6), που βασίζεται σε ασπρόμαυρα τετράγωνα markers δύο διαστάσεων, το CyberCode. Αυτός ο τύπος marker χρησιμοποιείται ακόμα και σήμερα \cite{arth2015history}
+
+
+Το 1997, ο Ronald Azuma δημοσίευεσε μία αναλυτική έρευνα πάνω στο πεδίο της επαυξημένης πραγματικότητας\cite{azuma1997}, ενώ το 1998 οι Bruce Thomas et al. [25] επιχειρούν να επεκτείνουν την επαυξημένη πραγματικότητα σε εξωτερικούς χώρους, αφού αναπτύσσουν ένα οπτικό σύστημα πλοήγησης για πεζούς, το «Map-in-hat». Πρόκειται για ένα φορητό υπολογιστικό σύστημα, εφοδιασμένο με λογισμικό πλοήγησης, με μία διάφανη συσκευή θέασης, ψηφιακή πυξίδα και GPS (βλ. Εικόνα 1-7). To σύστημα αυτό, ενώ αρχικά περιορίζεται μόνο σε εφαρμογές πλοήγησης, αργότερα εξελίσσεται στο σύστημα Tinmith, που χρησιμοποιείται σε πληθώρα εφαρμογών επαυξημένης πραγματικότητας [21].
+
+Το 1999 ιδρύεται η εταιρία Total Immersion μία από τις πρώτες εταιρίες ανάπτυξης λύσεων επαυξημένης πραγματικότητας, η οποία με το προϊόν της, D’Fusion, παρέχει μία πληθώρα εργαλείων για δημιουργία εφαρμογών επαυξημένης πραγματικότητας [4], [26].
+
+Την ίδια χρονιά, ο Hirokazu Kato αναπτύσσει τη βιβλιοθήκη για εφαρμογές επαυξημένης πραγματικότητας ARToolKit, η οποία παρέχεται στο κοινό ως βιβλιοθήκη ανοικτού κώδικα από το εργαστήριο ΗΙΤ Lab (Human Interface Technology Laboratory) του Πανεπιστημίου της Washington. H βιβλιοθήκη αυτή επιτρέπει τη λήψη βίντεο και την τοποθέτηση – σε πραγματικό χρόνο – εικονικών μοντέλων πάνω σε markers που εντοπίζονται στην εκάστοτε σκηνή, έτσι ώστε να ακολουθούν την κίνηση της κάμερας. Η βιβλιοθήκη ARToolKit αποτελεί τη βάση για πολλές εφαρμογές επαυξημένης πραγματικότητας που ακολουθούν και χρησιμοποιείται ευρέως ακόμα και σήμερα ως έχει ή ελαφρώς παραλλαγμένη [4], [17], [27], [28]. 
+
+
+
+Έκτοτε σημειώνονται σημαντικά βήματα προόδου στον τομέα της επαυξημένης πραγματικότητας και όλο και περισσότεροι επιστήμονες, αλλά και εταιρίες δείχνουν ενδιαφέρον για την τεχνολογία αυτή, με αποτέλεσμα να αναπτύσσεται πληθώρα εφαρμογών. Από τα επιτεύγματα των ετών αυτών, έως το 2013, κρίνεται σκόπιμη η παράθεση κάποιων σταθμών - σημαντικών γεγονότων στην ιστορία της επαυξημένης πραγματικότητας.
+
+Λόγω της ραγδαίας ανάπτυξης του κλάδου της επαυξημένης πραγματικότητας, ο R.Azuma δημοσίευσε και νέα έρευνα το 2001\cite{azuma2001}, όπου αναλύει τις νεότερες εφαρμογές και καινοτομίες που παρουσίαστηκαν.
+Την ίδια χρονιά δημιουργείται το πρώτο πρόγραμμα περιήγησης επαυξημένης πραγματικότητας, Real-World Wide Web (RWWW), από τους Bob Kooper και Blair MacIntyre [30], μια εφαρμογή που υπερθέτει δεδομένα από τον Παγκόσμιο Ιστό (World Wide Web) στον πραγματικό κόσμο, μέσω μίας συσκευής HMD. Τα δεδομένα αυτά ανανεώνονται ανάλογα με τη θέση και τον προσανατολισμό του χρήστη.
+Επίσης την ίδια χρονιά, οι Vlahakis et al. παρουσιάζουν το Archeoguide, ένα σύστημα επαυξημένης πραγματικότητας για μνημεία πολιτιστικης κληρονομιας 
+το οποίο δημιουργείται για τον ιστορικό χώρο της Αρχαίας Ολυμπίας στην Ελλάδα. Περιλαμβάνει μία διεπαφή πλοήγησης στο χώρο, τρισδιάστατα μοντέλα αρχαίων ναών και αγαλμάτων, καθώς και εικονικούς δρομείς που συναγωνίζονται για τη νίκη στο αρχαίο στάδιο.
+
+
+Το 2002, ο Mann [25] προσέθεσε έναν ακόμα άξονα στο συνεχές πραγματικότητας-εικονικότητας του Milgram για να καλύψει και άλλες μορφές του φάσματος. Το νέο αυτό δισδιάστατο συνεχές που παρουσίασε, ορίζει τις έννοιες mediated reality και mediated virtuality (see left illustration in Figure 3). Όπως αναφέρεται, ένα σύστημα μπορεί να αλλάξει την πραγματικότητα με διάφορους τρόπους. Μπορεί να προθέσει κάτι (augmented reality), να αφαιρέσει κάτι (diminished reality), ή να μετατρέχει κάτι σε κάτι άλλο (modulated reality). Με τον όρο diminished reality, αναφερόμαστε στη διαδικασία κατά την οποία αφαιρούμε από τη περιβάλλον πραγματικά αντικείμενα της σκηνής. Επομένως η diminished reality είναι κατά κάποιον τρόπο το αντίθετο της επαξημένης πραγματικότητας. 
+
+Επίσης, την ίδια χρονιά (2002) διοργανώνεται το πρώτο διεθνές συνέδριο μικτής και επαυξημένης πραγματικότητας, International Symposium on Mixed Reality and Augmented Reality (ISMAR), το οποίο διοργανώνεται σε ετήσια βάση μέχρι και σήμερα και δίνει τη δυνατότητα στους ερευνητές να ανταλλάσσουν ιδέες, σκέψεις και συμπεράσματα \cite{ismar}.
+
+
+Το 2006 η Nokia εισάγει το πρόγραμμα MARA (Mobile Augmented Reality Applications project). H πρωτότυπη αυτή εφαρμογή χρησιμοποιεί εργαλεία όπως επιταχυνσιόμετρο, πυξίδα και GPS για τον υπολογισμό της θέσης και του προσανατολισμού του κινητού τηλεφώνου, με αποτέλεσματην υπέρθεση πληροφοριών για πραγματικά αντικείμενα σε ζωντανό βίντεο, εκμεταλλευόμενη τις δυνατότητες του κινητού τηλεφώνου [36], [37], ενώ το 2008 δημιουργείται το πρόγραμμα περιήγησης επαυξημένης πραγματικότητας Wikitude από την Αυστριακή εταιρία Mobilizy GmbH (βλ. Εικόνα 1-10), μία εφαρμογή επαυξημένης πραγματικότητας βάσει θέσης, που αξιοποιεί τα χαρακτηριστικά και την κάμερα ενός κινητού τηλεφώνου για να υπερθέσει πληροφορίες από το διαδίκτυο για τον περιβάλλοντα χώρο σε βίντεο, σε πραγματικό χρόνο.[39].
+
+Το 2009, η εταιρία SPRXmobile δημιουργεί το πρόγραμμα περιήγησης επαυξημένης πραγματικότητας Layar, μία παραλλαγή του Wikitude [21]. Με την εφαρμογή αυτή, ανιχνεύοντας με το κινητό τηλέφωνο το περιεχόμενο διαφόρων προϊόντων, όπως εφημερίδες και περιοδικά που συνοδεύονται από το σήμα του Layar, οι χρήστες μπορούν να δουν επιπρόσθετο ψηφιακό υλικό, όπως για παράδειγμα βίντεο σχετικό με τη στατική εικόνα που απεικονίζεται. Επίσης, παρέχεται και η δυνατότητα σε όποιον θέλει – επί πληρωμή – να προσθέσει ψηφιακό υλικό σε στατικές εικόνες, με το προϊόν Layar Creator.
+
+Το 2010 η Microsoft δημιούργησε τη συσκευή Kinect η οποία αποτέλεσε τη βάση για την ανάπτυξη εφαρμογών επαυξημένης πραγματικότητας και κυρίως βιντεοπαιχνιδιών σε μεγαλύτερη κλίμακα.
+
+Το 2012 η εταιρεία Oculus VR ανακοινώνει τη συσκευή ανάπτυξης Oculus Rift, ένα HMD εικονικής πραγματικότητας head-mounted display. Η δημοσιότητα που έλαβε η δημιουργία του συγκεκριμένου προϊόντος αποτέλεσε την αρχή για τη δημιουργία μιας σειρά από head-mounted displays κυρίως για το χώρο της βιομηχανίας των βιντεοπαιχνιδιών. (see Fig.17(a)).
+
+
+To 2013 διατίθεται το Google Glass μέσω του προγράμματος "Explorer", το οποίο είχε ανακοινωθεί ως Project Glass το 2012 από την Google και συγκεντρώνει θετικά και αρνητικά σχόλια, καθώς και προβληματισμό σχετικά με την προστασία των προσωπικών δεδομένων(see Fig.17(b). Ωστόσο η διάθεση του συγκεκριμένου προϊόντος σταμάτησε το 2015.
+
+Τον Ιανουάριο του 2015, η Microsoft ανακοίνωσε τη συσκευή Hololens,η οποία συνδυάζει την εικονική και την επαυξημένη πραγματικότητα [93]. Πρόκειται για μία συσκευή η οποία είναι ένας ολοκληρωμένος υπολογιστής με μία see-through display και αρκετούς αισθητήρες.\cite{hololens}
+Το 2015 μία από τις μεγαλύτερες εταιρίες ανάπτυξης εργαλείων λογισμικού επαυξημένης πραγματικότητας, η Metaio, η οποία δημιούργησε το Junaio, έναν περιηγητή επαυξημένης πραγματικότητας για φορητές συσκευές Android και iOS, εξαγοράστηκε από την Apple σε μία κίνηση\cite{applemetaio} που δείχνει πως το μέλλον της ανθρωπότητας θα είναι σίγουρα "επαυξημένο". 
+
+
+Η επαυξημένη πραγματικότητα είναι μία τεχνολογία που μπορεί να αξιοποιηθεί από πολλούς επιστημονικούς κλάδους και επιτρέπει την ανάπτυξη πληθώρας εφαρμογών. Σήμερα γίνονται προσπάθειες για την αξιοποίηση των δυνατοτήτων της πολλά υποσχόμενης εν λόγω τεχνολογίας σε διάφορους τομείς, μέσω της ανάπτυξης εφαρμογών που απευθύνονται σε άτομα με διαφορετικά ενδιαφέροντα και ασχολίες.
+
 
 
 
 \subsection{Εφαρμογές}
 %ΑΝΑΦΕΡΕ ΧΑΡΑΚΤΗΡΙΣΤΙΚΕΣ ΕΦΑΡΜΟΓΕΣ ΣΕ GAMING,IATRIΚΗ, MILITARY,TOURISM
 
-Στην ενότητα αυτή καταγράφονται οι κυριότεροι τομείς στους οποίους η επαυξημένη πραγματικότητα έχει εφαρμογή και αναφέρονται συνοπτικά διάφορα αντιπροσωπευτικά είδη εφαρμογών σε κάθε τομέα. Οι εφαρμογές αυτές μπορούν να χαρακτηριστούν ως εσωτερικού ή εξωτερικού χώρου. Επίσης, μπορούν να διακριθούν σε αυτές που δίνουν στο χρήστη ελευθερία κίνησης και σε εκείνες που προϋποθέτουν ότι αυτός παραμένει στην ίδια θέση. Ακόμη, μπορούν να διακριθούν σε εφαρμογές που δίνουν στο χρήστη μία επαυξημένη αντίληψη της πραγματικότητας και σε εκείνες που δημιουργούν ένα φανταστικό περιβάλλον. Σύμφωνα με την τελευταία αυτή διάκριση [4], οι πρώτες προσθέτουν πληροφορίες που του επιτρέπουν να έχει μία καλύτερη κατανόηση του περιβάλλοντος στο οποίο βρίσκεται, ενώ εκείνες που δημιουργούν ένα φανταστικό περιβάλλον του επιτρέπουν να δει πράγματα που δεν υπάρχουν στον πραγματικό κόσμο. Συναφής με τη διάκριση αυτή είναι και μία άλλη κατηγοριοποίηση των εφαρμογών [41], σύμφωνα με την οποία αυτές χωρίζονται σε εφαρμογές που υπερθέτουν πληροφορίες που δεν αποτελούν μέρος του φυσικού κόσμου, σε αυτές που απεικονίζουν επιπρόσθετες πληροφορίες με τέτοιο τρόπο ώστε να μην ξεχωρίζουν από το πραγματικό περιβάλλον και σε αυτές που απεικονίζουν πληροφορίες που βρίσκονται στο φυσικό περιβάλλον αλλά δεν είναι άμεσα παρατηρήσιμες.
+Στην ενότητα αυτή καταγράφονται οι κυριότεροι τομείς στους οποίους η επαυξημένη πραγματικότητα έχει εφαρμογή και αναφέρονται συνοπτικά διάφορα αντιπροσωπευτικά είδη εφαρμογών σε κάθε τομέα. 
 
-Augmented reality technology is beneficial in several application areas. It is well suited for on-site visualisation both indoors and outdoors, for visual guidance in assembly, maintenance and training. Augmented reality enables interactive games and new forms of advertising. Several location-based services use augmented reality browsers. In printed media, augmented reality connects 3D graphics and videos with printed publications. In addition, augmented reality has been tested in medical applications and for multi-sensory purposes. The following presents a few examples of how visual AR has been used, and multi-sensory AR will be discussed later in Section 2.5. In interior design, augmented reality enables users to virtually test how a piece of furniture fits in their own living room. Augmented reality interior design applications often use still images. However, the user interactions happen in real-time and the augmentation is in 3D. For example in our AR interior application [12], the user takes images of the room and uploads them onto a computer (see Figure 8). The user can then add furniture, and move and rotate it interactively. A more recent example of augmented reality interior design is VividPlatform AR+ [32]. Vivid Works presented it at the 2010 Stockholm Furniture Fair. VividPlatform AR+ also uses still images. Our experience is that users find still images convenient for interior design. However, interior design can use live video in PC environments or on mobile phones as well [33]. Outdoor visualisation systems normally use live video. Figure 9 shows an example of real-time augmented reality outdoor visualisation [34]. Building projects can also be visualised using an augmented reality web camera. The augmented reality web camera can have several user interactions. Using a PTZ camera, the user can pan, tilt and zoom in on the view as in [9], for example. If the system has connection to the BIM (Building Information Model), the user can interact with materials and browse through the timeline of a construction project as we demonstrated in [1]. In assembly, augmented reality applications can show the instructions for the assembler at each stage. The system can display the instructions on a headmounted display as e.g. in our assembly demonstration [2], on a mobile phone [35] or on a normal display (see Figure 10). The user can interact with an assembly system using voice commands, gestures or a keypad as we demonstrated in [7] and [6]. The benefits of augmented reality instructions compared to a printed manual are clear. The user can see instructions from all viewpoints and concentrate on assembly without having to scan through the paper manual.An AR system can aid maintenance work with augmented information, similarly to assembly. For instance, a mobile augmented reality system can provide maintenance workers relevant information from a database [37]. A mobile device is a good choice for displaying information in many cases. However, if the maintenance task is more of a hands-on assembly type of task, a head-mounted display is often a better choice. ARMAR is an augmented reality system for maintenance and repair developed at Columbia University [38, 39]. It uses a head-mounted display to show AR instructions for the maintenance worker, see Figure 11. The qualitative survey with ARMAR showed that the mechanics found the augmented reality condition intuitive and satisfying for the tested sequence of tasks [40].Besides assembly and engine maintenance, augmented reality is also used for teaching maintenance and repair, and for training purposes in several other fields as well. In the game industry, AR has had a breakthrough. AR enables interaction with the user and the environment. Augmented reality can make games more attractive. For example, mobile game developer int13 [41] believes that “Augmented Reality is a promising idea to enhance the player's gaming experience in providing exciting new ways to control his actions, through position and 3D moves.” In addition, accuracy is less critical in games than in industrial or medical applications. Figure 12 is an example of a Kinder augmented reality game. A toy car found in a Kinder Surprise egg will launch an interactive game on a computer. The game detects the object (in this case the toy car) and then uses gesture detection. The user controls the race with hand gestures imitating steering wheel movements. Augmented reality mobile games are very popular; in November 2011, a quick search in the App Store resulted in about 200 mobile AR applications for the iPhone. Figure 13 shows one example of a mobile AR game, AR Defender (by int13, 2010), which works on iPhone and Samsung platforms, for example. It uses markers for camera registration, an example of which is shown in the lower right-hand corner of the left image in Figure 13.SpecTrek (Games4All, 2011) is another augmented reality game for Android phones. It uses GPS and a camera to guide the user to capture ghosts from the environment. In the map view, it shows the locations of the ghosts. In the camera view, it augments the ghosts in the view and allows the user to catch them (Figure 14).
+Η τεχνολογίας της Επαυξημένης Πραγματικότητας μπορεί να αξιοποιηθεί σε πολλές περιοχές εφαρμογών. Αυτές περιλαμβάνουν  It is well suited for on-site visualisation both indoors and outdoors, for visual guidance in assembly, maintenance and training.
 
-
-Besides games, location-based augmented reality services are popular on mobile platforms. One example is Wikitude World Browser, which uses GPS, a compass and the camera of the mobile device to augment location-based information for the user. It functions on several platforms (Symbian, Android and iPhone). Wikitude Drive also uses Navteq’s maps to create augmented navigation instructions. Figure 15 shows examples of Wikitude World Browser. Currently several AR mobile browsers are on the market: Layar, Junaio Glue, Acrossair Browser, Yelp monocle, Robot Vision’s Bing Local Search, PresseLite applications, etc. AR browsers have two main approaches. The first approach is to have one browser and then different information environments, and the user can then choose which information the application augments. Layar, Junaio Glue and Wikitude use this approach. (In Junaio, the environments are called “channels”, in Wikitude “worlds” and in Layar “layers”). The user can choose to see tourist information, for example. The other approach is to assign each information layer to a separate application. PresseLite uses this approach; Paris metro Guide and London Cycle Hire for the Tube are separate programs. Yelp is a system used for sharing user reviews and recommendations on restaurants, shopping, nightlife, services, etc. Its Monocle add-on functionality bridges this social media with real world environments using augmented reality. It is probably the world’s first social media browser. The user interface has motion detection; the user activates the monocle by shaking the phone.
-
-Augmented reality by its nature is well suited to advertising. In 2010, different
-companies launched advertising campaigns using AR. One of these is Benetton’s
-campaign (2010) IT’S:MY:TIME. It connects their advertisements in journals, on
-billboards and in product catalogues with augmented reality. They use the same
-symbology in all of them (Figure 16). The small icons indicate that the user can
-use a webcam or download an application from the App Store. The AR application
-then augments videos on top of the marker, e.g. in the catalogue. The PC version
-uses Adobe Flash Player, which most users already have installed on the computer
-and thus do not need to download anything new.
-
-Augmented reality technology is used to enrich printed media. Esquire magazine published an augmented reality issue in December 2009, Süddeutche Zeitung released their first issue with AR content in August 2010 (Figure 17). In Esquire’s case, users were able to see AR content when they showed the magazine to a PC webcam. In the case of Süddeutche Zeitung, users could see the content with a mobile phone after downloading the application. In Finland, Katso and TVSeiska magazines used AR in cooperation with VTT in advertising a new animated children series called Dibitassut in April 2010. Brazilian newspaper O estado de Sao Paulo has featured regular AR content since 2009.
-
-The idea of an augmented reality book, “the magic book” is at least ten years old [42]. However, it took a while before the technology was robust enough for mass markets. Aliens \& UFOs [43] was probably the first published book with AR content. In 2010, publishers released several AR books, e.g. Dinosaurs Alive\! [44], Fairyland Magic [45], Dibitassut [46] and [47], and the trend continues. Dibitassut (“Dibidogs” in English) has a program made by VTT, which users can download and install on their own computers. Users can see augmented animations using a webcam (see Figure 18).
+Η επαυξημένη πραγματικότητα επιτρέπει τη δημιουργία διαδραστικών βιντεοπαιχνιδιών και εναλλακτικών τρόπων διαφήμισης προϊόντων. Επίσης μπορεί να χρησιμοποιηθεί για τη σύνδεση τρισδιάστατων γραφικών και βίντεο με έντυπα όπως περιοδικά ή διαφημιστικά φυλλάδια. Τέλος, έχει δοκιμαστεί σε ιατρικές εφαρμογές για διάφορους σκοπούς. Στη συνέχεια παρουσιάζονται χρήσεις της επαυξημένης πραγματικότητας και παραδείγματα εφαρμογών, που δείχνουν πώς αξιοποιήθηκε.  
 
 
 
 %AR for entertainment and gaming
 
 Η επαυξημένη πραγματικότητα έχει διεισδύσει στον τομέα της ψυχαγωγίας, δείχνοντας τις συναρπαστικές δυνατότητές της. Κυκλοφορούν πολλά παιχνίδια επαυξημένης πραγματικότητας, τα οποία προσελκύουν το κοινό λόγω της δυνατότητας που του προσφέρουν να αλληλεπιδρά σε πραγματικό χρόνο τόσο με πραγματικά όσο και με εικονικά αντικείμενα. Μπορεί να απευθύνονται σε έναν ή περισσότερους χρήστες και να χρησιμοποιούν κινητά τηλέφωνα, υπολογιστές, φορητούς ή μη, ή ΗΜDs, προσφέροντας μοναδικές εμπειρίες στους χρήστες. Πέρα όμως από τα παιχνίδια, υπάρχουν και λογοτεχνικά βιβλία επαυξημένης πραγματικότητας για παιδιά αλλά και κόμικς [47], όπου τρισδιάστατες σκηνές της ιστορίας παρουσιάζονται πάνω από τις πραγματικές σελίδες και καθιστούν πιο ενδιαφέρουσα την εμπειρία του διαβάσματος. Κοινή είναι πλέον η χρήση της στα καθημερινά δελτία καιρού. Ο τηλεθεατής. μέσω του δέκτη του, βλέπει τον παρουσιαστή μπροστά από το χάρτη πρόγνωσης του καιρού, ο οποίος στην πραγματικότητα δεν υπάρχει. Με χρήση της επαυξημένης πραγματικότητας, το φόντο μπροστά από το οποίο βρίσκεται ο παρουσιαστής, αντικαθίσταται σε πραγματικό χρόνο από το χάρτη, ο οποίος μάλιστα περιλαμβάνει κινούμενα γραφικά στοιχεία. Η επαυξημένη πραγματικότητα χρησιμοποιείται και στον αθλητισμό και η τεχνολογία αυτή εφαρμόζεται ήδη κατά την αναμετάδοση αγώνων. Ένα παράδειγμα αποτελεί η παραγόμενη από υπολογιστή κίτρινη γραμμή που φαίνεται στα γήπεδα των ποδοσφαιρικών αγώνων στους τηλεοπτικούς δέκτες (βλ. Εικόνα 1-15) και είναι ορατή μόνο από τους τηλεθεατές, διευκολύνοντάς τους στην κατανόηση τυχούσας παράβασης των κανονισμών του παιχνιδιού [1], [48]. Επίσης, η επαυξημένη πραγματικότητα χρησιμοποιείται σε πληθώρα αθλητικών γεγονότων για να δείξει διαφημίσεις να υπερτίθενται σε συγκεκριμένες περιοχές της μεταδιδόμενης εικόνας [1], [7].
+
+
 %krevelen
-Like VR, AR can be applied in the entertainment industry to
-create AR games, but also to increase visibility of important
-game aspects in life sports broadcasting. In these cases where
-a large public is reached, AR can also serve advertisers to
-show virtual ads and product placements.
-
--Sports broadcasting
-Swimming pools, football fields, race tracks and other
-sports environments are well-known and easily prepared,
-which video see-through augmentation through tracked
-camera feeds easy. One example is the Fox-Trax system [43],
-used to highlight the location of a hard-to-see hockey puck as
-it moves rapidly across the ice, but AR is also applied to
-annotate racing cars (Fig. 21a), snooker ball trajectories, life
-swimmer performances, etc. Thanks to predictable environments
-(uniformed players on a green, white, and brown field) and chroma-keying techniques, the annotations are
-shown on the field and not on the players (Fig. 21b).
-
--Games
-Extending on a platform for military simulation [128]
-based on the ARToolKit, Piekarski and Thomas [127] created
-„ARQuake‟ where mobile users fight virtual enemies in a
-real environment. A general purpose outdoor AR platform,
-„Tinmith-Metro‟ evolved from this work and is available at
-the Wearable Computer Lab37 [126], as well as a similar
-platform for outdoor games such as „Sky Invaders‟ and the
-adventurous „Game-City‟ [45]. Crabtree et al. [50] discuss
-experiences with mobile MR game „Bystander‟ where virtual
-online players avoid capture from real-world cooperating
-runners.
-A number of games have been developed for prepared
-indoor environments, such as the alien-battling „Aqua-
-Gauntlet‟ [155], dolphin-juggling „ContactWater‟, „ARHockey‟,
-and „2001 AR Odyssey‟ [154]. In „AR-Bowling‟
-Matysczok et al. [104] study game-play, and Henrysson et al.
-[71] created AR tennis for the Nokia mobile phone (Fig. 22).
-Early AR games also include AR air hockey [116], collaborative
-combat against virtual enemies [117], and an
-AR-enhanced pool game [78].
+Όπως η εικονική πραγματικότητα, έτσι και η επαυξημένη πραγματικότητα μπορεί να εφαρμοστεί στη βιομηχανία της ψυχαγωγίας για τη δημιουργία παιχνιδιών, αλλά και για την ενίσχυση  σημαντικών γεγονότων που λαμβάνουν χώρα κατά τη μετάδοση αγώνων και αθλημάτων. 
+Οι πισίνες, οι αγωνιστικοίς χώροι, οι πίστες αγώνων ταχύτητας και άλλα παρόμοια περιβάλλοντα έχουν γνωστές ιδιότητες και χαρακτηριστικά, με αποτέλεσμα η επαύξηση του βίντεο το οποίο τα απεικονίζει να μπορεί να γίνει εύκολα. Ένα παράδειγμα είναι το σύστημα Fox-Trax [43], που χρησιμοποιείται για την επισήμανση της τοποθεσίας μιας σφαίρας hockey, η οποία δεν φαίνεται εύκολα, καθώς μετακινείται γρήγορα στον πάγο. Επίσης η επαυξημένη πραγματικότητα μπορεί να χρησιμοποιηθεί για την ζωντανή απεικόνιση της απόδοσης κολυμβητών αλλά και για την ζωντανή κατάταξη οδηγών σε αγώνες ταχύτητας.  Χάρη στα προβλεπόμενα περιβάλλοντα(ομοιόμορφοι παίκτες σε πράσινα, λευκά ή μπλε πίστες), οι επισημάνσεις απεικονίζονται στην πίστα αλλά όχι πάνω στους παίκτες.(Fig. 21b).
 
 
+
+Το 2000 οι Bruce Thomas et al. [29] δημιουργούν το πρώτο παιχνίδι επαυξημένης πραγματικότητας, το ARQuake, που αποτελεί μία παραλλαγή του διάσημου παιχνιδιού Quake για ηλεκτρονικό υπολογιστή (βλ. Εικόνα 1-8). Το παιχνίδι βασίζεται σε ένα σύστημα ανίχνευσης 6 βαθμών ελευθερίας και χρησιμοποιεί GPS, μία ψηφιακή πυξίδα και οπτική ανίχνευση των επίπεδων στόχων. Οι χρήστες εφοδιάζονται με ένα φορητό υπολογιστή στην πλάτη τους, ένα HMD και μία απλή συσκευή εισόδου [4], [21].
+
+Ένας αριθμός από βιντεοπαιχνίδια για προετοιμασμένα εσωτερικά περιβάλλοντα έχουν αναπτυχθεί, όπως το παιχνίδι μάχης ενάντια σε εξωγήινους "Aqua-
+Gauntlet" [155], το "ContactWater", το "ARHockey" και το "2001 AR Odyssey" [154]. Έχουν είσης αναπτυχθεί βιντεοπαιχνίδια επαυξημένης πραγματικότητας όπως το"AR-Bowling" του Matysczok et al. [104] , και το AR tennis για κινητά της Nokia από τους Henrysson et al. [71] created  (Fig. 22).
+
+
+
+Τρία είναι εκείνα τα χαρακτηριστικά της επαυξημένης πραγματικότητας που επιτρέπουν την υποστήριξη καινοτόμων βιντεοπαιχνιδιών για υπολογιστές σε σύγκριση με την εικονική πραγματικότητα \cite{Thomas2012}.
+
+\begin{itemize}
+\item \textbf{Η Επαυξημένη πραγματικότητα απαιτεί την απεικόνιση γραφικών μόνο σε ένα συγκεκριμένο ποσοστό του οπτικού πεδίου του χρήστη.} Το μεγαλύτερο ποστοστό της σκηνής που βλέπει ο χρήστης αποτελείται από τον πραγματικό κόσμο και μονο τα ψηφιακά αντικείμενα του παιχνιδιού απαιτούν γραφικά που παράγονται από υπολογιστές. Αντίθετα στην εικονική πραγματικότητα, ολόκληρος ο ψηφιακός κόσμος πρέπει να δημιουργηθεί από τους υπολογιστές, προκαλώντας τους χρήστες να νομίζουν ότι βρίσκονται σε έναν συνθετικό κόσμο. Η χρήση βοηθημάτων και συστημάτων απεικόνισης CAVE επιτρέπει πιο φυσική αλληλεπίδραση, αλλά και πάλι ο χρήστης βρίσκεται εγκλωβισμένος σε έναν συνθετικό κόσμο, αν και αυτό δεν είναι πάντα κακό, αφού για παράδειγμα ο χρήστης μπορεί να "μεταφερθεί" σε έναν νέο ψηφιακό κόσμο που δεν υπάρχει στην πραγματικότητα.
+  
+\item \textbf{Η ιδιότητα της επαυξημένης πραγματικότητας να επιτρέπει στους χρήστες να βλέπουν τον φυσικό κόσμο, παρέχει μία καλύτερη αίσθηση του που βρίσκονται και ποιος είναι γύρω τους.} H δυνατότητα να βλέπουν οι χρήστες τον πραγματικό κόσμο κατά τη διάρκεια του βιντεοπαιχνιδιού επιτρέπει την ελευθερία των κινήσεων και την αποφυγή εμποδίων όπως καρέκλες, δέντρα ή άλλα άτομα. Επίσης το γεγονός ότι μπορούν να βλέπουν άλλα άτομα είναι ένας ιδιαίτερα ενδιαφέρων συνδυασμός για συνεργασία μέσα σε βιντεοπαιχνίδια. Για παράδειγμα, το να στοχεύει ένας χρήστης ένα άλλο άτομο με ένα πραγματικό όπλο ακτίνων laser και να το πυροβολά εικονικά είναι πιο άμεσο από το να πυροβολά έναν εικονικό χαρακτήρα. 
+  
+\item \textbf{Η φυσικότητα της κίνησης σε ανοιχτούς χώρους είναι πιο ελκυστική για τους χρήστες.} Η κίνηση των χρηστών σε μεγάλες ή μικρές περιοχές επιτρέπει την κατανόηση και την εμπειρία του παιχνιδιού καλύτερα. Το να περπατάει κάποιος σε μία θέση είναι διασθητικά πιο εύκολο από το να χρησιμοποιεί ένα πληκτρολόγιο ή ένα ποντίκι. Επίσης το να μπορεί να σηκώσει πραγματικά αντικείμενα και να τα χρησιμοποιήσει ως συσκευές εισόδου είναι ιδιαίτερα ευχάριστο για το χρήστη.
+\end{itemize}
+
+  
 
 
 %Medical apps
 
+Πέρα από τον τομέα της ψυγαγωγίας, ένα από τα πιο σημαντικά πεδία εφαρμογών της επαυξημένης πραγματικότητας είναι εκείνο του τομέα της ιατρικής, όπου  μπορεί να χρησιμοποιηθεί για τη βοήθεια στη διάγνωση και τη θεραπεία μίας νόσου ή για την εκτέλεση μίας χειρουργικής επέμβασης. 
+
+Για παράδειγμα, τα δεδομένα που συλλέγονται από μία εξέταση όπως είναι η μαγνητική τομογραφία, η αξονική τομογραφία ή οι απεικονίσεις υπερήχων μπορούν να συνδυαστούν έτσι ώστε να υπερτεθούν συγκεκριμένες πληροφορίες σχετικά με την ανατομία ενός ασθενή, πάνω του. Έτσι ο γιατρός έχει τη δυνατότητα να δει στο "εσωτερικό" του ασθενούς κατά την ώρα της εξέτασης και να συμβάλλει στην ολοκλήρωση της διάγνωσης με ένα τρόπο περισσότερο καινοτόμο σε σχέση με μία απλή εξέταση (βλ. Εικόνα 1-11) [1], [4], [42], [43]. Ακόμη, τέτοιου είδους πληροφορίες είναι πολύ σημαντικές στον τομέα της ελάχιστα επεμβατικής χειρουργικής, διότι παρέχουν μία εικόνα του εσωτερικού του ασθενούς, χωρίς την ανάγκη για μεγαλύτερες τομές \cite{fuchs1998augmented}. Κατά τη διάρκεια μίας επέμβασης, η επαυξημένη πραγματικότητα θα μπορούσε να χρησιμοποιηθεί για την αναγνώριση και επισήμανση οργάνων του ασθενούς και μελών του σώματός του στα οποία θα πρέπει – ή θα απαγορεύεται – να επέμβουν οι γιατροί. Παράλληλα, εικονικές οδηγίες θα μπορούσαν να υπενθυμίζουν στο χειρούργο τα βήματα μίας εγχείρισης.
+
+Ο Fuchs et al. [62] παρουσίασε ένα σύστημα για λαπαροσκοπική εγχείριση όπου προσομοιώνεται η θέση των λαπαροσκοπίων που πραγματοποιείται μέσω μικρών τομών στον ασθενή. (Fig. 19). Οι Kotranza and Lok [92] παρατήρησαν ότι η χρήση επαυξημένων ανδρείκελων ασθενών σε συνδυασμό με απτικής ανάδραση είχε ως αποτέλεσμα την επίκληση της ίδιας συμπεριφορά από τους ειδικούς σαν να είχαν μπροστά τους πραγματικούς ασθενείς. 
 
 
-Similar to maintenance personnel, roaming nurses and
-doctors could benefit from important information being
-delivered directly to their glasses [68]. Surgeons however
-require very precise registration while AR system mobility is
-less of an issue. An early optical see-through augmentation is
-presented by Fuchs et al. [62] for laparoscopic surgery36
-where the overlaid view of the laparoscopes inserted through
-small incisions is simulated (Fig. 19). Pietrzak et al. [129] confirm that the use of 3D imagery in laparoscopic surgery
-still has to be proven, but the opportunities are well documented There are many AR approaches being tested in medicine
-with live overlays of ultrasound, CT, and MR scans. Navab et
-al. [114] already took advantage of the physical constraints of
-a C-arm x-ray machine to automatically calibrate the cameras
-with the machine and register the x-ray imagery with the real
-objects. Vogt et al. [160] use video see-through HMD to
-overlay MR scans on heads and provide views of tool manipulation
-hidden beneath tissue and surfaces, while Merten
-[106] gives an impression of MR scans overlaid on feet (Fig.
-20). Kotranza and Lok [92] observed that augmented patient
-dummies with haptic feedback invoked the same behaviour
-by specialists as with real patients.
 
-Ένα από τα πιο σημαντικά πεδία εφαρμογών επαυξημένης πραγματικότητας είναι εκείνο που σχετίζεται με τον τομέα της ιατρικής. Η τεχνολογία αυτή μπορεί να χρησιμοποιηθεί στη διάγνωση, στη θεραπεία μίας νόσου και στην εκτέλεση μίας χειρουργικής επέμβασης. Όσον αφορά στη διάγνωση, δεδομένα που συλλέγονται, για παράδειγμα, από μαγνητική τομογραφία, αξονική τομογραφία ή απεικονίσεις υπερήχων μπορούν να συνδυαστούν έτσι ώστε να υπερτεθούν σε πραγματικό χρόνο σε έναν πραγματικό ασθενή συγκεκριμένες ανατομικές πληροφορίες. Το γεγονός αυτό δίνει στο γιατρό τη δυνατότητα να δει στο εσωτερικό του ασθενούς κατά την ώρα της εξέτασης και συμβάλλει στην ολοκλήρωση της διάγνωσης με ένα τρόπο περισσότερο καινοτόμο σε σχέση με την απλή εξέταση ξεχωριστών εικονικών δεδομένων (βλ. Εικόνα 1-11) [1], [4], [42], [43]. Ακόμη, τέτοιου είδους πληροφορίες είναι πολύ σημαντικές στον τομέα της ελάχιστα επεμβατικής χειρουργικής, διότι
-παρέχουν μία εικόνα του εσωτερικού του ασθενούς, χωρίς την ανάγκη για μεγαλύτερες τομές
-[5].Κατά τη διάρκεια μίας επέμβασης, η επαυξημένη πραγματικότητα θα μπορούσε να χρησιμοποιηθεί για την αναγνώριση και επισήμανση οργάνων του ασθενούς και μελών του σώματός του στα οποία θα πρέπει – ή θα απαγορεύεται – να επέμβουν οι γιατροί. Επίσης, ο γιατρός μπορεί να παρατηρεί την κοιλιά της εγκύου και να βλέπει την τρισδιάστατη αναπαράσταση του εμβρύου. Μία τέτοια προσπάθεια έγινε στο Πανεπιστήμιο της Νότιας Καρολίνας στο Chapel Hill από μία ερευνητική ομάδα, η οποία διεξήγαγε δοκιμαστικές σαρώσεις της μήτρας εγκύου με αισθητήρα υπερήχων, δημιουργώντας μία τρισδιάστατη αναπαράσταση του εμβρύου και εμφανίζοντάς τη σε μία συσκευή HMD [4], [5]. Παράλληλα, εικονικές οδηγίες θα μπορούσαν να υπενθυμίζουν στο χειρούργο τα βήματα μίας εγχείρισης.
+
+
+
 
 %combat and simulation
+Τέλος, πρέπει να σημειωθεί ότι από τη δεκαετία του 70 και μέχρι σήμερα, στρατιωτικές υπηρεσίες σε συνεργασία με διάφορα πανεπιστημιακά ιδρύματα και ερευνητικά κέντρα ασχολούνται με την αξιοποίηση των δυνατοτήτων της επαυξημένης πραγματικότητας, για εφαρμογές σχετικές με τις ανάγκες των σωμάτων στρατού, ναυτικού και αεροπορίας, σε θέματα διεξαγωγής πολεμικών επιχειρήσεων, εκπαίδευσης προσωπικού κ.ά. Μάλιστα αξίζει να αναφερθεί, ότι το μεγαλύτερο μέρος της έρευνας σε πανεπιστήμια και εταιρίες είναι αποτέλεσμα χρηματοδότησης για στρατιωτική έρευνα.
 
-Η επαυξημένη πραγματικότητα εδώ και πολλά χρόνια έχει στρατιωτικές εφαρμογές. Τα Head-Up Displays (HUDs) και τα Helmet-Mounted Displays (HMDs) στα μαχητικά αεροσκάφη παρέχουν στους πιλότους οπτικές ενδείξεις για τους στόχους, τις απειλές και άλλες πληροφορίες – όπως την ταχύτητα ή το υψόμετρο – ενσωματωμένες στον πραγματικό κόσμο. Όπως υπονοεί και το όνομά τους, τα πρώτα αποτελούν μία διάφανη συσκευή που τοποθετείται στο οπτικό πεδίο των πιλότων και δείχνει τις επιπρόσθετες πληροφορίες, επιτρέποντάς τους να έχουν «το κεφάλι ψηλά» (βλ. Εικόνα 1-14), ενώ τα HMDs προσαρμόζονται στο κράνος τους και προβάλλουν πληροφορίες μπροστά στα μάτια τους. Έτσι, αυτοί δεν αναγκάζονται να στρέψουν το βλέμμα τους για να δουν τις πληροφορίες που χρειάζονται σε άλλα όργανα, αποφεύγοντας έτσι τον κίνδυνο απόσπασης της προσοχής τους και συνακόλουθου ενδεχόμενου λανθασμένου χειρισμού [44], [45], [46]. Επίσης, σε περίπτωση μάχης, ένα σύστημα επαυξημένης πραγματικότητας θα μπορούσε να προβάλλει χρήσιμα δεδομένα σε ειδικά γυαλιά των στρατιωτών σε πραγματικό χρόνο. Για παράδειγμα, άνθρωποι ή διάφορα αντικείμενα θα μπορούσαν να επισημαίνονται με κατάλληλα σήματα, τα οποία να δείχνουν αν πρόκειται για πιθανούς εχθρούς ή κινδύνους [1]. Τα τελευταία χρόνια, μάλιστα, έχοντας καταστεί κατανοητή η μεγάλη συμβολή της επαυξημένης πραγματικότητας σε στρατιωτικές εφαρμογές, ερευνητικά προγράμματα έχουν χρηματοδοτηθεί από την υπηρεσία DARPA (Defense Advanced Research Projects Agency) του Υπουργείου Άμυνας των Ηνωμένων Πολιτειών, το ερευνητικό εργαστήριο του Στρατού των Ηνωμένων Πολιτειών ARL (Army Research Laboratory) και το Γραφείο Ναυτικών Ερευνών των Ηνωμένων Πολιτειών ONR (Office of Naval Research) για την ανάπτυξη της τεχνολογίας αυτής. Ο στόχος των παραπάνω προγραμμάτων είναι η αύξηση της επίγνωσης της κατάστασης από την πλευρά των στρατιωτών και των διοικητών, τόσο στην ύπαιθρο όσο και κάτω από το νερό, μέσω της τεχνολογίας της επαυξημένης πραγματικότητας [44].
+
+Εφαρμογές επαυξημένης πραγματικότητας αναπτύχθηκαν για τα μαχητικά αεροσκάφη έτσι ώστε να παρέχουν οπτικές ενδείξεις στους πιλότους, επαυξάνοντας τη σκηνή που παρατηρούν.Συγκεκριμένα τα Head-Up Displays (HUDs) αποτελούν μία διάφανη συσκευή που τοποθετείται στο οπτικό πεδίο των πιλότων και δείχνει τις επιπρόσθετες πληροφορίες, επιτρέποντάς τους να έχουν «το κεφάλι ψηλά», ενώ τα Helmet-Mounted Displays (HMDs) προσαρμόζονται στο κράνος τους και προβάλλουν πληροφορίες μπροστά στα μάτια τους. Σε περίπτωση μάχης, ένα σύστημα επαυξημένης πραγματικότητας θα μπορούσε να προβάλλει χρήσιμα δεδομένα σε ειδικά γυαλιά των στρατιωτών σε πραγματικό χρόνο. Για παράδειγμα, άνθρωποι ή διάφορα αντικείμενα θα μπορούσαν να επισημαίνονται με κατάλληλα σήματα, τα οποία να δείχνουν αν πρόκειται για πιθανούς εχθρούς ή κινδύνους. 
+
+
+Προφανώς οι δυνατότητες ανάπτυξης εφαρμογών επαυξημένης πραγματικότητας εντοπίζονται σε πολλά ακόμα επιστημονικά πεδία, όπως αυτό του τουρισμού, της συναρμολόγησης, των κατασκευών και της διαφήμισης.
+
+
+
+\subsection{Περιβάλλον και Τεχνολογίες Επαύξησης}
+%ziegler
+Ένα από τα σημαντικότερα ζητήματα κατά το σχεδιασμό μιας εφαρμογής επαυξημένης πραγματικότητας είναι πώς θα επιτευχθεί ο συνδυασμός εικονικού και πραγματικού κόσμου. Αυτό επιτυγχάνεται κυρίως μέσω της χρήσης συσκεύων απεικόνισης που προσαρτώνται στο κεφάλι του χρήστη, ωστόσο μπορούν να χρησιμοποιηθούν και φορητές συσκευές.
+Μάλιστα οι περισσότερες πειραματικές εργασίες χρησιμοποιούν την οθόνη ενός υπολογιστή, ενός tablet ή ενός κινητού, διότι το κόστος συσκευών HMDs είναι πολύ μεγάλο. 
+
+%--
+Ένα απλό σύστημα επαυξημένης πραγματικότητας αποτελείται από μία κάμερα, μία υπολογιστική μονάδα(φορητός υπολογιστής, tablet, etc), μία οθόνη, κατάλληλο λογισμικό και – ανάλογα με την εφαρμογή – διάφορους αισθητήρες (GPS, πυξίδα, επιταχυνσιόμετρα), markers ή εικόνες - πρότυπα προς αναγνώριση και πιθανώς και άλλα.
+Η κάμερα καταγράφει την εικόνα μιας πραγματικής σκηνής και έπειτα το σύστημα επαυξάνει την εικόνα προσθέτοντας εικονικά αντικείμενα. Το τελικό αποτέλεσμα εμφανίζεται στην οθόνη.
+Η εικόνα \ref{fig:ar_example} παρουσιάζει ένα παράδειγμα απλού συστήματος επαυξημένης πραγματικότητας που βασίζεται στην ανίχνευση ενός ασπρόμαυρου δείκτη (marker).
+Πιο συγκεκριμένα το σύστημα καταγράφει τη σκηνή, ανιχνεύει το marker και εξάγει την τοποθεσία και τον προσανατολισμό της κάμερας. Στη συνέχεια επαυξάνει το βίντεο, τοποθετώντας το εικονικό αντικείμενο πάνω στη σκηνή και συγκεκριμένα πάνω στο marker και έπειτα το τελικό επαυξημένο βίντεο παρουσιάζεται στην οθόνη.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3, angle=0]{Files/Figures/ar_system_example.jpg}
+    \caption[Παράδειγμα εγκατάστασης ενός συστήματος επαυξημένης πραγματικότητας ]{ Παράδειγμα εγκατάστασης ενός συστήματος επαυξημένης πραγματικότητας \cite{ar_example}}
+    \label{fig:ar_example}
+\end{figure}
+
+
+Η κύρια διαδικασία για τη σωστή λειτουργία ενός συστήματος επαυξημένης πραγματκότητας έχει να κάνει με το κομμάτι της ανίχνευσης. Το κομμάτι αυτό ασχολείται με τον υπολογισμό της σχετικής πόζας της κάμερας σε πραγματικό χρόνο. Με τον όρο πόζα (pose) περιγράφουμε τους 6 βαθμούς ελευθερίας της τοποθεσίας ενός αντικειμένου, δηλαδή τη θέση του στον τρισδιάστατο χώρο και τον προσανατολισμό στον τριασδιάστατο χώρο.
+
+Η διαδικασία της ανίχνευσης είναι αυτή που επιτρέπει την προσθήκη εικονικών αντικειμένων σε μία πραγματική σκηνή.
+Η βασική διαφορά σε σύγκριση με άλλα εργαλεία επεξεργασίας εικόνας παρατηρείται στο γεγονός ότι στην επαυξημένη πραγματικότητα τα εικονικά αντικείμενα μετακινούνται και περιστρέφονται σε 3 διαστάσεις αντί για 2 όπως γίνεται συνήθως σε εικόνες.  Ο απλούστερος τρόπος εκτίμησης της πόζας είναι η χρήση δεικτών (markers). 
+Ωστόσο, το μαθηματικό μοντέλο ( προβολική γεωμετρία) πίσω από τις μεθόδους υπολογισμού της πόζας είναι το ίδιο. 
+
+Παρόμοια προβλήματα βελτιστοποίησης διαμορφώνονται σε διαφορετικές μεθόδους υπολογισμού της πόζας και λύνονται με τις ίδιες μεθόδους βελτιστοποίησης.  
+Μπορούμε να θεωρήσουμε ότι οι markers είναι ένας ειδικός τύπος χαρακτηριστικού και επομένως μπορούμε να ορίσουμε μεθόδους με βάση την ανίχνευση markers και μετέπειτα μεθόδους με βάση την ανίχνευση χαρακτηριστικών, καθώς και υβριδικές μεθόδους. Στη συγκεκριμένη διπλωματική εργασία θα επικεντρωθούμε σε συστήματα επαυξημένης πραγματικότητας που βασίζονται σε markers.
+
+Συνήθως η καταγραφή της εικόνας δεν είναι σημαντικό κομμάτι στην επαυξημένη πραγματικότητα. Συνήθως χρησιμοποιούνται έτοιμες βιβλιοθήκες για το σκοπό αυτό,
+
+Τα εργαλεία και οι βιβλιοθήκες επαυξημένης πραγματικότητας παρέχουν υποστήριξη για την καταγραφή εικόνας και βίντεο. Η διαδικασία τηςα απεικόνισης ζωγραφίζει την εικονική εικόνα πάνω στην εικόνα του βίντεο. Στα γραφικά υπολογιστών, η εικονική σκηνή προβάλλεται πάνω στο επίπεδο της εικόνας χρησιμοποιώντας μία εικονική κάμερα και αυτή η προβολή απεικονίζεται στο τέλος. 
+
+Απαιτείται ουσιαστικά η χρήση μίας εικονικής κάμερας που είναι παρόμοια με τη πραγματική κάμερα του συστήματος. Με αυτό τον τρόπο τα εικονικά αντικείμενα προβάλλονται στη σκηνή με τον ίδιο τρόπο με τον οποίο θα προβάλλονταν πραγματικά αντικείμενα και το αποτέλεσμα είναι γεωμετρικά πειστικό. Για να μπορέσουμε να μιμηθούμε τις ιδιότητες της πραγματικής κάμερας, το σύστημα πρέπει να ξέρει τα οπτικά χαρακτηριστικά της κάμερας. Η διαδικασία κατά την οποία προσδιορίζονται αυτά τα χαρακτηριστικά ονομάζεται βαθμονόμηση κάμερας.
+
+Η βαθμονόμηση της κάμερας μπορεί να είναι μέρος του συστήματος επαυξημένης πραγματικότητας ή ξεχωριστή διαδικασία. Πολλές βιβλιοθήκες παρέχουν εργαλεία βαθμονόμησης, όπως για παράδειγμα οι βιβλιοθήκες ArUco, ALVAR, ARToolkit.
+
+
+Ωστόσο για τη διαδικασία της βαθμονόμησης μπορούν να χρησιμοποιηθούν και τρίτα εργαλεία βιβλιοθηκών όπως το Matlab ή η OpenCV. 
+
+Στην εργασία αυτή αφού περιγράψουμε τη διαδικασία της βαθμονόμησης, θεωρούμε ότ έχουμε πάντα μία σωστά βαθμονομημένη κάμερα για την ανάπτυξη της εφαρμογής μας.
+
+Η ποικιλία των συσκευών οι οποίες υποστηρίζουν συστήματα επαυξημένης πραγματικότητας είναι μεγάλη και περιλαμβάνει σταθερούς και φορητούς υπολογιστές, tablets, κινητά και άλλες υπολογιστικές μονάδες. Ανάλογα με την εφαρμογή, μπορεί να αξιοποιηθεί η ενσωματωμένη κάμερα της συσκευής, μία απλή USC κάμερα, μία Firewire κάμερα ή μία ψηφιακή κάμερα. Μπορεί επίσης να χρησιμοποιηθεί μία συσκευή απεικόνισης που προσαρτάται στο κεφάλι του χρήστη(HMD), μία συσκευή απεικόνισης οπτικής τεχνολογίας ή η ίδια η οθόνη της υπολογιστικής μονάδας. Επίσης μπορεί το σύστημα να προβάλλει την επαυξημένη σκηνή στον πραγματικό κόσμο\cite{jones2013illumiroom} ή να χρησιμοποιηθεί μια στερεοσκοπική συσκευή απεικόνισης. Η κατάλληλη εγκατάσταση εξαρτάται από την εφαρμογή και το περιβάλλον στο οποίο αναπτύσσεται.
+
+
+
+
+
+
+
+
+%vallino
+Ο συνδυασμός πραγματικών και εικονικών εικόνων σε μία συγχωνευμένη εικόνα παρουσιάζει τεχνικές δυσκολίες για τους σχεδιαστές εφαρμογών επαυξημένης πραγματικότητας.  Το ερώτημα, στο οποίο καλούνται να απαντήσουν, έχει να κάνει με το πώς θα πραγματοποιηθεί η συνένωση των δύο εικόνων.
+
+
+
+
+Η τεχνολογία θέασης αποτελεί ένα από τα βασικότερα συστατικά στοιχεία των συστημάτων επαυξημένης πραγματικότητας. Οι τεχνολογίες θέασης των συστημάτων επαυξημένης πραγματικότητας μπορούν να χωριστούν σε τρεις κύριες κατηγορίες [4], [45]. Αυτές είναι οι συσκευές προσάρτησης στο κεφάλι ή σε μέρος του κεφαλιού του χρήστη, οι φορητές συσκευές χειρός και οι συσκευές απεικόνισης των συστημάτων χωρικής επαυξημένης πραγματικότητας (Spatial Augmented Reality - SAR). Στην ενότητα αυτή παρουσιάζονται τα τρία αυτά είδη τεχνολογιών θέασης της επαυξημένης σκηνής \cite{azuma1997} \cite{Vallino1998}  \cite{azuma2001} \cite{Krevelen2010} .
+
+
+
+
+
+
+
+
+
+-Head-Worn Displays (HWDs)
+Οι συσκευές αυτές, γνωστές ως Head-Worn Displays (HWD) ή Head-Attached Displays, φοριούνται στο κεφάλι του χρήστη ή σε κάποιο μέρος του κεφαλιού. Στις παρακάτω παραγράφους περιγράφονται οι κυριότερες κατηγορίες των συσκευών αυτών.
+
+-Head-Mounted Displays (HMDs)
+
+%eftekhari
+Στην επαυξημένη πραγματικότητα υπάρχουν δύο βασικές κατηγορίες συστημάτων απεικόνισης που αξιοποιούν τα HMDs ως μέσο για την οπτική διεπαφή. 
+
+ Optical see-through HMDs require that the user has the ability to see-through the display medium to the surrounding real world. This is achieved by placing partially transmissive optical combiners in front of the eyes. Each system has particular advantages and disadvantages pertained by their conceptual design and it is necessary to consider the trade-o s between the two before opting to implement one as part of an AR system. It should also be noted that non-immersive HMDs may be monocular or binocular (see gure 2.3), distinctions between the these must also be considered when choosing to design an optical based system, [48]. Optical approaches are simpler and cheaper than WoW. The world is seen directly through the optical combiners, meaning there is only one video stream to be concerned with. In see-through systems the only information available about the users head location comes from a head tracker. The WoW approach however, provides additional information via streaming digitised video image computer generated images for which virtual imagery can be analogically or digitally overlaid onto. This is achieved by using a technique called chroma-keying often observed in movies with video special e ects. The background of the computer graphic image is set to a speci c color, say green, which none of the virtual objects use. Then the combining step replaces all green areas with the corresponding parts from the video of the real world. This has the e ect of superimposing the virtual objects over the real world. The computational expense of executing chroma-keying techniques in real time can lead to poor performance. This can present a problem of temporal distortion when real and virtual images are not properly synchronised. Thus, using post-processing computation on video streams results in time delays of a few nanoseconds with optical systems to tens of milliseconds with WoW systems. Angular resolution describes the resolving power of any image forming device. This includes; microscopes, telescopes, optical displays, cameras or the naked eye. Unaided the human eye can resolve to the power of around 100 micro metres. Though the eye recieves data from a broad range of about 200 degrees, the acuity over most of the range is poor. High resolution images must fall on the fovea and as a result acute vision is limited to around 15 degrees. The fovea is located in the centre of the retina and is 2.5 - 3 mm in diameter. Since the fovea provides the most detailed and colourful information, the eye ball is constantly moving, enabling light from the object of primary interest to fall on this region. The actual perception of a scene is constructed by the eye-brain
+
+
+%vallino
+To increase the sense of presence other display technologies are needed. Head-mounted displays (HMD) are widely used in virtual reality systems. Augmented reality researchers work with two types of HMD. These two types are called video see-through and optical see-through. The “see-through” designation comes from the need for the user to be able to see the real world view that is immediately in front of him even when wearing the HMD. The standard HMD used in virtual reality work gives the user complete visual isolation from the surrounding environment. Since the display is visually isolating the system must use video cameras that are aligned with the display to obtain the view of the real world. A diagram of a video see-through system is shown in Figure 16. Video see-through is really the same architecture as the monitor-based display except that now the user has a heightened sense of immersion in the display. Some experiments with a video see-through system have been done as part of our work (Section 4.5.4). Figure 17 shows the configuration of two video cameras mounted on an HMD.
+
+
+
+
+
+
+Ένα σύστημα Head-Mounted Display (HMD) είναι μία συσκευή που προσαρτάται στο κεφάλι του χρήστη και συνδυάζει την εικόνα του πραγματικού κόσμου με εικονικά αντικείμενα, μέσω χρήσης οπτικής ή βίντεο τεχνολογίας [5], [54].
+
+-optical see through
+Τα οπτικά συστήματα παρουσίασης προσαρτημένα στο κεφάλι του χρήστη (optical seethrough HMDs) τοποθετούν μπροστά από τα μάτια του «οπτικούς συνδυαστές» (συνήθως ημιδιαπερατά και ημιανακλαστικά κάτοπτρα), που του επιτρέπουν να δει τόσο το πραγματικό περιβάλλον γύρω του, όσο και τις παραγόμενες από υπολογιστή εικόνες που ανακλούνται μέσω των κατόπτρων από τις οθόνες που είναι προσαρτημένες στο κεφάλι του (βλ. Εικόνα 1-24).
+
+
+%valino
+The optical see-through HMD (Manhart, Malcolm et al. 1993) eliminates the video channel that is looking at the real scene. Instead, as shown in Figure 18, the merging of real world and virtual augmentation is done optically in front of the user. This technology is similar to heads up displays (HUD) that commonly appear in military airplane cockpits and recently some experimental automobiles. In this case, the optical merging of the two images is done on the head mounted display, rather than the cockpit window or auto windshield, prompting the nickname of “HUD on a head”.
+
 %krevelen
-Satellite navigation, heads-up displays for pilots, and also
-much of the current AR research at universities and corporations
-are the result of military funding. Companies like
-Information in Place have contracts with the Army, Air Force
-and Coast Guard, as land warrior and civilian use of AR may
-overlap in for instance navigational support, communications
-enhancement, repair and maintenance and emergency medicine.
-Extra benefits specific for military users may be training
-in large-scale combat scenarios and simulating real-time
-enemy action, as in the Battlefield Augmented Reality System
-(BARS) by Julier et al. [81] and research by Piekarski et
-al. [128]. Not overloading the user with too much information
-is critical and is being studied by Julier et al. [82]. The
-BARS system also provides tools to author the environment
-with new 3D information that other system users see in turn
-[22]. Azuma et al. [20] investigate the projection of reconnaissance
-data from unmanned air vehicles for land warriors.
+Optical see-through techniques with beam-splitting holographic
+optical elements (HOEs) may be applied in
+head-worn displays, hand-held displays, and spatial setups
+where the AR overlay is mirrored either from a planar screen
+or through a curved screen.
+These displays not only leave the real-world resolution in
+tact, they also have the advantage of being cheaper, safer, and
+parallax-free (no eye-offset due to camera positioning). Optical
+techniques are safer because users can still see when
+power fails, making this an ideal technique for military and
+medical purposes. However, other input devices such as
+cameras are required for interaction and registration. Also,
+combining the virtual objects holographically through
+transparent mirrors and lenses creates disadvantages as it
+reduces brightness and contrast of both the images and the
+real-world perception, making this technique less suited for
+outdoor use. The all-important field-of-view is limited for
+this technique and may cause clipping of virtual images at the
+edges of the mirrors or lenses. Finally, occlusion (or mediation)
+of real objects is difficult because their light is always
+combined with the virtual image. Kiyokawa et al. [90] solved
+this problem for head-worn displays by adding an opaque
+overlay using an LCD panel with pixels that opacify areas to
+be occluded.
+Virtual retinal displays or retinal scanning displays (RSDs)
+solve the problems of low brightness and low field-of-view in
+(head-worn) optical see-through displays. A low-power laser
+draws a virtual image directly onto the retina which yields
+high brightness and a wide field-of-view. RSD quality is not
+limited by the size of pixels but only by diffraction and aberrations
+in the light source, making (very) high resolutions
+possible as well. Together with their low power consumption
+these displays are well-suited for extended outdoor use. Still
+under development at Washington University and funded by
+MicroVision7 and the U.S. military, current RSDs are mostly
+monochrome (red only) and monocular (single-eye) displays.
+Schowengerdt et al. [143] already developed a full-colour,
+binocular version with dynamic refocus to accommodate the
+eyes (Fig. 5) that is promised to be low-cost and light-weight
 
-%assembly
-Since BMW experimented with AR to improve welding
-processes on their cars [141], Pentenrieder et al. [124] shows
-how Volkswagen use AR in construction to analyse interfering
-edges, plan production lines and workshops, compare
-variance and verify parts. Assisting the production process at
-Boeing, Mizell [109] use AR to overlay schematic diagrams
-and accompanying documentation directly onto wooden
-boards on which electrical wires are routed, bundled, and
-sleeved. Curtis et al. [51] verify the AR and find that workers
-using AR create wire bundles as well as conventional approaches,
-even though tracking and display technologies
-were limited at the time.
-At EADS, supporting EuroFighter‟s nose gear assembly is
-researched [61] while [163] research AR support for Airbus‟
-cable and water systems (Fig. 18). Leading (and talking)
-workers through the assembly process of large aircraft is not
-suited for stationary AR solutions, yet mobility and tracking
-with so much metal around also prove to be challenging.
-An extra benefit of augmented assembly and construction
-is the possibility to monitor and schedule individual progress
-in order to manage large complex construction projects. An
-example by Feiner et al. [56] generates overview renderings
-of the entire construction scene while workers use their HMD
-to see which strut is to be placed where in a space-framestructure. Distributed interaction on construction is further
-studied by Olwal and Feiner [120].
-\subsection{Μέθοδοι Επαύξησης}
+%mcdonald
+The optical alternative for HMD systems is a technology that combines real objects with virtual ones in a different way than the video see-through systems. As shown in Figure 2.6, the optical see-through system does not use video input at all. The real-world component of the augmentation is simply the user’s actual view of the environment. The user sees an augmented scene through the use of optical combiners, which add the graphics output to the real view. The advantage of an optical see-through system is that the user is viewing the actual environment, as opposed to a video representation of it. Since the user views the actual scene the virtual component is the only possible source of lag. And for the same reason the scene quality of direct view of the world is superior to a video representation. Therefore using a see-through system eliminates the problem of system lag and improves the quality of view of the augmented scene. The disadvantage of this type of system is that there is no video input signal to help with the registration process. This has the potential to reduce registration accuracy if the chosen head tracking method is not accurate. The other disadvantage to the optical seethrough system is that the quality of the virtual augmentation is usually low. As seen in figure 2.7, the small optical combiner in front of the eye is a low-resolution display. This weakness restricts the freedom of graphical output. If an AR application requires very high detailed virtual objects, a video see-through or monitor-based system would probably be required.
 
+%malik
+The other popular HMD configuration for augmented reality is the optical see-through display system, as depicted in Figure 1.6. In this setup, the user is able to view the real world through a semi-transparent display, while virtual objects are merged into the scene optically in front of the user’s eyes based on the user’s current position. Thus when users move their heads, the virtual objects maintain their positions in the world as if they were actually part of the real environment. Unlike the video see-through displays, these HMDs do not exhibit the limited resolutions and delays when depicting the real world. However, the quality of the virtual objects will still be limited by the processing speed and graphical capabilities of the augmentation system. Therefore, creating convincing augmentations becomes somewhat difficult since the real world will appear naturally while the virtual objects will appear pixilated. The other major disadvantage with optical see-through displays is their lack of single frame captures of the real world, since no camera is present in the default hardware setup. Thus position sensors within the HMD are the only facility through which pose information can be extracted for registration purposes1. Some researchers have proposed hybrid solutions that combine position sensors with video cameras in order to improve the pose estimation; Section 2.4 discusses these hybrid solutions in more detail.
+
+
+-video see through
+Τα HMDs που χρησιμοποιούν βίντεο τεχνολογία (video see-through HMDs), συνδυάζουν ένα «κλειστό» HMD (closed-view HMD1) και μία ή δύο βιντεοκάμερες προσαρτημένες στο κεφάλι του χρήστη, οι οποίες του παρέχουν μία θέα του πραγματικού κόσμου. Το βίντεο από τις κάμερες αυτές και οι παραγόμενες εικονικές σκηνές συνδυάζονται μεταξύ τους και το αποτέλεσμα στέλνεται στις οθόνες που βρίσκονται μπροστά από τα μάτια του χρήστη στο closed-view HMD (βλ. Εικόνα 1-25). Το HMD αναφέρεται και ως Helmet-Mounted Display (βλ. Εικόνα 1-26, κέντρο) και προσαρμόζεται στο κράνος του χρήστη κυρίως για εφαρμογές στην αεροπορία και ιδιαίτερα σε μαχητικά αεροσκάφη [55]. Νεότερα από τα HMDs είναι τα προσαρτημένα επί κεφαλής συστήματα παρουσίασης μέσω προβολής, γνωστά ως Head-Mounted Projective Displays (HMPDs) (βλ. Εικόνα 1-26, δεξιά). Τα κυριότερα μέρη των συστημάτων αυτών είναι ένας μικροσκοπικός προβολικός φακός στερεωμένος στο κεφάλι του χρήστη και οπισθοανακλαστικές (retroreflective) επιφάνειες που τοποθετούνται μπροστά από αυτόν. Οι ακτίνες φωτός που προσπίπτουν στις επιφάνειες αυτές εκτρέπονται προς την κατεύθυνση πρόσπτωσής τους και δεν διαχέονται, όπως συμβαίνει με τα συμβατικά προβολικά συστήματα, με αποτέλεσμα να παράγουν φωτεινότερες εικόνες [56], [57], [58].
+
+
+%krevelen
+Besides being the cheapest and easiest to implement, this
+display technique offers the following advantages. Since
+reality is digitised, it is easier to mediate or remove objects
+from reality. This includes removing or replacing fiducial
+markers or placeholders with virtual objects (see for instance
+Fig. 7 and 22). Also, brightness and contrast of virtual objects
+are matched easily with the real environment. Evaluating the
+light conditions of a static outdoor scene is of importance
+when the computer generated content has to blend in
+smoothly and a novel approach is developed by Liu et al.
+[101].
+The digitised images allow tracking of head movement for
+better registration. It also becomes possible to match perception
+delays of the real and virtual. Disadvantages of video
+see-through include a low resolution of reality, a limited
+field-of-view (although this can easily be increased), and user
+disorientation due to a parallax (eye-offset) due to the camera‟
+s positioning at a distance from the viewer‟s true eye
+location, causing significant adjustment effort for the viewer
+[35]. This problem was solved at the MR Lab by aligning the
+video capture [153]. A final drawback is the focus distance of
+this technique which is fixed in most display types, providing
+poor eye accommodation. Some head-mounted setups can
+however move the display (or a lens in front of it) to cover a
+range of .25 meters to infinity within .3 seconds [150]. Like
+the parallax problem, biocular displays (where both eyes see
+the same image) cause significantly more discomfort than
+monocular or binocular displays, both in eye strain and fatigue
+[53].
+
+%mc donald
+Σε ένα σύστημα video see-through, a head-mounted camera is used in conjunction with a head mounted tracker to gather the necessary scene input. The viewpoint position is given to the graphics system to render the virtual objects in their proper position. The real world scene is captured by the video camera, combined with the graphics output, and displayed to the user through the head-mounted monitor system. Figure 2.4 outlines this HMD technology system. As shown in Figure 2.5, a user of this type of HMD is presented with all aspects of the scene through the head-mounted monitor. This means the real scene must be merged with the graphics output in order to display the augmented scene to the user. This merging process adds delays to the system. The amount of system delay directly translates into lag time seen by the user, which reduces the user’s feeling of presence. This is a disadvantage to the video see-through technology that cannot be avoided, but can be minimized. The advantage of this type of system is that while gathering the real scene through video, information about the scene can be extracted. This capability can assist in the process of tracking the head position and thus leading to a more accurate registration. Another advantage to this type of system is that the video display is typically high-resolution. This means that there is the potential to render highly detailed virtual objects in combination with the input video. An alternative to having the video input is the optical see-through technology.
+
+
+%malik
+In order to increase the sense of immersion in virtual reality systems, head-mounted displays (HMD) that fully encompass the user’s view are commonly employed. There are two popular methods to bring HMDs into the augmented reality environment. Figure 1.5 shows a schematic for a video see-through augmented reality system. In this configuration, the user does not see the real world directly, but instead only sees what the computer system displays on the tiny monitors inside the HMD. The difference between this and a virtual reality HMD is the addition of video cameras to capture images of the real world. While this configuration is almost identical to the monitor-based technology in terms of functionality, the use of a stereo camera pair (two cameras) allows the HMD to provide a different image to each eye, thereby increasing the realism and immersion that the augmented world can provide. Like the monitor-based setup, the video seethrough display is prone to visual lags due to the capture, processing, augmentation, and rendering of each video frame. Additionally, a large offset between the cameras and the user’s eyes can further reduce the sense of immersion, since everything in the captured scenes will be shifted higher or lower than where they should actually be (with respect to the user’s actual eye level).
+
+%tzionas
+Μπορούμε να δημιουργήσουμε ένα video see-through AR σύστημα είτε με τη βοήθεια ενός closed view see-through HMD14  και μίας head mounted κάμερας είτε με τη βοήθεια φορητών συσκευών σε συνδυασμό με μία κάμερα (βλ εικόνα 7). Ο χρήστης δεν αντιλαμβάνεται τον πραγματικό κόςμο απευθείας με τα μάτια του, αλλά με διαμεσολάβηση μίας κάμερας και μίας οθόνης που τον προβάλει. Ταυτόχρονα, σε κάθε frame επικάθονται στην εικόνα του πραγματικου κόσμου και εικονικές πληροφορίες, και το τελικό αποτέλεσμα προβάλλεται σε μία οθόνη στο ύψος των ματιών.
+
+
+
+
+Monitor-based Display
+%malik
+The simplest approach is a monitor-based display, as depicted in Figure 1.4. The video camera continuously captures individual frames of the real world and feeds each one into the augmentation system. Virtual objects are then merged into the frame, and this final merged image is what users ultimately see on a standard desktop monitor. The advantage of this display technology is its simplicity and affordability, since a consumer-level PC and USB or FireWire video camera is all that is required. Additionally, by processing each frame individually, the augmentation system can use vision-based approaches to extract pose (position and orientation) information about the user for registration purposes (by tracking features or patterns, for example). However this simplicity comes at the expense of immersion. Clearly, viewing the real world through a small desktop monitor limits the realism and mobility of the augmented world. Additionally, since each frame from the camera must be processed by the augmentation system, there is a potential delay from the time the image is captured to when the user actually sees the final augmented image. Finally, the quality of the imagery is limited by the resolution of the camera.
+
+%valino
+Monitor-based or WoW (window on the world) (see gure 2.3) refer to a display system where the user views the world in real time via a capture-display device. This usually involves a webcam which feeds the images to small LCD screens placed close to the eyes;
 
 
 \section{Pinhole Camera Model}
 %TO ΜΟΝΤΕΛΟ ΚΑΜΕΡΑΣ ΑΠΟ ΑΛΛΗ ΕΡΓΑΣΙΑ-
 
-\section{Βαθμονόμηση}
+\subsection{Βαθμονόμηση}
 %Η ΔΙΑΔΙΚΑΣΙΑ ΒΑΘΜΟΝΟΜΗΣΗΣ ΚΑΙ ΓΕΝΙΚΑ Η ΘΕΩΡΙΑ ΑΠΟ ΠΙΣΩ(ΤΟ ΠΩς ΓΙΝΕΤΑΙ ΣΤΟ ΚΕΦΑΛΑΙΟ 4)
 
 \subsection{Intrinsics}
@@ -288,12 +437,35 @@ studied by Olwal and Feiner [120].
 
 \section{Tracking}
 %ΓΕΝΙΚΑ ΑΝΑΦΕΡΕ ΤΙ ΕΙΝΑΙ ΤΟ TRACKING
+Augmented reality presents information in a correct real world context. In order to do this, the system needs to know where the user is and what the user is looking at. Normally, the user explores the environment through a display that portrays the image of the camera together with augmented information. Thus in practice, the system needs to determine the location and orientation of the camera. With a calibrated camera, the system is then able to render virtual objects in the correct place. The term tracking means calculating the relative pose (location and orientation) of a camera in real time. It is one of the fundamental components of augmented reality.
+
+Researchers in computer vision, robotics and photogrammetry have developed a considerable number of different tracking methods. People can divide these methods based on the equipment used in sensor tracking methods, visual tracking methods and hybrid methods. Since in most augmented reality setups the camera is already part of the system, visual tracking methods are of special interest in AR.
+
+We will concentrate on them first and discuss sensor and hybrid tracking methods later in Chapter 5. In visual tracking, the system deduces the pose of the camera based on observations of what it sees. In an unknown environment, this is challenging; it takes some time to collect enough data to be able to deduce the pose and then the calculated pose estimation easily drifts over time. As the environment is unknown to the system, the system selects the orientation of the coordinate axis at random, which may be inconvenient for the user. In addition, it is impossible to deduce the correct scale solely based on visual observations. One solution to overcome these challenges is to add an easily detectable predefined sign in the environment and use computer vision techniques to detect it. A marker is such a sign or image that a computer system can detect from a video image using image processing, pattern recognition and computer vision techniques (e.g. right image in Figure 23). Once detected, it then defines both the correct scale and pose of the camera. This approach is called marker-based tracking, and it is widely used in AR. Other approaches for visual tracking are feature-based and model-based methods, which we will discuss later in Chapter 5. In model-based tracking, the system has a model of the scene or part of the scene (e.g. a CAD model). It compares visual observations with the model and finds the best match, which then defines the pose. In feature-based tracking, the system detects optical features in the images and learns the environment based on observations of movements between frames. Even though mainstream visual tracking research leans towards feature-based tracking, feature tracking and marker-based tracking are mutually non-exclusive. In fact, marker-based methods often outperform feature-based methods in certain occasions (as we will rationalise later in Section 4.4.1.), and marker-based systems are still widely used for visual tracking in augmented and mixed reality (e.g. [68–70]. The popularity of marker-based systems is also partly explained by the fact that they are easy to implement and that good and well-known marker-based toolkits are available (e.g. ARToolKit [64], ALVAR [19], ARTag [71]). Toolkits provide a good base for starting AR application development. Apart from that, markers provide the correct scale and convenient coordinate frames (Figure 23) as previously mentioned. In addition, they may encode information or at least have an identity. This enables a system to attach certain objects or interactions to the markers. In marker-based tracking, the system needs to detect the marker, identify it and then calculate the pose. In this chapter, we focus on marker detection and pose estimation. We talk more about different marker types and identifying and decoding markers in Chapter 4. We go through the pipeline of the marker detection procedure, considering commonly used black and white square markers. Section 3.1 gives an overview of the detection process and most of the steps and methods presented here serve for detecting other types of markers and other tracking methods as well.
+
+In Section 3.2, we explain how camera pose is estimated using the four corner
+points of a marker. At the end of this chapter in Section 3.3, we discuss multimarker
+setups that improve the tracking system.
+
 \subsection{Marker Tracking}
 %MONO FIDUCIAL MARKER TRACKING
+
+%siltanen
+A good marker is easily and reliably detectable under all circumstances. Differences in luminance (brightness) are more easily detected than differences in chrominance (colour) using machine vision techniques. [72] This is due to the poor automatic white balance of the cameras: the colours register incorrectly, and an object may change its colour in the image depending on what else is in the view, for example. Furthermore, the lighting changes the perceived colours of the objects and therefore colour detection is challenging. Naturally, the more contrast in the luminance the more easily objects are detected. In this sense, black and white markers are optimal. The system should also be able to calculate the pose of the camera using the detected marker. Four known points are sufficient to calculate the pose of a camera uniquely [72] and the simplest shape to acquire them is a square. In addition, the locations of the corner points are relatively robust, as they can be estimated as intersections of edge lines. Therefore, many of the marker systems use black and white square markers. This is also why we first go through the marker detection process considering such markers. We cover other marker types later in the Chapter 4.
+
+%des siltanen gia marker detection procedure
+
+
+
+%---
+The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. 
+
+The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker\cite{krevelen2010}. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
+
     
 \subsection{Markerless Tracking}
 %SLAM-PTAM,FEATURE DETECTION,SURF ETC
-
+%πολύ λίγα λόγια-περιληπτικά
 
 
 
@@ -485,6 +657,11 @@ Immersed in an environment containing virtual information, the user is left with
 \section{Προκλήσεις και προβλήματα}
 %ΣΥΓΧΡΟΝΑ ΠΡΟΒΛΗΜΑΤΑ ΣΤΟ AR
 
+%ziegler
+2.3.5 State of the Art Recent tracking systems produced very good results for indoor applications. Predominantly, they use hybrid approaches and work within a limited range (cp. [ZDB08, HF04, ABB+01]). According to Zhou et al.[ZDB08] current tracking systems consist of two stages. The first stage is dedicated to either learning and training or feature extraction. The second stage takes care of the tracking itself, using the knowledge gained through training or the features that have been extracted. The first stage usually requires the most computational resources, if the system uses a learning algorithm. Using a learning stage can reduce the resources the on-line tracking needs, enabling the system to work in real time. 2.3.5.1 Limitations and Challenges Even though tracking systems are accurate enough to achieve good results, the environments they work in are usually restricted not only to being indoors but also to being known in advance[ABB+01]. Dynamical adaption to unknown environments still poses a challenge. Complex scenes are challenging for real-time 3D tracking as is the motion of target objects[ZDB08]. Coping with rapid camera movements is difficult as resulting motion-blur hinders the re-observation of features. Rapid and unpredictable changes, that may occur in outdoor environments, constrain tracking results[HF04]. Especially illumination changes, which often and repeatedly occur outdoors, complicate the tracking process[ZDB08]. Basically all changes which cannot be controlled or anticipated are hard to handle. Some systems feature automatic reinitialisation, but the recovery of the camera pose, when the tracking has failed, cannot be achieved easily[ZDB08]. It is limited to applications which possess enough knowledge about the environment or which do not solely rely on vision-based tracking. 2.3.5.2 Trends Current research features many tracking approaches. Coping with unknown outdoor environments is an important topic. One way researchers are trying to achieve that is by further investigating hybrid approaches. As the growing number of publications during the past years indicate, Mobile AR becomes more and more popular among researches[SW07, WRM+08]. The growing computational resources of mobile devices present novel possibilities. The number of commercial applications from which users can choose continually rises. Among them are Layar9, Nokia Point & Find10, Twitter AR11 and Virus Killer 36012. Building a reference presentation of the environment while tracking is a popular trend, research focusing especially on Simultaneous Localisation and Mapping (SLAM)[CGKM07, DRMS07, KM09]. Such systems usually require a high amount of computational resources. However, through certain restrictions, SLAM works on a mobile phone, too, as has recently been shown by the work of Klein and Murray[KM09]. Instead of using as many features as possible and hoping that some of the chosen features provide robust tracking, researchers try to find methods to detect only suitable and useful features in the first place[ZDB08, ST94]. Researchers try to find ways of making initialisation processes automatic[SKSK07]. Focusing on model-based tracking is popular as well[FL07, WS07]. Last but not least, ubiquitous tracking, that is tracking acquired by forming a dense network of sensors that enables tracking everywhere, seems to be achievable in the near future[HPK+07].
+
+
+%--
 Μία από τις μεγαλύτερες προκλήσεις με τις οποίες έρχονται αντιμέτωποι οι δημιουργοί εφαρμογών επαυξημένης πραγματικότητας είναι η σωστή τοποθέτηση του εικονικού αντικειμένου εντός του πραγματικού περιβάλλοντος, έτσι ώστε η συνθετική πληροφορία να δίνει την εντύπωση ότι ανήκει σε αυτό. Η διαδικασία αυτή είναι γνωστή ως registration (γεωαναφορά). Η σωστή συγχώνευση και ευθυγράμμιση των δύο κόσμων – του φυσικού και του παραγόμενου από υπολογιστή – είναι κύρια προϋπόθεση για την εκπλήρωση του στόχου των εφαρμογών επαυξημένης πραγματικότητας, ενώ λάθη ή ανακρίβειες στην τοποθέτηση του εικονικού αντικειμένου θα έχουν ως αποτέλεσμα να χαθεί η ψευδαίσθηση ότι οι δύο κόσμοι συνυπάρχουν [3]. Πολλές εφαρμογές, μάλιστα, όπως για παράδειγμα στην ιατρική, απαιτούν ακριβή γεωαναφορά και δεν είναι επιτρεπτά λάθη και αστοχίες. Για τη σωστή γεωαναφορά, απαραίτητη προϋπόθεση είναι η πρότερη ανίχνευση της θέσης και του προσανατολισμού της κάμερας – και γενικά της συσκευής μέσω της οποίας επαυξάνεται η πραγματικότητα – ή του κεφαλιού του χρήστη (π.χ. σε εφαρμογή με HMD). Η διαδικασία αυτή είναι γνωστή ως tracking (ανίχνευση), απαντά στα ερωτήματα: πού βρίσκεται ο χρήστης, πού εστιάζεται το ενδιαφέρον του και πού πρέπει να παρουσιαστεί το εικονικό αντικείμενο [72] και συνεπώς η σωστή και ακριβής, ανάλογα με την εφαρμογή διεκπεραίωσή της είναι κρίσιμη για τη δημιουργία πειστικών εφαρμογών επαυξημένης πραγματικότητας. Για την επίτευξη των τελευταίων, η ανίχνευση πρέπει πρακτικά να διεξάγεται σε πραγματικό χρόνο, δηλαδή η εκτίμηση της θέσης να γίνεται σε χιλιοστά του δευτερολέπτου, καθώς επίσης και να είναι εύρωστη, δηλαδή να δίνει ικανοποιητικά αποτελέσματα κάτω από ποικίλες συνθήκες, όπως για παράδειγμα σε μεταβαλλόμενο φωτισμό [68]. Υπάρχουν πολλές μέθοδοι ανίχνευσης 6 βαθμών ελευθερίας (6DOF tracking), όπως το μηχανικό tracking, τεχνική που υιοθετήθηκε και από το πρώτο σύστημα επαυξημένης πραγματικότητας του Sutherland, το υπερηχητικό tracking και το οπτικό tracking. Υπάρχουν και άλλες που υπολογίζουν μόνο θέση ή προσανατολισμό, όπως για παράδειγμα το tracking που βασίζεται σε πληροφορίες μόνο από GPS ή μόνο από γυροσκόπια [15]. Για εφαρμογές που απαιτούν ακριβή γεωαναφορά, ωστόσο, απαιτείται ακριβές στιγμιαίο 6DOF tracking υπό οποιεσδήποτε συνθήκες. Επειδή η τέλεια ανίχνευση είναι – τουλάχιστον προς το παρόν – ανέφικτη, εξαιτίας των χρονικών καθυστερήσεων ή και των περιορισμών λόγω ακριβείας, κύρια πρόκληση αποτελεί η εύρεση της μεθόδου ανίχνευσης που είναι ιδανική για τη συγκεκριμένη κάθε φορά εφαρμογή [73]. Υπάρχει ένας ακόμη αριθμός προκλήσεων που συνδέονται με το πρόβλημα της ανίχνευσης και τοποθέτησης του εικονικού αντικειμένου εντός του φυσικού περιβάλλοντος [4], η κυριότερη από τις οποίες είναι οι αποκρύψεις (occlusion). Σύμφωνα με την τελευταία, πρέπει να επιτυγχάνεται η πλήρης ή μερική απόκρυψη του εικονικού αντικειμένου όταν κάποιο άλλο αντικείμενο του πραγματικού περιβάλλοντος τοποθετείται μπροστά από αυτό και το κρύβει, πλήρως ή μερικώς. Άλλη δυσκολία στις εφαρμογές επαυξημένης πραγματικότητας, σχετική με την οπτική ανίχνευση, είναι η μη εστιασμένη κάμερα στο marker ή στο πρότυπο που πρέπει να αναγνωριστεί για την επαύξηση της πραγματικότητας, γεγονός το οποίο μπορεί να οδηγήσει στη μη αναγνώρισή του, ή σε λάθη στην τοποθέτηση του εικονικού αντικειμένου, λόγω της χαμηλότερης ακρίβειας με την οποία αποδίδεται. Μία ακόμη πρόκληση, συγγενική με την οπτική ανίχνευση (visual tracking), είναι ο μη ομοιόμορφος φωτισμός, λόγω του οποίου ένα marker μπορεί να συσκοτιστεί σε κάποια τμήματά του και να μην αναγνωρίζεται από το πρόγραμμα ή να αναγνωρίζεται ως διαφορετικό marker. Όμοια, λόγω μεταβαλλόμενου φωτισμού, υπάρχει η πιθανότητα μη αναγνώρισης της εικόνας που έχει οριστεί ως πρότυπο. Τέλος, η θαμπάδα που μπορεί να προκληθεί λόγω γρήγορης κίνησης της κάμερας – κυρίως μίας κινητής συσκευής – είναι ένας ακόμα παράγοντας που δύναται να δυσκολέψει τη σωστή επαύξηση της πραγματικής σκηνής. Ένα κύριο στοιχείο των εφαρμογών επαυξημένης πραγματικότητας είναι η απεικόνιση του εικονικού αντικειμένου στην πραγματική σκηνή, δηλαδή η δημιουργία της συνθετικής επαυξημένης σκηνής, σε πραγματικό χρόνο (real-time rendering). Η φύση κάποιων εφαρμογών απαιτεί οι γραφικές πληροφορίες να ενσωματώνονται στο φυσικό περιβάλλον με τέτοιο τρόπο ώστε ο παρατηρητής να μην μπορεί να ξεχωρίσει ποιο είναι το πραγματικό και ποιο το εικονικό. Στις εφαρμογές αυτές, εκτός από το σωστό και ακριβές tracking και registration, απαιτείται ταυτόχρονα και φωτορεαλιστικό rendering, με σωστή σκίαση και φωτισμό του εικονικού αντικειμένου και οποιαδήποτε άλλη αυτόματη από το λογισμικό επεξεργασία πραγματικού χρόνου αυτό συνεπάγεται [6]. Καθοριστικό στοιχείο στη βελτίωση της ποιότητας του rendering αποτελεί η ικανότητα της εφαρμογής να λαμβάνει και να αξιοποιεί πληροφορία για το φωτισμό του περιβάλλοντος και την ανάκλαση [3]. Ένα ακόμη βασικό στοιχείο των εφαρμογών επαυξημένης πραγματικότητας είναι, όπως έχει ήδη αναφερθεί, η τεχνολογία θέασης, η οποία ταυτόχρονα αποτελεί και μία πρόκληση, καθώς η βελτίωσή της, ανάλογα με τις απαιτήσεις της εκάστοτε εφαρμογής, μπορεί να συντελέσει σε μεγαλύτερη αποδοχή της τεχνολογίας αυτής από το κοινό. Πράγματι, είναι πολύ πιο βολικό και «γνώριμο» στον άνθρωπο να φορέσει γυαλιά ή φακούς που θα επαυξήσουν την πραγματικότητά του σε σχέση με κάποια βαριά και μεγάλη συσκευή που προσαρτάται στο κεφάλι του (HMD ή HMPD). Εκτός από τέτοιου είδους περιορισμούς, που οφείλονται στον ανθρώπινο παράγοντα και για τους οποίους γίνονται σήμερα πολλές προσπάθειες βελτίωσης, υφίστανται και άλλες προκλήσεις σχετικές με την τεχνολογία θέασης της επαυξημένης πραγματικότητας [6], όπως είναι για παράδειγμα οι οπτικοί περιορισμοί λόγω του περιορισμένου οπτικού πεδίου του χρήστη, καθώς και οι τεχνικοί περιορισμοί, όπως η περιορισμένη ανάλυση και διάφοροι άλλοι παράγοντες. Εκτός των παραπάνω σημαντικών προκλήσεων με τις οποίες έρχονται αντιμέτωπες οι εφαρμογές επαυξημένης πραγματικότητας, υπάρχουν και άλλα τεχνικά ζητήματα σχετικά με αυτές, όπως είναι η αλληλεπίδραση του χρήστη με την εικονική πληροφορία, γεγονός το οποίο θα του δώσει την αίσθηση της πλήρους ενσωμάτωσης στο συνθετικό αυτό κόσμο, που συνδυάζει το πραγματικό με το εικονικό. Τέλος, οι δημιουργοί των εφαρμογών επαυξημένης πραγματικότητας πρέπει να δίνουν σημασία και στο πλήθος των εικονικών πληροφοριών που υπερτίθενται στο πραγματικό περιβάλλον του χρήστη, έτσι ώστε αυτό να μην εμποδίζει το χρήστη από τη θέαση του φυσικού κόσμου, αλλά ούτε και να είναι ανεπαρκές.
  
 %krevelen
@@ -587,8 +764,11 @@ field, whilst concentrating on the fundamental issues of single-camera visual au
 reality.
 
 
-In conclusion, the augmented reality application developer needs to take into consideration several different issues: technical, application and other issues affecting the user experience. The main technological issues relate directly to the definition of augmented reality (real-time, interactive, 3D, combining real and virtual). Application issues arise from the ease of creating AR applications. Other important issues relate to user experience. The main technological issues in augmented reality are 􀁸 performance 􀁸 interaction 􀁸 alignment.
+In conclusion, the augmented reality application developer needs to take into consideration several different issues: technical, application and other issues affecting the user experience. The main technological issues relate directly to the definition of augmented reality (real-time, interactive, 3D, combining real and virtual). Application issues arise from the ease of creating AR applications. Other important issues relate to user experience. The main technological issues in augmented reality are �� performance �� interaction �� alignment.
 
-The main application issues are 􀁸 content creation 􀁸 authoring. Other important issues affecting the user experience are 􀁸 visual perception 􀁸 user interface 􀁸 devices 􀁸 power consumption. Next, we review what we mean by these issues and how they affect the usability and user experience of an AR application. An augmented reality system needs to be able to perform in real-time. Otherwise, the system may augment old or flawed information, or the augmentation may not correspond to the current state of the environment. Performance issues are characteristic to all AR algorithm and application development. Research results from other fields (e.g. image processing) are not directly applicable to AR. For instance, traditional image inpainting methods do not fulfil the real-time requirement, and therefore they cannot be used for diminished reality as such (see Section 6.2). Performance is an issue especially in mobile environment where the processing power and memory are limited. The user should be able to interact with the system naturally. The usability and the user experience are disturbed if the interaction is unnatural. The interaction needs to be natural in the user interface level as we discussed in the Section 7.1. The same holds true at the application level; the interaction between the real world objects and virtual objects needs to be smooth as well. Application needs to adapt virtual elements according to real scene, as for example in our interior design application where the user was able to adjust virtual lights easily according to real ones (see Section 6.1.3). At times, the application needs to remove existing objects virtually to be able to augment virtual objects on the same place. We discussed in Section 6.2 how to handle this kind of interaction with diminished reality. The camera calibration needs to be correct and the tracking needs to be accurate. Otherwise, the augmented data is shifted in the real environment: the virtual overlay is in the wrong place or it flutters. People find this alignment error annoying. In Chapter 3, we concentrated on marker-based approaches for accurate tracking, and in Chapter 4, on alternative tracking methods, mainly feature-based tracking and hybrid tracking methods. In addition, Appendix C gives an overview of camera calibration. The content creation is also an important aspect of application development. An application can visualise information from a database (e.g. in augmented assembly) or provide textual information (e.g. in AR browsers). Sometimes the information in database is in unsuitable format and format conversion is needed. In addition, when no database is available someone needs to create the content. Furthermore, if nice graphics are required, they need to be created to the approboth mobile environments and high quality visualisation. Besides content creation, authoring is a big application issue as we discussed in Section 7.4. Creation of AR applications should be brought to a non-expert nonprogramming level, where users can combine objects, interactions and events at a conceptual level. Visual perception should support the purpose of the application as we discussed in Chapter 6. Some applications require (photo-)realistic rendering, other applications benefit from focus and content -type highlighting of augmented objects. The user should be able to concentrate on the task, and the visual perception should sustain the task, without distracting the user. The user interface should be, as always, easy to use and intuitive. It should support the task at hand and make the user experience smooth as discussed in Section 7.1. The AR application should run on the appropriate device; mobile applications on lightweight devices, high-end visualisations on larger good-quality monitors. Furthermore, the terminal device should be taken into account already at the application design stage. There is no point in implementing computationally intensive methods on mobile phones if the application would then run on a slow frame rate. Devices often play very important role in the development process. The diversity of mobile platforms is perhaps the main obstacle for wider use of mobile AR applications. Applications need to be ported mostly to each platform separately, which deprives resources from application development. Furthermore, mobile devices are an ideal platform for consumer applications; they are equipped with cameras and new models with various additional sensors; people carry them with them all the time. Likewise, in special applications where an expert operates the system, it is feasible to invest in special devices such as HMDs, 3D displays, additional sensors, etc. if they support the task. One more aspect that significantly affects user experience is power consumption. Many applications require the user to be able to move freely, and thus wireless devices are optimal and then battery life plays a big role. A mobile application that discharges the battery in 15 minutes is unrealistic. We once tested a HMD where the camera ran out of batteries in less than two hours. The user had to change the batteries often, which was annoying especially as the camera and projector were wired to a computer anyway. It is hard to imagine this kind of setup in practical use, e.g. in a factory. In conclusion, the most important issue of augmented reality application development is the user experience, which is affected by all technological, application and other issues.
+The main application issues are �� content creation �� authoring. Other important issues affecting the user experience are �� visual perception �� user interface �� devices �� power consumption. Next, we review what we mean by these issues and how they affect the usability and user experience of an AR application. An augmented reality system needs to be able to perform in real-time. Otherwise, the system may augment old or flawed information, or the augmentation may not correspond to the current state of the environment. Performance issues are characteristic to all AR algorithm and application development. Research results from other fields (e.g. image processing) are not directly applicable to AR. For instance, traditional image inpainting methods do not fulfil the real-time requirement, and therefore they cannot be used for diminished reality as such (see Section 6.2). Performance is an issue especially in mobile environment where the processing power and memory are limited. The user should be able to interact with the system naturally. The usability and the user experience are disturbed if the interaction is unnatural. The interaction needs to be natural in the user interface level as we discussed in the Section 7.1. The same holds true at the application level; the interaction between the real world objects and virtual objects needs to be smooth as well. Application needs to adapt virtual elements according to real scene, as for example in our interior design application where the user was able to adjust virtual lights easily according to real ones (see Section 6.1.3). At times, the application needs to remove existing objects virtually to be able to augment virtual objects on the same place. We discussed in Section 6.2 how to handle this kind of interaction with diminished reality. The camera calibration needs to be correct and the tracking needs to be accurate. Otherwise, the augmented data is shifted in the real environment: the virtual overlay is in the wrong place or it flutters. People find this alignment error annoying. In Chapter 3, we concentrated on marker-based approaches for accurate tracking, and in Chapter 4, on alternative tracking methods, mainly feature-based tracking and hybrid tracking methods. In addition, Appendix C gives an overview of camera calibration. The content creation is also an important aspect of application development. An application can visualise information from a database (e.g. in augmented assembly) or provide textual information (e.g. in AR browsers). Sometimes the information in database is in unsuitable format and format conversion is needed. In addition, when no database is available someone needs to create the content. Furthermore, if nice graphics are required, they need to be created to the approboth mobile environments and high quality visualisation. Besides content creation, authoring is a big application issue as we discussed in Section 7.4. Creation of AR applications should be brought to a non-expert nonprogramming level, where users can combine objects, interactions and events at a conceptual level. Visual perception should support the purpose of the application as we discussed in Chapter 6. Some applications require (photo-)realistic rendering, other applications benefit from focus and content -type highlighting of augmented objects. The user should be able to concentrate on the task, and the visual perception should sustain the task, without distracting the user. The user interface should be, as always, easy to use and intuitive. It should support the task at hand and make the user experience smooth as discussed in Section 7.1. The AR application should run on the appropriate device; mobile applications on lightweight devices, high-end visualisations on larger good-quality monitors. Furthermore, the terminal device should be taken into account already at the application design stage. There is no point in implementing computationally intensive methods on mobile phones if the application would then run on a slow frame rate. Devices often play very important role in the development process. The diversity of mobile platforms is perhaps the main obstacle for wider use of mobile AR applications. Applications need to be ported mostly to each platform separately, which deprives resources from application development. Furthermore, mobile devices are an ideal platform for consumer applications; they are equipped with cameras and new models with various additional sensors; people carry them with them all the time. Likewise, in special applications where an expert operates the system, it is feasible to invest in special devices such as HMDs, 3D displays, additional sensors, etc. if they support the task. One more aspect that significantly affects user experience is power consumption. Many applications require the user to be able to move freely, and thus wireless devices are optimal and then battery life plays a big role. A mobile application that discharges the battery in 15 minutes is unrealistic. We once tested a HMD where the camera ran out of batteries in less than two hours. The user had to change the batteries often, which was annoying especially as the camera and projector were wired to a computer anyway. It is hard to imagine this kind of setup in practical use, e.g. in a factory. In conclusion, the most important issue of augmented reality application development is the user experience, which is affected by all technological, application and other issues.
+
+
+Η ποικιλομορφία συσκευών, εργαλείων και εφαρμογών επαυξημένης πραγματικότητας είναι εντυπωσιακή. Γενικά, η τεχνολογία της επαυξημένης πραγματικότητας είναι μια μέθοδος απεικόνισης που μπορεί να χρησιμοποιηθεί σε πολλές εφαρμογές, ενώ παράλληλα επιτρέπει φυσικές αλληλεπιδράσεις και είναι ένα καλό εργαλείο ανάπτυξης διαδραστικών βιντεοπαιχνιδιών που μπορεί να ενισχύσει την εμπειρία που βιώνουν οι χρήστες. Σε αυτή την εργασία, στοχεύουμε στη δημιουργία μιας μεθόδου που προσφέρει απλό και γρήγορο χειρισμό των εικονικών αντικειμένων. Οι αλγόριθμοι που αναπτύσσονται, εξετάζονται και αξιολογούνται υλοποιώντας ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας του γνωστού επιτραπέζιου παιχνιδιού, του σκακιού.
 
 
