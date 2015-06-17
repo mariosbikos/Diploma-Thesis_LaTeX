@@ -396,9 +396,49 @@ H ποιότητα της εικονικής επαύξησης είναι συ�
 
 
 
-%isos na prostheso pose estimation section
 
-\section{Pinhole Camera Model}
+
+
+
+\section{Marker-based Tracking}
+%MONO FIDUCIAL MARKER TRACKING
+
+
+Augmented reality presents information in a correct real world context. In order to do this, the system needs to know where the user is and what the user is looking at. Normally, the user explores the environment through a display that portrays the image of the camera together with augmented information. Thus in practice, the system needs to determine the location and orientation of the camera. With a calibrated camera, the system is then able to render virtual objects in the correct place. The term tracking means calculating the relative pose (location and orientation) of a camera in real time. It is one of the fundamental components of augmented reality.
+
+Researchers in computer vision, robotics and photogrammetry have developed a considerable number of different tracking methods. People can divide these methods based on the equipment used in sensor tracking methods, visual tracking methods and hybrid methods. Since in most augmented reality setups the camera is already part of the system, visual tracking methods are of special interest in AR.
+
+We will concentrate on them first and discuss sensor and hybrid tracking methods later in Chapter 5. In visual tracking, the system deduces the pose of the camera based on observations of what it sees. In an unknown environment, this is challenging; it takes some time to collect enough data to be able to deduce the pose and then the calculated pose estimation easily drifts over time. As the environment is unknown to the system, the system selects the orientation of the coordinate axis at random, which may be inconvenient for the user. In addition, it is impossible to deduce the correct scale solely based on visual observations. One solution to overcome these challenges is to add an easily detectable predefined sign in the environment and use computer vision techniques to detect it. A marker is such a sign or image that a computer system can detect from a video image using image processing, pattern recognition and computer vision techniques (e.g. right image in Figure 23). Once detected, it then defines both the correct scale and pose of the camera. This approach is called marker-based tracking, and it is widely used in AR. Other approaches for visual tracking are feature-based and model-based methods, which we will discuss later in Chapter 5. In model-based tracking, the system has a model of the scene or part of the scene (e.g. a CAD model). It compares visual observations with the model and finds the best match, which then defines the pose. In feature-based tracking, the system detects optical features in the images and learns the environment based on observations of movements between frames. Even though mainstream visual tracking research leans towards feature-based tracking, feature tracking and marker-based tracking are mutually non-exclusive. In fact, marker-based methods often outperform feature-based methods in certain occasions (as we will rationalise later in Section 4.4.1.), and marker-based systems are still widely used for visual tracking in augmented and mixed reality (e.g. [68–70]. The popularity of marker-based systems is also partly explained by the fact that they are easy to implement and that good and well-known marker-based toolkits are available (e.g. ARToolKit [64], ALVAR [19], ARTag [71]). Toolkits provide a good base for starting AR application development. Apart from that, markers provide the correct scale and convenient coordinate frames (Figure 23) as previously mentioned. In addition, they may encode information or at least have an identity. This enables a system to attach certain objects or interactions to the markers. In marker-based tracking, the system needs to detect the marker, identify it and then calculate the pose. In this chapter, we focus on marker detection and pose estimation. We talk more about different marker types and identifying and decoding markers in Chapter 4. We go through the pipeline of the marker detection procedure, considering commonly used black and white square markers. Section 3.1 gives an overview of the detection process and most of the steps and methods presented here serve for detecting other types of markers and other tracking methods as well.
+
+In Section 3.2, we explain how camera pose is estimated using the four corner
+points of a marker. At the end of this chapter in Section 3.3, we discuss multimarker
+setups that improve the tracking system.
+
+
+%siltanen
+A good marker is easily and reliably detectable under all circumstances. Differences in luminance (brightness) are more easily detected than differences in chrominance (colour) using machine vision techniques. [72] This is due to the poor automatic white balance of the cameras: the colours register incorrectly, and an object may change its colour in the image depending on what else is in the view, for example. Furthermore, the lighting changes the perceived colours of the objects and therefore colour detection is challenging. Naturally, the more contrast in the luminance the more easily objects are detected. In this sense, black and white markers are optimal. The system should also be able to calculate the pose of the camera using the detected marker. Four known points are sufficient to calculate the pose of a camera uniquely [72] and the simplest shape to acquire them is a square. In addition, the locations of the corner points are relatively robust, as they can be estimated as intersections of edge lines. Therefore, many of the marker systems use black and white square markers. This is also why we first go through the marker detection process considering such markers. We cover other marker types later in the Chapter 4.
+
+%des siltanen gia marker detection procedure
+
+
+
+%---
+The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. 
+
+The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker\cite{krevelen2010}. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
+
+    
+
+
+
+\subsection{Marker Detection}
+
+
+\subsection{Marker Pose}
+
+
+
+\subsubsection{Pinhole Camera Model}
 %TO ΜΟΝΤΕΛΟ ΚΑΜΕΡΑΣ ΑΠΟ ΑΛΛΗ ΕΡΓΑΣΙΑ-
 %mcdonald,malik,clarke
 
@@ -682,6 +722,135 @@ f_{x} & s & x_{0}\\
 Σήμερα ωστόσο οι αισθητήρες μπορεί να θεωρηθεί ότι έχουν τα pixels τους αισθητήρα ορθογώνια, επομένως το s είναι συνήθως μηδενικό. 
 
 
+-Σχετικά με το φακό
+Προσθέτοντας στο μοντέλο της κάμερας το φακό που έχουν όλες οι κάμερες, εισάγονται αυτόματα οι παραμορφώσεις των οπτικών στοιχείων. Ανάλογα με την ποιότητα της κάμερας διαφέρει και το μέγεθος των παραμορφώσεις.
+
+Συμβολίζοντας με :
+
+\begin{equation}
+f_{xy}=
+\begin{bmatrix}
+f_{x}\\
+f_{y}
+\end{bmatrix} το εστιακό μήκος
+\end{equation}
+\\
+\begin{equation}
+p=
+\begin{bmatrix}
+p_{x}\\
+p_{y}
+\end{bmatrix} το principal point
+\end{equation}
+\\
+s το skew\\
+$k_{c}$ ένα 5x1 διάνυσμα που μοντελοποιεί τις ακτινικές και εφαπτομενικές παραμορφώσεις
+
+αν ένα σημείο του χώρου παριστάνεται ως προς το σύστημα συντεταγμένων της κάμερας ως:
+
+\begin{equation}
+\tilde{X_{cam}}=
+\begin{bmatrix}
+X_{cam}\\
+Y_{cam}\\
+Z_{cam}
+\end{bmatrix}
+\end{equation}
+
+η προβολή του στο image plane θα είναι το κανονικοποιημένο διάνυσμα 
+
+\begin{equation}
+x_{n}=
+\begin{bmatrix}
+\frac{X_{cam}}{Z_{cam}}\\
+\frac{Y_{cam}}{Z_{cam}}
+\end{bmatrix}
+\end{equation}
+
+Θέτοντας
+
+\begin{equation}
+r^{2}=x^{2}+y^{2}
+\end{equation}
+
+το παραπάνω κανονικοποιημένο διάνυσμα παίρνει την παρακάτω μορφή που συμπεριλαμβάνει την επίδραση των παραμορφώσεων
+
+
+\begin{equation}
+x_{d}=
+\begin{bmatrix}
+x_{d}(1)\\
+x_{d}(2)
+\end{bmatrix}
+=
+(1+k_{c}(1)\cdot r^{2}+k_{c}(2)\cdot r^{4}+k_{c}(5)\cdot r^{6})x_{n}+d_{x}
+\end{equation}
+
+
+όπου 
+
+\begin{equation}
+x_{d}=
+\begin{bmatrix}
+2k_{c}(3)\cdot xy+k_{c}(4)(r^{2}+2x^{2})\\
+2k_{c}(4)\cdot xy+k_{c}(3)(r^{2}+2y^{2})
+\end{bmatrix}
+\end{equation}
+
+Έχοντας μοντελοποιήσει τις παραμορφώσεις, η αντιστοίχιση που περιγράφεται παίρνει πλέον τη μορφή
+
+\begin{equation}
+\begin{bmatrix}
+x_{p}\\
+y_{p}\\
+1
+\end{bmatrix}
+=
+K
+\begin{bmatrix}
+x_{d}(1)\\
+y_{d}(2)\\
+1
+\end{bmatrix}
+\end{equation}
+
+
+όπου 
+
+\begin{equation}
+K=
+\begin{bmatrix}
+f_{x} & s\cdot f_{x} & p_{x}\\
+0 & f_{y} & p_{y}\\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+Ωστόσο συνήθως θεωρούμε 
+
+\begin{itemize}
+\item $s=0$, θεωρώντας με ασφάλεια ότι έχουμε ορθογώνια pixels αισθητήρα
+\item $k_{c}(5)=0$, όταν έχουμε φακούς περίπου κανονικής εστιακής απόστασης (και όχι αρκετά ευρυγώνιους)
+\end{itemize}
+
+Στην περίπτωση που η κάμερα μοντελοποιείται χωρίς παραμορφώσεις από τον φακό, έχουμε ότι:
+
+\begin{equation}
+K=
+\begin{bmatrix}
+x_{p}\\
+y_{p}\\
+1
+\end{bmatrix}
+=K
+\begin{bmatrix}
+x_{n}(1)\\
+y_{n}(2)\\
+1
+\end{bmatrix}
+\end{equation}
+
+
 %mcdonald
 Το μοντέλο κάμερας pin-hole χρησιμοποιείται συχνά στην υπολογιστική όραση και τα γραφικά υπολογιστών για την μοντελοποίηση της προβολικής μετρατοπής μίας τρισδιάστατης σκηνής σε ένα δισδιάστατο επίπεδο προβολής \cite{hartley2003multiple} .
 
@@ -731,7 +900,7 @@ w
 
 
 
-\subsection{Βαθμονόμηση}
+\subsubsection{Βαθμονόμηση}
 %Η ΔΙΑΔΙΚΑΣΙΑ ΒΑΘΜΟΝΟΜΗΣΗΣ ΚΑΙ ΓΕΝΙΚΑ Η ΘΕΩΡΙΑ ΑΠΟ ΠΙΣΩ(ΤΟ ΠΩς ΓΙΝΕΤΑΙ ΣΤΟ ΚΕΦΑΛΑΙΟ 4)
 
 
@@ -776,7 +945,21 @@ w
 \end{figure}
 
 
-\subsection{Intrinsics}
+\subsubsection{Intrinsics}
+
+%tzionas
+Οι εσωτερικές παράμετροι που ορίζουν την αντιστοίχιση των συντεταγμένων στο σύστημα συντεταγμένων της εικόνας (2D) και στο σύστημα συντεταγμένων της κάμερας είναι:
+
+\begin{itemize}
+\item Το εστιακό μήκος
+\item Η θέση του principal point
+\item Ο συντελεστής s σχετικά με το σχήμα των pixels του αισθητήρα
+\item οι παραμορφώσεις του φακού
+\end{itemize}
+
+
+
+
 
 %mcdonald
 Οι εσωτερικές παράμετροι της κάμερας που πρέπει να εξαχθούν είναι η εστιακή απόσταση, η θέση του κέντρου της εικόνας (principle point) στο χώρο των pixels, η αναλογία των διαστάσεων και ένας συντελεστής της ακτινικής παραμόρφωσης \cite{Malik2002}. 
@@ -797,8 +980,20 @@ y=-(y'-o_{y})s_{y}
 Συνήθως η ακτινική παραμόρφωση μπορεί να αγνοηθεί, εκτός κι αν κρίνεται απαραίτητη η υψηλή ακρίβεια σε όλα τα μέρη της εικόνας. 
 
 
-\subsection{Extrinsics}
+\subsubsection{Extrinsics}
 
+%tzionas
+Οι εξωτερικές παράμετροι ορίζουν τη θέση και το προσανατολισμό της κάμερας ( ή ακριβέστερα του συστήματος συντεταγμένων της κάμερας σε σχέση με το WCS της σκηνής)
+
+
+\begin{itemize}
+\item Περιστροφή κάμερας
+\item Μετατόπιση κάμερας
+\end{itemize}
+
+
+
+%mcdonald
 Οι εξωτερικές παράμετροι της κάμερας είναι η θέση και ο προσανατολισμός της κάμερας. Αυτές οι παράμετροι περιγράφουν ένα μετασχηματισμό ανάμεσα στην κάμερα και τα world coordinate systems.
 Αυτός ο μετασχηματισμός αποτελείται από μία συνιστώσα περιστροφής R και μία συνιστώσα μετατόπισης T, οι οποίες περιγράφονται σε κοσμικές συντεταγμένες (world coordinates) παρακάτω:
 
@@ -811,39 +1006,45 @@ P_{c} = RP_{w}+T
 για ένα σημείο Pc, σε συντεταγμένες της κάμερας και ένα σημείο Pw, σε κοσμικές συντεταγμένες. Επομένως ο προοπτικός μετασχηματισμός (perspective transformation) μπορεί να εκφραστεί ως προς τις παραμέτρους τις κάμερας αντικαθιστώντας τις εξισώσεις 3.2 and 3.3 στην εξίσωση 3.1. 
 
 
-\section{Tracking}
-%ΓΕΝΙΚΑ ΑΝΑΦΕΡΕ ΤΙ ΕΙΝΑΙ ΤΟ TRACKING
-
-
-Augmented reality presents information in a correct real world context. In order to do this, the system needs to know where the user is and what the user is looking at. Normally, the user explores the environment through a display that portrays the image of the camera together with augmented information. Thus in practice, the system needs to determine the location and orientation of the camera. With a calibrated camera, the system is then able to render virtual objects in the correct place. The term tracking means calculating the relative pose (location and orientation) of a camera in real time. It is one of the fundamental components of augmented reality.
-
-Researchers in computer vision, robotics and photogrammetry have developed a considerable number of different tracking methods. People can divide these methods based on the equipment used in sensor tracking methods, visual tracking methods and hybrid methods. Since in most augmented reality setups the camera is already part of the system, visual tracking methods are of special interest in AR.
-
-We will concentrate on them first and discuss sensor and hybrid tracking methods later in Chapter 5. In visual tracking, the system deduces the pose of the camera based on observations of what it sees. In an unknown environment, this is challenging; it takes some time to collect enough data to be able to deduce the pose and then the calculated pose estimation easily drifts over time. As the environment is unknown to the system, the system selects the orientation of the coordinate axis at random, which may be inconvenient for the user. In addition, it is impossible to deduce the correct scale solely based on visual observations. One solution to overcome these challenges is to add an easily detectable predefined sign in the environment and use computer vision techniques to detect it. A marker is such a sign or image that a computer system can detect from a video image using image processing, pattern recognition and computer vision techniques (e.g. right image in Figure 23). Once detected, it then defines both the correct scale and pose of the camera. This approach is called marker-based tracking, and it is widely used in AR. Other approaches for visual tracking are feature-based and model-based methods, which we will discuss later in Chapter 5. In model-based tracking, the system has a model of the scene or part of the scene (e.g. a CAD model). It compares visual observations with the model and finds the best match, which then defines the pose. In feature-based tracking, the system detects optical features in the images and learns the environment based on observations of movements between frames. Even though mainstream visual tracking research leans towards feature-based tracking, feature tracking and marker-based tracking are mutually non-exclusive. In fact, marker-based methods often outperform feature-based methods in certain occasions (as we will rationalise later in Section 4.4.1.), and marker-based systems are still widely used for visual tracking in augmented and mixed reality (e.g. [68–70]. The popularity of marker-based systems is also partly explained by the fact that they are easy to implement and that good and well-known marker-based toolkits are available (e.g. ARToolKit [64], ALVAR [19], ARTag [71]). Toolkits provide a good base for starting AR application development. Apart from that, markers provide the correct scale and convenient coordinate frames (Figure 23) as previously mentioned. In addition, they may encode information or at least have an identity. This enables a system to attach certain objects or interactions to the markers. In marker-based tracking, the system needs to detect the marker, identify it and then calculate the pose. In this chapter, we focus on marker detection and pose estimation. We talk more about different marker types and identifying and decoding markers in Chapter 4. We go through the pipeline of the marker detection procedure, considering commonly used black and white square markers. Section 3.1 gives an overview of the detection process and most of the steps and methods presented here serve for detecting other types of markers and other tracking methods as well.
-
-In Section 3.2, we explain how camera pose is estimated using the four corner
-points of a marker. At the end of this chapter in Section 3.3, we discuss multimarker
-setups that improve the tracking system.
-
-\subsection{Marker Tracking}
-%MONO FIDUCIAL MARKER TRACKING
-
-%siltanen
-A good marker is easily and reliably detectable under all circumstances. Differences in luminance (brightness) are more easily detected than differences in chrominance (colour) using machine vision techniques. [72] This is due to the poor automatic white balance of the cameras: the colours register incorrectly, and an object may change its colour in the image depending on what else is in the view, for example. Furthermore, the lighting changes the perceived colours of the objects and therefore colour detection is challenging. Naturally, the more contrast in the luminance the more easily objects are detected. In this sense, black and white markers are optimal. The system should also be able to calculate the pose of the camera using the detected marker. Four known points are sufficient to calculate the pose of a camera uniquely [72] and the simplest shape to acquire them is a square. In addition, the locations of the corner points are relatively robust, as they can be estimated as intersections of edge lines. Therefore, many of the marker systems use black and white square markers. This is also why we first go through the marker detection process considering such markers. We cover other marker types later in the Chapter 4.
-
-%des siltanen gia marker detection procedure
 
 
 
-%---
-The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. 
 
-The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker\cite{krevelen2010}. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
 
-    
-\subsection{Markerless Tracking}
-%SLAM-PTAM,FEATURE DETECTION,SURF ETC
-%πολύ λίγα λόγια-περιληπτικά
+
+
+
+\subsubsection{Pose Estimation}
+%τζιονας
+Η εύρεση των εξωτερικών παραμέτρων ( με δεδομένη την εκ των προτέρων γνώση των εσωτερικών παραμέτρων) που δίνουν τη θέση και τον προσανατολισμό της κάμερας σε σχέση με τον πραγματικό δισδιάστατο κόσμο είναι γνωστή σαν εκτίμηση πόζας (pose estimation).
+
+H σημασία της στην επαυξημένη πραγματικότητα είναι τεράστια, ιδιαίτερα στην περίπτωση που είναι επιθυμητή η επικάθιση 3D γραφικών σε σε μία εικόνα-όψη του πραγματικού κόσμου. ρίσκοντας τη θέση και τον προσανατολισμό της πραγματικής κάμερας, μπορούμε να "ευθυγραμμίσουμε" με αυτή την εικονική κάμερα του αντίστοιχου τρισδιάστατου μοντέλου. Σαν απότελεσμα έχουμε την εμφάνιση της σωστής όψης του 3D μοντέλου, στο κατάλληλο μέγεθος και στο κατάλληλο μέρος.
+
+Οι εξωτερικές παράμετροι της κάμερας που αναζητούνται κατά την pose estimation είναι 2 πίνακες:
+
+\begin{itemize}
+\item Ο πίνακας R (rotation), μεγέθους 3x3, που αποτελείται από 3 διανύσματα στοιχειωδών περιστροφών $R=\begin{bmatrix} R1 & R2 & R3 ] \end{bmatrix}$. Τα διανύσματα αυτά αντιπροσωπεύουν, όπως προαναφέρθηκε, την περιστροφή της κάμερας γύρω από τους 3 άξονες ενός συστήματος συντεταγμένων (3 βαθμοί ελευθερίας)
+\item Ο πίνακας t μεγέθους 3x1, που αντιπροσωπεύει τη μετατόπιση της κάμερας. Κάθε στοιχείο του διανύσματος εκφράζει τη μετακίνηση στον κατάλληλο άξονα του συστήματος συντεταγμένων (3 βαθμοί ελευθερίας).
+\end{itemize}
+
+%εικονα
+
+Συνοψίζοντας, κατά τη διαδικασία pose estimation ψάχνουμε να βρούμε 6 παραμέτρους συνολικά, γιαυτό γίνεται λόγος για pose estimation 6 βαθμών ελευθερίας.
+
+Όπως μπορεί να γίνει εύκολα αντιληπτό, ο συνδυασμός αυτός της rotation και της translation μπορεί να μοντελοποιήσει οποιαδήποτε κίνηση της κάμερας.
+
+%eikona
+
+Η ανάλυση των μεθόδων pose estimation ξεφεύγει από τους στόχους της εργασίας, όμως θα παρουσιαστεί η μέθοδος που χρησιμοποιήθηκε.
+
+
+
+
+
+
+
+
+
 
 
 
