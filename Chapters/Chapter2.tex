@@ -398,43 +398,189 @@ H ποιότητα της εικονικής επαύξησης είναι συ�
 
 
 
-
-
 \section{Marker-based Tracking}
 %MONO FIDUCIAL MARKER TRACKING
 
-
-Augmented reality presents information in a correct real world context. In order to do this, the system needs to know where the user is and what the user is looking at. Normally, the user explores the environment through a display that portrays the image of the camera together with augmented information. Thus in practice, the system needs to determine the location and orientation of the camera. With a calibrated camera, the system is then able to render virtual objects in the correct place. The term tracking means calculating the relative pose (location and orientation) of a camera in real time. It is one of the fundamental components of augmented reality.
-
-Researchers in computer vision, robotics and photogrammetry have developed a considerable number of different tracking methods. People can divide these methods based on the equipment used in sensor tracking methods, visual tracking methods and hybrid methods. Since in most augmented reality setups the camera is already part of the system, visual tracking methods are of special interest in AR.
-
-We will concentrate on them first and discuss sensor and hybrid tracking methods later in Chapter 5. In visual tracking, the system deduces the pose of the camera based on observations of what it sees. In an unknown environment, this is challenging; it takes some time to collect enough data to be able to deduce the pose and then the calculated pose estimation easily drifts over time. As the environment is unknown to the system, the system selects the orientation of the coordinate axis at random, which may be inconvenient for the user. In addition, it is impossible to deduce the correct scale solely based on visual observations. One solution to overcome these challenges is to add an easily detectable predefined sign in the environment and use computer vision techniques to detect it. A marker is such a sign or image that a computer system can detect from a video image using image processing, pattern recognition and computer vision techniques (e.g. right image in Figure 23). Once detected, it then defines both the correct scale and pose of the camera. This approach is called marker-based tracking, and it is widely used in AR. Other approaches for visual tracking are feature-based and model-based methods, which we will discuss later in Chapter 5. In model-based tracking, the system has a model of the scene or part of the scene (e.g. a CAD model). It compares visual observations with the model and finds the best match, which then defines the pose. In feature-based tracking, the system detects optical features in the images and learns the environment based on observations of movements between frames. Even though mainstream visual tracking research leans towards feature-based tracking, feature tracking and marker-based tracking are mutually non-exclusive. In fact, marker-based methods often outperform feature-based methods in certain occasions (as we will rationalise later in Section 4.4.1.), and marker-based systems are still widely used for visual tracking in augmented and mixed reality (e.g. [68–70]. The popularity of marker-based systems is also partly explained by the fact that they are easy to implement and that good and well-known marker-based toolkits are available (e.g. ARToolKit [64], ALVAR [19], ARTag [71]). Toolkits provide a good base for starting AR application development. Apart from that, markers provide the correct scale and convenient coordinate frames (Figure 23) as previously mentioned. In addition, they may encode information or at least have an identity. This enables a system to attach certain objects or interactions to the markers. In marker-based tracking, the system needs to detect the marker, identify it and then calculate the pose. In this chapter, we focus on marker detection and pose estimation. We talk more about different marker types and identifying and decoding markers in Chapter 4. We go through the pipeline of the marker detection procedure, considering commonly used black and white square markers. Section 3.1 gives an overview of the detection process and most of the steps and methods presented here serve for detecting other types of markers and other tracking methods as well.
-
-In Section 3.2, we explain how camera pose is estimated using the four corner
-points of a marker. At the end of this chapter in Section 3.3, we discuss multimarker
-setups that improve the tracking system.
-
+%Eisagogi
+%malik
+Σε αυτό το κεφάλαιο γίνεται μία εισαγωγή στις μαθηματικές έννοιες της επαυξημένης πραγματικότητας, στις μεθόδους που χρησιμοποιούνται και στην αναγνώριση δεικτών.  
+In this chapter, we review prior work in the field of augmented reality from which our research draws upon. We start by providing an introduction to the mathematical concepts of augmented reality, and describe how they relate to the registration problem. We then present a brief survey of various proposed solutions to the registration problem in the current augmented reality literature. We conclude by briefly describing some open issues.
 
 %siltanen
-A good marker is easily and reliably detectable under all circumstances. Differences in luminance (brightness) are more easily detected than differences in chrominance (colour) using machine vision techniques. [72] This is due to the poor automatic white balance of the cameras: the colours register incorrectly, and an object may change its colour in the image depending on what else is in the view, for example. Furthermore, the lighting changes the perceived colours of the objects and therefore colour detection is challenging. Naturally, the more contrast in the luminance the more easily objects are detected. In this sense, black and white markers are optimal. The system should also be able to calculate the pose of the camera using the detected marker. Four known points are sufficient to calculate the pose of a camera uniquely [72] and the simplest shape to acquire them is a square. In addition, the locations of the corner points are relatively robust, as they can be estimated as intersections of edge lines. Therefore, many of the marker systems use black and white square markers. This is also why we first go through the marker detection process considering such markers. We cover other marker types later in the Chapter 4.
-
-%des siltanen gia marker detection procedure
-
+Η επαυξημένη πραγματικότητα παρουσιάζει πληροφορίες στα πλαίσια του πραγματικού κόσμου. Για να συμβεί αυτό, το σύστημα πρέπει να γνωρίζει που βρίσκεται ο χρήστης και προς τα που κοιτά σε κάθε χρονική στιγμή. Συνήθως ο χρήστης εξερευνά το περιβάλλον μέσα από μία οθόνη που απεικονίζει την εικόνα που καταγράφει η κάμερα μαζί με την επαυξημένη πληροφορία.  
+Επομένως, το σύστημα χρειάζεται πρακτικά να ξέρει τη θέση και τον προσανατολισμό της κάμερας, έτσι ώστε να απεικονίσει τα εικονικά αντικείμενα στη σωστή θέση. Ο όρος tracking αναφέρεται στη διαδικασία υπολογισμού της σχετικής πόζας της κάμερας(θέση και προσανατολισμός) σε πραγματικό χρόνο και είναι ένα από τα βασικότερα μέρη ανάπτυξης εφαρμογών επαυξημένης πραγματικότητας.
 
 
-%---
-The commonly used technique to perform tracking nowadays is based on optical devices (conventional web camera, ToF, structured light) applying image processing and computer vision algorithms. 
+Οι ερευνητές στα πεδία της όρασης υπολογιστών και της φωτογραμμετρίας έχουν αναπτύξει έναν αξιοσημείωτο αριθμό από διαφορετικές μεθόδους tracking. Οι μέθοδοι αυτοί μπορούν να διαιρεθούν με βάση τον εξοπλισμό που χρησιμοποιείται σε μεθόδους sensor tracking, visual tracking και υβριδικές.  Εφόσον στα περισσότερα συστήματα επαυξημένης πραγματικότητας χρησιμοποιείται συνήθως μία κάμερα, οι τεχνικές visual tracking είναι αυτές που παρουσιάζουν μεγαλύτερο ενδιαφέρον, οπότε θα επικεντρωθούμε σε αυτές.
 
-The simplest tracking method in AR is by using fiducial markers, Figure 1, its basic working process consists on a tracking algorithm that performs a series of image processing tasks over each frame of a video sequence in order to detect where a marker is, and a registration which correlates a virtual object to the physical marker\cite{krevelen2010}. It consists on threshold the image and look for the edges using a scanline search. With the known edges of the marker, it fits a rectangle by finding the corners based on the maximum diagonals between the points in the edges, this is done with the purpose of delimit the rectangle where a pattern is recognized and matched against a pattern stored in memory. Once we recognize the pattern, the pose of the marker is estimated by calculating the rotation and translation parameters relative to the camera. This action is done using a transformation matrix formed with the angles (rotation) and translation vectors (translation). In other words, we want to know the coordinates of the marker with respect of the camera coordinates using this transformation points called extrinsic parameters (varies according of the movement of the camera) while the intrinsic parameters are used to move from the camera coordinates to the image coordinates and are fixed on the camera by calibration; these are the focal distance, scale parameters and (x,y) center coordinates of the projection image. With the position of the marker detected, a virtual model is placed on the same position of the image coordinate relatively to the marker. This gives the impression that the virtual object is stick to the marker and the process is called registration. The resulting image is shown in a display in which the user see the virtual object superposed over the real world. The process is done dynamically and fast enough to give the impression of real-virtual world correlation. It is not computationally expensive but the marker must be easily recognizable, i.e. the lighting conditions must be favourable and it should not be partially occluded, otherwise the recognition can fail.
 
-    
+Στα συστήματα αυτού του τύπου, η πόζα της κάμερας μπορεί να υπολογιστεί με βάση τις παρατηρήσεις των σκηνών που καταγράφει. Σε ένα άγνωστο περιβάλλον, παρατηρούνται πολλές δυσκολίες, καθώς απαιτείται αρκετός χρόνος προκειμένου να γίνει η συλλογή αρκετών δεδομένων για την εξαγωγή της πόζας και μετέπειτα η εκτίμηση των υπολογισμών ολισθαίνει με την πάροδο του χρόνου. 
+
+
+Καθώς το περιβάλλον δεν είναι γνωστό στο σύστημα, ο προσανατολισμός του άξονα συντεταγμένων επιλέγεται τυχαία, κάτι το οποίο μπορεί να μην είναι ιδιαίτερα βολικό για το χρήστη. Επιπλέον, είναι αδύνατο να υπολογιστεί η σωστή κλίμακα μόνο με βάση τις οπτικές παρατηρήσεις. Μία λύση που θα μπορούσε να ξεπεράσει αυτές τις δυσκολίες, εντοπίζεται στην εισαγωγή ενός ανιχνεύσιμου προκαθορισμένου στόχου στο περιβάλλον και στη χρήση τεχνικών όρασης υπολογιστών για τον εντοπισμό του στη σκηνή. 
+
+Ουσιαστικά, ένας δείκτης ή στόχος ή marker είναι μία εικόνα ή ένα σημάδι, που μπορεί να εντοπιστεί από ένα υπολογιστικό σύστημα μέσω των εικόνων σε ένα βίντεο χρησιμοποιώντας τεχνικές επεξεργασίας εικόνας, αναγνώρισης προτύπων και υπολογιστικής όρασης (e.g. right image in Figure 23). Μόλις εντοπιστεί ένας marker, μπορεί να οριστεί η σωστή κλίμακα και η πόζα της κάμερας. Αυτή η προσέγγιση ονομάζεται marker-based tracking και χρησιμοποιείται ευρύτατα στην επαυξημένη πραγματικότητα.
+
+Άλλες προσεγγίσεις χρησιμοποιούν ανίχνευση με βάση τον εντοπισμό οπτικών χαρακτηριστικών και εντοπισμό προκαθορισμένων μοντέλων. Στον εντοπισμό με βάση προκαθορισμένα μοντέλα, το σύστημα έχει εκ των προτέρων ένα μοντέλο της σκηνής ή μέρους της σκηνής (π.χ CAD μοντέλο). Πραγματοποιείται σύγκριση ανάμεσα στα frames που κταγράφονται και γίνετια προσπάθεια να ταιριάξει το μοντέλο ένα μέρος της σκηνής. Μόλις συμβεί αυτό, μπορεί να καθοριστεί και η πόζα της κάμερας. Στη διαδικασία feature-based tracking,το σύστημα προσπαθεί να ανιχνεύσει οπτικά χαρακτηριστικά της σκηνής μέσα από τις εικόνες και να γνωρίσει το περιβάλλον με βάση ορισμένες παρατηρήσης κινήσεων ανάμεσα σε διαδοχικά frames. Αν και η επικρατούσα τάση στην έρευνα σχετικά με το visual tracking τείνει προς το feature-based tracking, το feature tracking και το marker-based tracking είναι αμοιβαίως αποκλειόμενα. Μάλιστα, οι μέθοδοι marker-based συχνά παρουσιάζουν καλύτερες επιδόσεις από τις μεθόδους feature-based σε συγκεκριμένες περιπτώσεις και χρησιμοποιούνται ακόμα πολύ συχνά για visual tracking σε εφαρμογές επαυξημένης πραγματικότητας \cite{wagner2008robust} \cite{rabbi2014applications} .
+
+
+Η ευρεία χρήση συστημάτων που λειτουργούν με βάση την ανίχνευση markers εξηγείται και από το γεγονός ότι είναι εύκολα στην υλοποίηση και υπάρχουν πολλά διαθέσιμα εργαλεία για την ανάπτυξη τέτοιων εφαρμογών (π.χ ARToolKit \cite{artoolkit}, ALVAR \cite{alvar}, ArUco \cite{aruco}). Τα εργαλεία αυτά αποτελούν μία καλή βάση για να ξεκινήσει κάποιος την ανάπτυξη εφαρμογών επαυξημένης πραγματικότητας. Επιπλέον, οι markers παρέχουν εκτιμήσεις για τη σωστή κλίμακα και βολικές συντεταγμένες για κάθε frame όπως αναφέρθηκε και προηγουμένως. Μπορούν να κωδικοποιήσουν πληροφορίες ή να έχουν απλά ένα ID. Κάτι τέτοιο, επιτρέπει στο σύστημα να επισυνάψει συγκεκριμένα αντικείμενα ή αλληλεπιδράσεις στα markers. Στη συστήματα που χρησιμοποιούν marker-based tracking, απαιτείται η ανίχνευση του marker, η ταυτοποίηση του και ο υπολογισμός της πόζας. Σε αυτό το κεφάλαιο θα επικεντρωθούμε στην ανίχνευση των markers και στην εκτίμηση της πόζας. 
+
+Στις ενότητες αυτού του κεφαλαίου, εξηγείται πώς εντοπίζεται ένας δείκτης, πώς υπολογίζεται η πόζα της κάμερας χρησιμοποιώντας 4 γωνιακά σημεία ενός marker, και πώς μπορούμε να αξιοποιήσουμε πολλαπλούς δείκτες με στόχο τη βελτίωση της επίδοσης του tracking του συστήματος. 
+
+
+
 
 
 
 \subsection{Marker Detection}
 
 
-\subsection{Marker Pose}
+
+
+%siltanen
+Ένας καλός marker πρέπει να μπορεί να ανιχνευθεί εύκολα και αξιόπιστα κάτω από όλες τις συνθήκες. Ορισμένες διαφορές στην φωτεινότητα(luminance) εντοπίζονται ευκολότερα από διαφορές στο χρώμα (colour) αν χρησιμοποιηθούν τεχνικές όρασης υπολογιστών \cite{hartley2003multiple} . Αυτό συμβαίνει λόγω της κακής αυτόματης white balance των καμερών of the cameras: τα χρώματα καταγράφονται λανθασμένα και ένα αντικείμενο μπορεί να αλλάξει χρώμα στην εικόνα ανάλογα με άλλα αντικείμενα που μπορεί να βρίσκονται σε αυτή, για παράδειγμα. Επιπλέον, ο φωτισμός αλλάζει τα αντιληφθέντα χρώματα των αντικειμένων και εποένως η ανίχνευση χρώματος είναι δύσκολη. Φυσικά, όσο περισσότερη ανίθεση φωτισμού υπάρχει, τόσο ευκολότερα εντοπίζονται αντικείμενα. Με αυτή την έννοια, η χρήση ασπρόμαυρων markers βελτιστοποιεί την διαδικασία ανίχνευσης. Το σύστημα πρέπει επίσης να μπορεί να υπολογίζει την πόζα της κάμερας με βάση το marker που εντοπίστηκε. Για να συμβεί αυτό, αρκεί να υπολογιστούν 4 σημεία και έτσι μπορούμε να υπολογίσουμε την μία και μοναδική λύση για την πόζα της κάμερας και ο ευκολότερος τρόπος για να συμβεί αυτό είναι η χρήση του σχήματος τετραγώνου για τα markers. Επιπλέον, οι θέσεις των γωνιακών σημείων είναι γενικά εύκολο να υπολογιστούν, καθώς αποτελούν ουσιαστικά την τομή των ακραίων ακμών ενός marker. Συμπερασματικά, τα περισσότερα συστήματα χρησιμοποιούν ασπρόμαυρους δείκτες και για αυτό το λόγο θα επεξηγηθεί στη συνέχεια η διαδικασία εντοπισμού ασπρόμαυρων markers.    
+
+
+
+
+%des siltanen gia marker detection procedure
+
+
+-diadikasia marker detection
+Ο πρωταρχικός στόχος μιας διαδικασίας ανίχνευσης marker είναι η εύρεση των περιγραμμάτων πιθανών markers και μετέπειτα η εξαγωγή των γωνιών τους στην εικόνα. Επιπλέον, το σύστημα ανίχνευσης πρέπει να εξακριβώσει ότι αυτό που βρέθηκε είναι όντως arker και να αποκωδικοποιήσει την ταυτότητα του. Τέλος το σύστημα υπολογίζει την πόζα, με βάση τις πληροφορίες από τη θέση στην οποία ανιχνεύθηκε ο marker.
+
+Τα βασικά βήματα ανίχνευσης είναι τα παρακάτω:
+\begin{itemize}
+
+
+\item Image acquisition
+Απόκτηση μίας εικόνας έντασης
+δcquisition of an intensity image.
+\item Preprocessing-Προεπεξεργασία
+Επεξεργασία εικόνας σε χαμηλό επίπεδο-low level image processing
+�� u Αντιστοφή της παραμόρφωσης nun
+�� line detection/line fitting
+�� detection of the corners of the marker.
+\item Detection of potential markers and discard of obvious non-markers
+�� fast rejection of obvious non-markers
+�� fast acceptance test for potential markers.
+
+\item Identification and decoding of markers
+�� template matching (template markers)
+�� decoding (data markers).
+\item Calculation of the marker pose
+�� estimation of marker pose
+�� iterative pose calculation for accurate pose.
+The image acquisition step is actually a separate process; it just provides the
+image for the marker detection process. Marker detection pipelines may differ from
+this template. The execution order of the steps may differ or the system may
+merge steps into the same algorithm. In particular, many implementations combine
+acceptance/rejection tests with other tasks; the system may reject a marker
+candidate at any stage of the detection process when it notices that the candidate
+cannot be a marker. However, the main concept is usually the same.
+In the following, we discuss each step of the marker detection procedure in
+more detail, except for identifying and decoding markers, which depends on the
+marker type, and which we will cover in Chapter 4.
+\end{itemize}
+%---
+Μία τεχνική που χρησιμοποιείται συχνά για tracking βασίζεται σε συσκευές καταγραφής (conventional web camera, ToF, structured light) και σε αλγορίθμους επεξεργασίας εικόνας και όρασης υπολογιστών. 
+
+
+Η διαδικασία εντοπισμού ενός marker περιλαμβάνει τη χρήση αλγορίθμων για τη κατωφλίωση της εικόνας και την εύρεση ακμών χρησιμοποιώντας μία scanline αναζήτηση.  Γνωρίζοντας τις ακμές του markers, μπορούμε να βρούμε το ορθογώνιο εκείνο το οποίο ταιριάζει στο marker, αντιστοιχίζοντας τις γωνίες με βάση τις μέγιστες διαγωνίους ανάμεσα στα σημεία των ακμών. Αυτό γίνεται με στόχο την οριοθέτηση ενός ορθογωνίου παραλληλογράμου ώστε να αναγνωριστεί ένα πρότυπο κι να αντιστοιχιστεί με βάση τα πρότυπα που είναι αποθηκευμένα στη μνήμη. Μόλις αναγνωριστεί το πρότυπο αυτό, υπολογίζεται η πόζα του markers, εκτιμώντας τις παραμέτρους περιστροφής και μετατόπισης σε σχέση με την κάμερα. Αυτό γίνεται χρησιμοποιώντας ένα πίνακα μετασχηματισμού (transformation matrix) που διαμορφώνεται με τα διανύσματα γωνιών και μετατόπισης (rotation \& translation vectors). Με άλλα λόγια, ψάχνουμε να βρούμε τις συντεταγμένες του markers ως προς τις συντεταγμένες της κάμερας, χρησιμοποιώντας τα σημεία μετασχηματισμού τα οποία ονομάζονται εξωτερικές παράμετροι (extrinsic parameters) και αλλάζουν ανάλογα με την κίνηση της κάμερας και τις εσωτερικές παραμέτρους που χρησιμοποιούνται για να μετακινηθούμε από τις συντεταγμένες τις κάμερας στις συντεταγμένες της εικόνα και είναι ορισμένες εκ των προτέρων ανάλογα με την κάμερα και τις παραμέτρους που υπολογίζονται κατά τη βαθμονόμησή της, δηλαδή την εστιακή απόσταση, τις παραμέτρους κλίμακας και τις συντεταγμένες του της εικόνας προβολής.
+
+Αφού έχει εντοπιστεί η θέση του marker, ένα εικονικό μοντέλο τοποθετείται στην ίδια θέση της των συντεταγμένων της εικόνας σε σχέση με το δείκτη. Αυτό δίνει στο χρήστη την εντύπωση ότι το εικονικό αντικείμενο είναι κολλημένο πάνω στο δείκτη και η διαδικασία αυτή ονομάζεται registration. Η τελική εικόνα απεικονίζεται στην οθόνη, όπου ο χρήστης βλέπει το εικονικό αντικείμενο πάνω από την πραγματική σκηνή. Η διαδικασία πραγματοποιείται δυναμικά και αρκετά γρήγορα, ώστε να δίνεται η αίσθηση ότι της αλληλοσυσχέτισης πραγματικού και εικονικού κόσμου. Δεν είναι υπολογιστικά ακριβή διαδικασία, αλλά το marker πρέπει να αναγνωρίζεται εύκολα, π.χ οι συνθήκες φωτιμού πρέπει να είναι ευνοϊκές και δεν πρέπει να γίνεται επικάλυψη του marker, π.χ από τα χέρια του χρήστη, διότι τότε θα αποτύχει η διαδικασία της ανίχνευσης. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6, angle=0]{Files/Figures/HowMarkersWork.jpg}
+    \caption[Παράδειγμα εντοπισμού marker και επαύξησης της σκηνής \cite{howmarkerswork}]{ Παράδειγμα εντοπισμού marker και επαύξησης της σκηνής \cite{howmarkerswork}}
+    \label{fig:howmarkerswork}
+\end{figure}
+
+
+
+
+%aruco
+
+---Detection Process in Aruco---
+Η διαδικασία ανίχνευσης markers στη βιβλιοθήκη ArUco είναι η ακόλουθη:
+
+\begin{itemize}
+\item Apply an Adaptive Thresholding so as to obtain borders (Figure 1)
+\item Find contours. After that, not only the real markers are detected but also a lot of undesired borders. The rest of the process aims to filter out unwanted borders.
+\begin{itemize}
+\item Remove borders with an small number of points (Figure 2)
+\item Polygonal approximation of contour and keep the concave contours with exactily 4 corners (i.e., rectangles) (Figure 3)
+\end{itemize}
+\item Sort corners in anti-clockwise direction.
+\item Remove too close rectangles. This is required because the adaptive threshold normally detects the internal an external part of the marker's border. At this stage, we keep the most external border. (Figure 4)
+\item Marker Identification
+\begin{itemize}
+\item Remove the proyection perspective so as to obtain a frontal view of the rectangle area using an homography (Figure 5)
+\item Threshold the area using Otsu. Otsu's algorithms assumes a bimodal distribution and finds the threshold that maximizes the extra-class variance while keeping a low intra-class variance.
+\item Identification of the internal code. If it is a marker, then it has an internal code. The marker is divided in a 6x6 grid, of which the internal 5x5 cells contains id information. The rest correspond to the external black border. Here, we first check that the external black border is present. Afterwards, we read the internal 5x5 cells and check if they provide a valid code (it might be required to rotate the code to get the valid one).
+\end{itemize}
+\item For the valid markers, refine corners using subpixel interpolation
+\item Finally, if camera parameters are provided, it is computed the extrinsics of the markers to the camera.
+\end{itemize}
+
+
+
+
+
+
+
+\subsection{Marker Pose Estimation}
+
+
+
+%malik
+-συστήματα συντεταγμένων
+Οι παρακάτω 3 μετασχηματισμοί όπως περιγράφονται στο \cite{Vallino1998}, που πρέπει να γίνουν γνωστοί πριν την ανάπτυξη εφαρμογών επαυξημένης πραγματικότητας είναι οι μετασχηματισμοί αντικειμένου-σε-κοσμικές, κοσμικές-σε-κάμερας, κάμερας-σε-επίπεδο εικόνας. 
+
+\textbf{Object-to-World Transformations ($M_{O}$)}
+
+Αν υποθέσουμε ότι έχουμε ένα εικονικό αντικείμενο κεντραρισμένο ως προς το τοπικό του σύστημα συντεταγμένων, το $M_{O}$ ορίζεται ως ο μετασχηματισμός από το τοπικό αυτό σύστημα σε μία θέση και έναν προσανατολισμό μέσα στο κοσμικό σύστημα συντεταγμένων που ορίζει την κύρια σκηνή.
+
+\textbf{World-to-camera ($M_{c}$)}
+
+Ο μετασχηματισμός $M_{c}$ ορίζει τη θέση και τον προσανατολισμό (πόζα) της βιντεοκάμερας που χρησιμοποιείται για τη θέαση της κύριας σκηνής, επιτρέποντας σε σημεία του πραγματικού κόσμου να οριστούν ως προς την κάμερα.
+
+\textbf{Camera-to-image plane ($M_{p}$)}
+
+Ο μετασχηματισμός $M_{p}$ ορίζει μία προβολής από το 3D χώρο στο 3D χώρο, έτσι ώστε οι συντεταγμένες της κάμερας να μπορούν να μετασχηματιστούν σε συντεταγμένες εικόνας, προκειμένου να μπορούν να προβληθούν σε μία οθόνη ή σε ένα HMD.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1.3, angle=0]{Files/Figures/coordinatesystems.png}
+    \caption[Συστήματα Συντεταγμένων στην Επαυξημένη Πραγματικότητα]{Συστήματα Συντεταγμένων στην Επαυξημένη Πραγματικότητα}
+    \label{fig:coordinatesystems}
+\end{figure}
+
+Για να μπορέσει μία εφαρμογή επαυξημένης πραγματικότητας να απεικονίσει σωστά ένα εικονικό τρισδιάστατο αντικείμενο πάνω από μία πραγματική σκηνή, οι παραπάνω γεωμετρικοί μετασχηματισμοί πρέπει να είναι ακριβείς.
+
+Ένα σφάλμα σε οποιαδήποτε από τις σχέσεις θα κάνει ανακριβές το registration, reducing the realism of the final augmented scene.
+
+Χρησιμοποιώντας ομογενή συστήματα συντεταγμένων, η προφανής ενός τρισδιάστατου σημείου στον Ευκλείδιο χώρο [x, y, z, w] χρησιμοποιώντας την παρακάτω εξίσωση:
+
+\begin{equation}
+\begin{bmatrix}
+u & v & h
+\end{bmatrix}
+^{T}=
+M_{P(3x4)}M_{C(4x4)}M_{O(4x4)}
+\begin{bmatrix}
+x & y & z & w
+\end{bmatrix}
+^{T}
+\end{equation}
+
+Οι παρακάτω ενότητες θα παρουσιάσουν έννοιες της προβολικής όρασης που θα μας βοηθήσουν να υπολογίσουμε τους μετασχηματισμούς 
+$M_{P}$, $M_{C}$, και $M_{O}$.
+
 
 
 
@@ -443,6 +589,19 @@ The simplest tracking method in AR is by using fiducial markers, Figure 1, its b
 %mcdonald,malik,clarke
 
 
+%malik
+-perspective or pinhole
+Θεωρώντας ότι έχουμε ένα σημείο [x, y, z] σε συντεταγμένες κάμερας, η προβολική γεωμετρίας μας επιτρέπει να ορίσουμε το μετασχηματισμό $M_{P}$ που μπορεί να μετατρέψει αυτό το τρισδιάστατο σημείο στο δισδιάστατο χώρο εικόνας.
+
+
+
+Το σχήμα δείχνει το μοντέλο κάμερας pinhole ή προοπτικής, το οποίο θεωρείται ως το πιο κοινό γεωμετρικό μοντέλο για βιντεοκάμερες. Ο οπτικός άξονας ορίζεται ως η γραμμή που διαπερνά το κέντρο της εστίασης (ένα τρισδιάστατο σημείο), που είναι κάθετο στο επίπεδο της εικόνας. Η απόσταση ανάμεσα στο επίπεδο της εικόνας και το κέντρο της εστίασης ονομάζεται εστιακή απόσταση (f)
+To principal point είναι η τομή ανάμεσα στον οπτικό άξονα και το πεδίο της εικόνας. Συμπεραίνοντας ότι έχουμε οποιοδήποτε άλλο σημείο P = [X, Y, Z] στο 3Δ χώρο, και αν θεωρήσουμε το επίπεδο της εικόνας για να ορίσουμε τη δισδιάστατη εικόνα, τότε η δισδιάστατη προβολή του P είναι η τομή ανάμεσα στο επίπεδο της εικόνας και της γραμμής μέσα από το κέντρο της εστίασης και το P, που ορίζεται ως p = [x, y, z]. Με άλλα λόγια, έχουμε 
+
+\begin{equation}
+X=f\frac{X}{Z}\\
+Y=f\frac{Y}{Z}
+\end{equation}
 
 %tzionas
 Σαν μοντέλο κάμερας στην παρούσα εργασία επιλέγεται το pinhole μοντέλο, σε συνδυασμό με ορισμένες παραμέτρους που μοντελοποιούν κάποιες παραμορφώσεις.
@@ -900,52 +1059,34 @@ w
 
 
 
-\subsubsection{Βαθμονόμηση}
-%Η ΔΙΑΔΙΚΑΣΙΑ ΒΑΘΜΟΝΟΜΗΣΗΣ ΚΑΙ ΓΕΝΙΚΑ Η ΘΕΩΡΙΑ ΑΠΟ ΠΙΣΩ(ΤΟ ΠΩς ΓΙΝΕΤΑΙ ΣΤΟ ΚΕΦΑΛΑΙΟ 4)
+
+\subsubsection{Παράμετροι Κάμερας}
+
+Υπάρχουν δύο υποσύνολα παραμέτρων κάμερας που μπορούν να χρησιμοποιηθούν προκειμένου να καθοριστεί η σχέση ανάμεσα στα συστήματα συντεταγμένων.
+Γνωστά ως εσωτερικές και εξωτερικές παράμετροι στο πεδίο της όρασης υπολογιστών, ορίζονται ως:
 
 
 
-%clarke
-Η διαδικασία της βαθμονόμησης πραγματοποιείται με στόχο την απόκτηση μετρικών πληροφοριών από δισδιάστατες εικόνες. Η συνολική απόδοση της εφαρμογής που θα αναπτυχθεί, εξαρτάται άμεσα από την ακρίβεια της βαθμονόμησης της κάμερας.Ένας από τους λόγους που πραγματοποιείται η διαδικασία της βαθμονόμησης έγκειται στην απόκτηση των intrinsic παραμέτρων της κάμερας που χρησιμοποιείται. Αυτές περιλαμβάνουν την εστιακή απόσταση, το "principal point" και την αναλογία των διαστάσεων (aspect ratio). 
+-Intrinsics-
 
 
-%%tzionas
-Η εύρεση των εσωτερικών παραμέτρων της κάμερας είναι γνωστή ως camera calibration. Παρά το γεγονός ότι το αντικείμενο παρουσιάζει ιδιαίτερο ερευνητικό ενδιαφέρον, δεν είναι στους στόχους της εργασία η ανάλυσή του. Εν γένει, όμως μπορούμε να αναφέρουμε ότι ι διάφορες μέθοδοι χωρίζονται σε 2 κατηγορίες.
+%malik
+Οι εσωτερικές παράμετροι είναι αυτές που σχετίζονται με την εσωτερική γεωμετρία μίας κάμερας. Με άλλα λόγια αναπαριστούν τα οπτικά, γεωμετρικά και ψηφιακα χαρακτηριστικά μιας κάμερας και είναι οι:
 
 \begin{itemize}
-\item Photogrammetric calibration, όπου έχουμε βαθμονόμηση, μέσω της παρατήρησης ενός αντικειμένου, η τρισδιάστατη γεωμετρία του οποίου είναι εκ των προτέρων γνωστή με ακρίβεια. Τα αποτελέσματα έμφανίζουν μεγάλη ακρίβεια, όμως έρχεται με κόστος τον ακριβό εξοπλισμό που απαιτείται.
-\item Self-calibration, όπου έχουμε βαθμονόμηση χωρίς τη χρήση κάποιου ειδικού αντικειμένου. Απλά με την παρατήρηση μιας οποιασδήποτε σκηνής, ακόμα και 3 εικόνες είναι αρκετές για τη διενέργεια των απαραίτητων υπολογισμών. Παρ'όλα
-αυτά οι μέθοδοι αυτές δεν είναι αρκετά ώριμες και εξαιτίας του πλήθους των μεταβλητών δεν παίρνουμε πάντα αξιόπιστα αποτελέσματα.
+\item Το εστιακό μήκος
+\item Η θέση του κέντρου της εικόνας στο pixel space
+\item Το μέγεθος pixel στις οριζόντιες και κάθετες κατευθύνσεις
+\item οι παραμορφώσεις του φακού
 \end{itemize}
 
-Στα πλαίσια της διπλωματικής εργασίας απαιτείται μία απλή μέθοδος, με τη χρήση συνηθισμένου εξοπλισμού και κάποιου φθηνού αντικειμένου με γνωστή γεωμετρία για την βαθμονόμηση. 
-
-Καταφεύγουμε λοιπόν, όπως προαναφέρθηκε, στη λύση του εργαλείου της Opencv για την Camera calibration[80], που προσφέρει μία έτοιμη και αποτελεσματική λύση, με χρήση μίας απλής κάμερας και μιας απλής επίπεδης εικόνας και συγκεκριμένα μιας σκακιέρας, που εκτυπώνεται. 
-
-%verykokou
-
-%vathmonomisi
-
-Με την αποκατάσταση του εσωτερικού προσανατολισμού πραγματοποιείται σωστή ανάπλαση της δέσμης των ακτίνων που δημιούργησε την εικόνα, δηλαδή αποκαθίσταται η πορεία των φωτεινών ακτίνων στο εσωτερικό της μηχανής, όπως αυτή υπήρχε κατά τη στιγμή της λήψης. Προκειμένου να αποκατασταθεί ο εσωτερικός προσανατολισμός, απαιτείται ο προσδιορισμός των στοιχείων του, ο οποίος πραγματοποιείται μέσω της βαθμονόμησης της φωτογραφικής μηχανής. Η τελευταία, αναφέρεται και ως καλιμπράρισμα (από τον αγγλικό όρο calibration) και αποτελεί το σύνολο των μετρητικών και υπολογιστικών διαδικασιών που προσδιορίζουν τα στοιχεία του εσωτερικού προσανατολισμού της φωτομηχανής [117]. Αυτά είναι η σταθερά της μηχανής, δηλαδή η απόσταση του προβολικού κέντρου από το επίπεδο της εικόνας, και η θέση του πρωτεύοντος σημείου στο επίπεδο της εικόνας και σε αυτά συνήθως προστίθενται οι συντελεστές του πολυωνύμου της συμμετρικής ακτινικής διαστροφής και – σπανιότερα – της ασύμμετρης διαστροφής εκκεντρότητας.
+The focal length
+2) The location of the image center in pixel space
+3) The pixel size in the horizontal and vertical directions
+4) Ο συντελεστής λόγω της ακτινικής παραμόρφωσης.
 
 
-%diaforoi tropoi
-Υφίστανται διάφορες μέθοδοι βαθμονόμησης, οι οποίες μπορούν να ταξινομηθούν με βάση διάφορα κριτήρια, ένα εκ των οποίων είναι η απαίτηση για λήψη εικόνων ή η πραγματοποίηση της βαθμονόμησης χωρίς τη φωτογράφηση. Με βάση αυτό το κριτήριο, οι μέθοδοι βαθμονόμησης διακρίνονται σε οπτικές και φωτογραφικές. Οι οπτικές μέθοδοι βαθμονόμησης ονομάζονται συχνά και εργαστηριακές, αφού διενεργούνται σε ειδικά εξοπλισμένα εργαστήρια, και περιλαμβάνουν τη μέθοδο των ευθυγραμμιστών και τη μέθοδο του γωνιομέτρου. Αυτές βασίζονται στη λογική προσδιορισμού της σταθεράς της μηχανής μέσω παρατηρήσεων γωνιών και ακτινικών αποστάσεων με χρήση της συνάρτησης της εικόνας, η οποία εκφράζει την κεντρική προβολή συνδέοντας γωνίες του χώρου με στοιχεία της εικόνας μέσω παραμέτρων του εσωτερικού προσανατολισμού [115], [117], [133].
 
-
-%vathmonomisi me skakiera
-Γενικά, η βαθμονόμηση από πολλές λήψεις ενός επίπεδου αντικειμένου με χαρακτηριστικά σημεία, όπως είναι η σκακιέρα, επιτυγχάνεται με δεδομένα τις συντεταγμένες χώρου και εικόνας των αντίστοιχων σημείων, οι πρώτες εκ των οποίων προκύπτουν αυτόματα, ενώ οι τελευταίες αναγνωρίζονται στην εικόνα ομοίως με αυτόματο τρόπο. Ωστόσο, για την εξασφάλιση σωστών αποτελεσμάτων από τη διαδικασία της βαθμονόμησης, οι εικόνες του αντικειμένου πρέπει να ληφθούν από διαφορετικά σημεία και υπό διαφορετικές γωνίες, δημιουργώντας με αυτόν τον τρόπο «ανάγλυφο» στο αντικείμενο. Επίσης, η διαδικασία αυτή απαιτεί τον επιπρόσθετο υπολογισμό του εξωτερικού προσανατολισμού κάθε λήψης, με αποτέλεσμα να αποτελεί στην ουσία μία διαδικασία ταυτόχρονης εύρεσης του εσωτερικού προσανατολισμού της μηχανής και του εξωτερικού προσανατολισμού κάθε εικόνας. Στο πλαίσιο της παρούσας εργασίας, για τις ανάγκες των εφαρμογών έγινε βαθμονόμηση με λήψη εικόνων επίπεδης σκακιέρας, με χρήση ελεύθερου κώδικα της βιβλιοθήκης OpenCV. Στην παρούσα υποενότητα παρουσιάζονται τα κύρια σημεία της διαδικασίας της βαθμονόμησης, τα οποία προσεγγίζουν εκείνη που υιοθετείται από τη βιβλιοθήκη OpenCV στην περίπτωση διεξαγωγής της βαθμονόμησης με χρήση επίπεδης σκακιέρας. Ωστόσο, δεν δίνεται έμφαση στη λεπτομερή παρουσίαση κάθε βήματος, καθώς ξεφεύγει από τους σκοπούς της παρούσας διπλωματικής εργασίας. Η διαδικασία αυτή είναι αυτόματη, ενώ τα μόνα δεδομένα εισόδου είναι οι εικόνες της σκακιέρας και το σχέδιό της, δηλαδή ο αριθμός των εσωτερικών γωνιών της στις δύο κάθετες διευθύνσεις.
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6, angle=0]{Files/Figures/calibration.png}
-    \caption[Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV]{ Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV}
-    \label{fig:calibration_screenshot}
-\end{figure}
-
-
-\subsubsection{Intrinsics}
 
 %tzionas
 Οι εσωτερικές παράμετροι που ορίζουν την αντιστοίχιση των συντεταγμένων στο σύστημα συντεταγμένων της εικόνας (2D) και στο σύστημα συντεταγμένων της κάμερας είναι:
@@ -980,7 +1121,7 @@ y=-(y'-o_{y})s_{y}
 Συνήθως η ακτινική παραμόρφωση μπορεί να αγνοηθεί, εκτός κι αν κρίνεται απαραίτητη η υψηλή ακρίβεια σε όλα τα μέρη της εικόνας. 
 
 
-\subsubsection{Extrinsics}
+-Extrinsics-
 
 %tzionas
 Οι εξωτερικές παράμετροι ορίζουν τη θέση και το προσανατολισμό της κάμερας ( ή ακριβέστερα του συστήματος συντεταγμένων της κάμερας σε σχέση με το WCS της σκηνής)
@@ -1009,9 +1150,62 @@ P_{c} = RP_{w}+T
 
 
 
+\subsubsection{Βαθμονόμηση}
+%Η ΔΙΑΔΙΚΑΣΙΑ ΒΑΘΜΟΝΟΜΗΣΗΣ ΚΑΙ ΓΕΝΙΚΑ Η ΘΕΩΡΙΑ ΑΠΟ ΠΙΣΩ(ΤΟ ΠΩς ΓΙΝΕΤΑΙ ΣΤΟ ΚΕΦΑΛΑΙΟ 4)
 
 
 
+%clarke
+Η διαδικασία της βαθμονόμησης πραγματοποιείται με στόχο την απόκτηση μετρικών πληροφοριών από δισδιάστατες εικόνες. Η συνολική απόδοση της εφαρμογής που θα αναπτυχθεί, εξαρτάται άμεσα από την ακρίβεια της βαθμονόμησης της κάμερας.Ένας από τους λόγους που πραγματοποιείται η διαδικασία της βαθμονόμησης έγκειται στην απόκτηση των intrinsic παραμέτρων της κάμερας που χρησιμοποιείται. Αυτές περιλαμβάνουν την εστιακή απόσταση, το "principal point" και την αναλογία των διαστάσεων (aspect ratio). 
+
+
+%%tzionas
+Η εύρεση των εσωτερικών παραμέτρων της κάμερας είναι γνωστή ως camera calibration. Παρά το γεγονός ότι το αντικείμενο παρουσιάζει ιδιαίτερο ερευνητικό ενδιαφέρον, δεν είναι στους στόχους της εργασία η ανάλυσή του. Εν γένει, όμως μπορούμε να αναφέρουμε ότι ι διάφορες μέθοδοι χωρίζονται σε 2 κατηγορίες.
+
+\begin{itemize}
+\item Photogrammetric calibration, όπου έχουμε βαθμονόμηση, μέσω της παρατήρησης ενός αντικειμένου, η τρισδιάστατη γεωμετρία του οποίου είναι εκ των προτέρων γνωστή με ακρίβεια. Τα αποτελέσματα έμφανίζουν μεγάλη ακρίβεια, όμως έρχεται με κόστος τον ακριβό εξοπλισμό που απαιτείται.
+\item Self-calibration, όπου έχουμε βαθμονόμηση χωρίς τη χρήση κάποιου ειδικού αντικειμένου. Απλά με την παρατήρηση μιας οποιασδήποτε σκηνής, ακόμα και 3 εικόνες είναι αρκετές για τη διενέργεια των απαραίτητων υπολογισμών. Παρ'όλα
+αυτά οι μέθοδοι αυτές δεν είναι αρκετά ώριμες και εξαιτίας του πλήθους των μεταβλητών δεν παίρνουμε πάντα αξιόπιστα αποτελέσματα.
+\end{itemize}
+
+Στα πλαίσια της διπλωματικής εργασίας απαιτείται μία απλή μέθοδος, με τη χρήση συνηθισμένου εξοπλισμού και κάποιου φθηνού αντικειμένου με γνωστή γεωμετρία για την βαθμονόμηση. 
+
+Καταφεύγουμε λοιπόν, όπως προαναφέρθηκε, στη λύση του εργαλείου της Opencv για την Camera calibration[80], που προσφέρει μία έτοιμη και αποτελεσματική λύση, με χρήση μίας απλής κάμερας και μιας απλής επίπεδης εικόνας και συγκεκριμένα μιας σκακιέρας, που εκτυπώνεται. 
+
+%verykokou
+
+%vathmonomisi
+
+Προκειμένου να αποκατασταθεί ο εσωτερικός προσανατολισμός, απαιτείται ο προσδιορισμός των στοιχείων του, ο οποίος πραγματοποιείται μέσω της βαθμονόμησης της φωτογραφικής μηχανής. Η τελευταία, αναφέρεται και ως καλιμπράρισμα (από τον αγγλικό όρο calibration) και αποτελεί το σύνολο των μετρητικών και υπολογιστικών διαδικασιών που προσδιορίζουν τα στοιχεία του εσωτερικού προσανατολισμού της φωτομηχανής [117]. Αυτά είναι η σταθερά της μηχανής, δηλαδή η απόσταση του προβολικού κέντρου από το επίπεδο της εικόνας, και η θέση του πρωτεύοντος σημείου στο επίπεδο της εικόνας και σε αυτά συνήθως προστίθενται οι συντελεστές του πολυωνύμου της συμμετρικής ακτινικής διαστροφής και – σπανιότερα – της ασύμμετρης διαστροφής εκκεντρότητας.
+
+
+%diaforoi tropoi
+Υφίστανται διάφορες μέθοδοι βαθμονόμησης, οι οποίες μπορούν να ταξινομηθούν με βάση διάφορα κριτήρια, ένα εκ των οποίων είναι η απαίτηση για λήψη εικόνων ή η πραγματοποίηση της βαθμονόμησης χωρίς τη φωτογράφηση. Με βάση αυτό το κριτήριο, οι μέθοδοι βαθμονόμησης διακρίνονται σε οπτικές και φωτογραφικές.
+
+
+%vathmonomisi me skakiera
+Γενικά, η βαθμονόμηση από πολλές λήψεις ενός επίπεδου αντικειμένου με χαρακτηριστικά σημεία, όπως είναι η σκακιέρα, επιτυγχάνεται με δεδομένα τις συντεταγμένες χώρου και εικόνας των αντίστοιχων σημείων, οι πρώτες εκ των οποίων προκύπτουν αυτόματα, ενώ οι τελευταίες αναγνωρίζονται στην εικόνα ομοίως με αυτόματο τρόπο. Ωστόσο, για την εξασφάλιση σωστών αποτελεσμάτων από τη διαδικασία της βαθμονόμησης, οι εικόνες του αντικειμένου πρέπει να ληφθούν από διαφορετικά σημεία και υπό διαφορετικές γωνίες, δημιουργώντας με αυτόν τον τρόπο «ανάγλυφο» στο αντικείμενο. Επίσης, η διαδικασία αυτή απαιτεί τον επιπρόσθετο υπολογισμό του εξωτερικού προσανατολισμού κάθε λήψης, με αποτέλεσμα να αποτελεί στην ουσία μία διαδικασία ταυτόχρονης εύρεσης του εσωτερικού προσανατολισμού της μηχανής και του εξωτερικού προσανατολισμού κάθε εικόνας. Στο πλαίσιο της παρούσας εργασίας, για τις ανάγκες των εφαρμογών έγινε βαθμονόμηση με λήψη εικόνων επίπεδης σκακιέρας, με χρήση του παραδείγματος της βιβλιοθήκης OpenCV. 
+
+Η διαδικασία ης βαθμονόμησης είναι μία ιδιαίτερα ενδιαφέρουσα ερευνητική περιοχή, ωστόσο, δε δίνεται έμφαση στη λεπτομερή παρουσίαση κάθε βήματος, καθώς ξεφεύγει από τους σκοπούς της παρούσας διπλωματικής εργασίας.  Η διαδικασία αυτή είναι αυτόματη, ενώ τα μόνα δεδομένα εισόδου είναι οι εικόνες της σκακιέρας και το σχέδιό της, δηλαδή ο αριθμός των εσωτερικών γωνιών της στις δύο κάθετες διευθύνσεις. Αυτό το οποίο θα πρέπει να συγκρατήσει ο αναγνώστης, είναι ότι μέσω της διαδικασίας της βαθμονόμησης παίρνουμε τις εσωτερικές παραμέτρους της κάμερας μέσω μιας offline διαδικασίας που πραγματοποιείται μόνο μία φορά στην αρχή της διαδικασίας ανάπυξης της εφαρμογής. Οι παράμετροι που θα υπολογιστούν, ορίζονται ως είσοδος στην εφαρμογή που αναπτύχθηκε προκειμένου να λειτουργήσει σωστά.
+
+
+Στην παρούσα υποενότητα παρουσιάζονται τα κύρια σημεία της διαδικασίας της βαθμονόμησης, τα οποία προσεγγίζουν εκείνη που υιοθετείται από τη βιβλιοθήκη OpenCV στην περίπτωση διεξαγωγής της βαθμονόμησης με χρήση επίπεδης σκακιέρας.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6, angle=0]{Files/Figures/calibration.png}
+    \caption[Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV]{ Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV}
+    \label{fig:calibration_screenshot}
+\end{figure}
+
+
+
+
+%malik
+Τώρα που έχουμε ορίσει το μοντέλο της κάμερας και τις παραμέτρους της, χρειαζόμαστε μία μέθοδο που θα συσχετίσει τα διάφορα συστήματα συντεταγμένων από την εικόνα~\ref{fig:coordinatesystems}. Ωστόσο, αυτό προϋποθέτει ότι γνωρίζουμε τις πραγματικές τιμές των εσωτερικών και εξωτερικών παραμέτρων. Η διαδικασία υπολογισμού τους ονομάζεται βαθμονόμηση κάμερας.
+
+Η βασική ιδέα είναι να λύσουμε ως προς τις παραμέτρους της κάμερας με βάση τις εξισώσεις προβολής γνωστών 3Δ συντεταγμένων και των αντίστοιχων 2Δ προβολών τους. Έξι ή περισσότεροι τέτοιες αντιστοιχείασεις απαιτούνται για να λύσουμε ένα γραμμικό σύστημα εξισώσεων που μπορούν να βρεθούν από τα 12 στοιχεία ενός πίνακα προβολής 3x4. Υπάρχουν 2 γνωστές μέθοδοι, με την πρώτη να προσπαθεί υπολογίσει τις εσωτερικές και εξωτερικές παραμέτρους, βρίσκοντας χαρακτηριστικά σε ένα γνωστό πρότυπο βαθμονόμησης και τη δεύτερη να προσπαθεί να υπολογίσει το πίνακα προβολής συνδέοντας τις συντεταγμένες εικόνας και κόσμου, και έπειτα χρησιμοποιώντας τα στοιχεία του πίνακα για να λύσει ως προς τις παραμέτρους. 
 
 
 \subsubsection{Pose Estimation}
@@ -1039,9 +1233,71 @@ H σημασία της στην επαυξημένη πραγματικότητ
 
 
 
+\subsection{Multimarker Setup}
 
+The four corners of a marker determine the pose of a camera as previously explained.
+However, additional points stabilise a tracking system, improve the accuracy
+and enable the system to discard outliers. Especially if there is noise, additional
+reference points improve robustness and accuracy [94, 95]. Three main
+approaches to increase the number of points used for pose detection are:
+�� to use more than four points per marker
+�� to use more than one marker
+�� to use natural features in addition to the marker.
+The improvement in the stability of the first approach is small; the points still distribute
+on a physically narrow area and therefore they increase the stability of the
+pose close to nothing. A common problem in tracking is that the field-of-view of
+cameras is narrow, especial in mobile devices. If the user moves the camera, it
+soon loses the marker from view. A wider field-of-view does not help either if the
+user rotates the camera. Therefore, the use of a single marker tracking system
+restricts the permissible movements of the user, as the camera must see the
+marker all the time.
+This is an unwanted limitation in many applications and therefore, the second
+and third options are commonly preferred. AR systems habitually use them to
+increase robustness and usability. In this section, we discuss the second option and describe how an AR system can define and track a multi-marker setup. The
+third approach will be covered in Section 5.3 Hybrid tracking.
+A tracking system can cope with larger camera motion if the user distributes
+several markers in different directions. When the system detects and tracks each
+marker individually, the information related to each marker is lost as soon as the
+system is unable to detect the marker. Multi-marker systems (aka marker fields)
+combine the information from all markers, and therefore these systems are more
+robust and accurate. For example, multi-marker systems can handle partial occlusions
+and deduce the location of a marker even if it is invisible, as long as they
+detect some other markers belonging to the marker field.
+A multi-marker setup or marker field is a system that uses several markers
+jointly to estimate the camera pose. A system where each marker is individually
+used to calculate its relative pose to the camera is not a multi-marker system even
+if several markers are used.
+In order to deduce the location of a non-detected marker, a tracking system
+needs to know the relative position of the marker compared to the others. Either
+the relative location of the markers can be predefined, or the system can allow
+free distribution of the markers and deduce the configuration of markers as it detects
+them.
 
-
+Predefined multi-marker setups are widely used and support for them is a standard
+feature in marker-based toolkits and libraries. For instance, ARToolKit [82],
+ARTag [71], ALVAR [19] and StudierStube Tracker [85, 96] offer support for a
+multi-marker setup. The planar multi-marker setup approach is the same as using
+a big marker with more than four points. Now the marker field is “a big marker” and
+markers in it are “sub features”.
+A multi-marker system can use a non-planar predefined marker field as well, for
+example, markers may cover the sides of a cube, some of the markers are on the
+wall, etc. For instance, ARToolKit, ARTag and ALVAR all support non-planar multi-
+marker setups as well. Non-planar multi-marker setups provide tracking information
+for a larger scale environment than a single marker system. Non-planar
+multi-marker systems cope with larger camera movements than planar systems.
+Markers attached to 3D objects allow the system to recognise them from different
+angles, which is desirable with tangible user interfaces, for example.
+The problem with non-planar setups is that in practice it is difficult to measure
+the physical position and orientation of each marker relative to each other. This
+calibration process is often time consuming and inaccurate if done by hand [8]. It
+is possible to use external aids for measuring the marker locations, for example a
+tachometer (as in [97]), but vision-based reconstruction approaches are more
+interesting from the viewpoint of the augmented reality system since an AR system
+contains a camera and a computational unit anyway.
+In the ideal realisation of a multi-marker system, the user can place markers
+freely on site without any predefined constraints and then the system creates the
+marker field based on observations of the marker locations. This is called automatic
+reconstruction of multi-marker setups.
 
 
 
@@ -1237,7 +1493,7 @@ Immersed in an environment containing virtual information, the user is left with
 %ΣΥΓΧΡΟΝΑ ΠΡΟΒΛΗΜΑΤΑ ΣΤΟ AR
 
 %ziegler
-2.3.5 State of the Art Recent tracking systems produced very good results for indoor applications. Predominantly, they use hybrid approaches and work within a limited range (cp. [ZDB08, HF04, ABB+01]). According to Zhou et al.[ZDB08] current tracking systems consist of two stages. The first stage is dedicated to either learning and training or feature extraction. The second stage takes care of the tracking itself, using the knowledge gained through training or the features that have been extracted. The first stage usually requires the most computational resources, if the system uses a learning algorithm. Using a learning stage can reduce the resources the on-line tracking needs, enabling the system to work in real time. 2.3.5.1 Limitations and Challenges Even though tracking systems are accurate enough to achieve good results, the environments they work in are usually restricted not only to being indoors but also to being known in advance[ABB+01]. Dynamical adaption to unknown environments still poses a challenge. Complex scenes are challenging for real-time 3D tracking as is the motion of target objects[ZDB08]. Coping with rapid camera movements is difficult as resulting motion-blur hinders the re-observation of features. Rapid and unpredictable changes, that may occur in outdoor environments, constrain tracking results[HF04]. Especially illumination changes, which often and repeatedly occur outdoors, complicate the tracking process[ZDB08]. Basically all changes which cannot be controlled or anticipated are hard to handle. Some systems feature automatic reinitialisation, but the recovery of the camera pose, when the tracking has failed, cannot be achieved easily[ZDB08]. It is limited to applications which possess enough knowledge about the environment or which do not solely rely on vision-based tracking. 2.3.5.2 Trends Current research features many tracking approaches. Coping with unknown outdoor environments is an important topic. One way researchers are trying to achieve that is by further investigating hybrid approaches. As the growing number of publications during the past years indicate, Mobile AR becomes more and more popular among researches[SW07, WRM+08]. The growing computational resources of mobile devices present novel possibilities. The number of commercial applications from which users can choose continually rises. Among them are Layar9, Nokia Point & Find10, Twitter AR11 and Virus Killer 36012. Building a reference presentation of the environment while tracking is a popular trend, research focusing especially on Simultaneous Localisation and Mapping (SLAM)[CGKM07, DRMS07, KM09]. Such systems usually require a high amount of computational resources. However, through certain restrictions, SLAM works on a mobile phone, too, as has recently been shown by the work of Klein and Murray[KM09]. Instead of using as many features as possible and hoping that some of the chosen features provide robust tracking, researchers try to find methods to detect only suitable and useful features in the first place[ZDB08, ST94]. Researchers try to find ways of making initialisation processes automatic[SKSK07]. Focusing on model-based tracking is popular as well[FL07, WS07]. Last but not least, ubiquitous tracking, that is tracking acquired by forming a dense network of sensors that enables tracking everywhere, seems to be achievable in the near future[HPK+07].
+State of the Art Recent tracking systems produced very good results for indoor applications. Predominantly, they use hybrid approaches and work within a limited range (cp. [ZDB08, HF04, ABB+01]). According to Zhou et al.[ZDB08] current tracking systems consist of two stages. The first stage is dedicated to either learning and training or feature extraction. The second stage takes care of the tracking itself, using the knowledge gained through training or the features that have been extracted. The first stage usually requires the most computational resources, if the system uses a learning algorithm. Using a learning stage can reduce the resources the on-line tracking needs, enabling the system to work in real time. 2.3.5.1 Limitations and Challenges Even though tracking systems are accurate enough to achieve good results, the environments they work in are usually restricted not only to being indoors but also to being known in advance[ABB+01]. Dynamical adaption to unknown environments still poses a challenge. Complex scenes are challenging for real-time 3D tracking as is the motion of target objects[ZDB08]. Coping with rapid camera movements is difficult as resulting motion-blur hinders the re-observation of features. Rapid and unpredictable changes, that may occur in outdoor environments, constrain tracking results[HF04]. Especially illumination changes, which often and repeatedly occur outdoors, complicate the tracking process[ZDB08]. Basically all changes which cannot be controlled or anticipated are hard to handle. Some systems feature automatic reinitialisation, but the recovery of the camera pose, when the tracking has failed, cannot be achieved easily[ZDB08]. It is limited to applications which possess enough knowledge about the environment or which do not solely rely on vision-based tracking. 2.3.5.2 Trends Current research features many tracking approaches. Coping with unknown outdoor environments is an important topic. One way researchers are trying to achieve that is by further investigating hybrid approaches. As the growing number of publications during the past years indicate, Mobile AR becomes more and more popular among researches[SW07, WRM+08]. The growing computational resources of mobile devices present novel possibilities. The number of commercial applications from which users can choose continually rises. Among them are Layar9, Nokia Point \& Find10, Twitter AR11 and Virus Killer 36012. Building a reference presentation of the environment while tracking is a popular trend, research focusing especially on Simultaneous Localisation and Mapping (SLAM)[CGKM07, DRMS07, KM09]. Such systems usually require a high amount of computational resources. However, through certain restrictions, SLAM works on a mobile phone, too, as has recently been shown by the work of Klein and Murray[KM09]. Instead of using as many features as possible and hoping that some of the chosen features provide robust tracking, researchers try to find methods to detect only suitable and useful features in the first place[ZDB08, ST94]. Researchers try to find ways of making initialisation processes automatic[SKSK07]. Focusing on model-based tracking is popular as well[FL07, WS07]. Last but not least, ubiquitous tracking, that is tracking acquired by forming a dense network of sensors that enables tracking everywhere, seems to be achievable in the near future[HPK+07].
 
 
 %--
@@ -1349,5 +1605,8 @@ The main application issues are �� content creation �� authoring. Other 
 
 
 Η ποικιλομορφία συσκευών, εργαλείων και εφαρμογών επαυξημένης πραγματικότητας είναι εντυπωσιακή. Γενικά, η τεχνολογία της επαυξημένης πραγματικότητας είναι μια μέθοδος απεικόνισης που μπορεί να χρησιμοποιηθεί σε πολλές εφαρμογές, ενώ παράλληλα επιτρέπει φυσικές αλληλεπιδράσεις και είναι ένα καλό εργαλείο ανάπτυξης διαδραστικών βιντεοπαιχνιδιών που μπορεί να ενισχύσει την εμπειρία που βιώνουν οι χρήστες. Σε αυτή την εργασία, στοχεύουμε στη δημιουργία μιας μεθόδου που προσφέρει απλό και γρήγορο χειρισμό των εικονικών αντικειμένων. Οι αλγόριθμοι που αναπτύσσονται, εξετάζονται και αξιολογούνται υλοποιώντας ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας του γνωστού επιτραπέζιου παιχνιδιού, του σκακιού.
+
+%μαλικ
+While a variety of solutions to the registration problem have been proposed in the augmented reality literature, none fully address all the requirements of a robust system that is ready for consumer-level products. Some systems provide excellent stability and robustness of registration, but require sophisticated calibration steps and expensive hybrid tracking equipment. Other accurate vision-only registration approaches work with low-cost hardware, but the computational costs currently don’t allow interactive frame rates. Still others achieve real-time performance on low-cost hardware, but at the expense of stability and robustness. As can be seen, the various approaches all establish their own balance between cost, performance, and accuracy based on application-specific requirements. The ultimate goal of augmented reality is to provide seamless integration of virtual objects with natural, unprepared environments. Additionally, this integration should be automatic and reliable in a wide variety of lighting conditions and at various distances and user orientations, with the ability to interact with the virtual imagery. This requires solutions to many open problems, particularly in automatic calibration systems and tracking in arbitrary environments [AZUM01]. No system has addressed all of the requirements of the ideal augmented reality environment, but progress is being made in each of the problem domains. Clearly, an evolutionary rather than revolutionary approach is required to bring AR out from the research labs and into mainstream products.
 
 
