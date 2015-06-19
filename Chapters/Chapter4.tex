@@ -28,8 +28,12 @@ research projects
 Η κάμερα Realsense 3D τοποθετείται στο πίσω μέρος ενός απλού καπέλου το οποίο φοράει ο χρήστης κατά τη διάρκεια των δοκιμών, εμπνευσμένο από την εργασία \cite{Mathews2007}. Όσο ο χρήστης φορά το καπέλο με τον αισθητήρα, ο αισθητήρας βλέπει προς το markerboard με αποτέλεσμα να συμπεριλαμβάνεται η περιοχή της αλληλεπίδρασης. Τέλος, ένας φορητός υπολογιστής τοποθετείται μπροστά από το markerboard και το χρήστη, ώστε να μπορεί να δει το επαυξημένο video που καταγράφει η κάμερα. Η κάμερα είναι συνδεδεμένη με το φορητό υπολογιστή, στον οποίο τρέχει η εφαρμογή. 
 
 
-\section{Βαθμονόμηση}
+\section{Διαδικασία Βαθμονόμησης}
 
+\section{Δημιουργία Markerboard}
+
+
+Since the game of chess is a tabletop game that always uses a chessboard as a base for placing the chess pieces on, we considered that using a markerboard would be really similar to the use of a chessboard and the occlusion of the markerboard from the users hand would not affect the rendering of virtual chess pieces during a piece movement. That is why, we created a markerboard which consists of 64 markers in a 8x8 grid, just like a board that is used in chess games, as the main marker of the system. A paper published by the founders of ArUco described the methodology that can be used in order to create speci c marker IDs for the markerboard which will have a high number of bit transitions so that they are less likely to be confused with environment objects. While previous works impose xed dictionaries, the latest version of ArUco library proposes an automatic method for generating a board of marker with the desired number of markers and with the desired number of bits. We used the ArUco samples and created a board of highly reliable markers which corresponds to the size and dimensions of a real chessboard as described by the World Chess Organization.
 
 
 
