@@ -120,7 +120,7 @@
 
 Το 1999 ιδρύεται η εταιρία Total Immersion μία από τις πρώτες εταιρίες ανάπτυξης λύσεων επαυξημένης πραγματικότητας, η οποία με το προϊόν της, D’Fusion, παρέχει μία πληθώρα εργαλείων για δημιουργία εφαρμογών επαυξημένης πραγματικότητας [4], [26].
 
-Την ίδια χρονιά, ο Hirokazu Kato αναπτύσσει τη βιβλιοθήκη για εφαρμογές επαυξημένης πραγματικότητας ARToolKit, η οποία παρέχεται στο κοινό ως βιβλιοθήκη ανοικτού κώδικα από το εργαστήριο ΗΙΤ Lab (Human Interface Technology Laboratory) του Πανεπιστημίου της Washington. H βιβλιοθήκη αυτή επιτρέπει τη λήψη βίντεο και την τοποθέτηση – σε πραγματικό χρόνο – εικονικών μοντέλων πάνω σε markers που εντοπίζονται στην εκάστοτε σκηνή, έτσι ώστε να ακολουθούν την κίνηση της κάμερας. Η βιβλιοθήκη ARToolKit αποτελεί τη βάση για πολλές εφαρμογές επαυξημένης πραγματικότητας που ακολουθούν και χρησιμοποιείται ευρέως ακόμα και σήμερα ως έχει ή ελαφρώς παραλλαγμένη [4], [17], [27], [28]. 
+Την ίδια χρονιά, ο Hirokazu Kato αναπτύσσει τη βιβλιοθήκη για εφαρμογές επαυξημένης πραγματικότητας ARToolKit, η οποία παρέχεται στο κοινό ως βιβλιοθήκη ανοικτού κώδικα από το εργαστήριο ΗΙΤ Lab (Human Interface Technology Laboratory) του Πανεπιστημίου της Washington. H βιβλιοθήκη αυτή επιτρέπει τη λήψη βίντεο και την τοποθέτηση – σε πραγματικό χρόνο – εικονικών μοντέλων πάνω σε markers που εντοπίζονται στην εκάστοτε σκηνή, έτσι ώστε να ακολουθούν την κίνηση της κάμερας. Η βιβλιοθήκη ARToolKit αποτελεί τη βάση για πολλές εφαρμογές επαυξημένης πραγματικότητας που ακολουθούν και χρησιμοποιείται ευρέως ακόμα και σήμερα ως έχει ή ελαφρώς παραλλαγμένη.
 
 
 
@@ -400,11 +400,11 @@ H ποιότητα της εικονικής επαύξησης είναι συ�
 
 \section{Marker-based Tracking}
 %MONO FIDUCIAL MARKER TRACKING
+
+%eisagogi enotitas
 While some approaches seek natural features such as key points or textures,fiducial markers are still an attractive approach because they are easy to detect and high speed, as well as precision may be achieved.
 
 
-%Eisagogi
-%malik
 Σε αυτό το κεφάλαιο γίνεται μία εισαγωγή στις μαθηματικές έννοιες της επαυξημένης πραγματικότητας, στις μεθόδους που χρησιμοποιούνται και στην αναγνώριση δεικτών.  
 In this chapter, we review prior work in the field of augmented reality from which our research draws upon. We start by providing an introduction to the mathematical concepts of augmented reality, and describe how they relate to the registration problem. We then present a brief survey of various proposed solutions to the registration problem in the current augmented reality literature. We conclude by briefly describing some open issues.
 
@@ -469,29 +469,47 @@ In this chapter, we review prior work in the field of augmented reality from whi
 \end{tabu}
 
 
+
+
 \subsection{Το Μοντέλο Κάμερας Pinhole}
 %TO ΜΟΝΤΕΛΟ ΚΑΜΕΡΑΣ ΑΠΟ ΑΛΛΗ ΕΡΓΑΣΙΑ-
 %mcdonald,malik,clarke
 
 
-Σε ένα ιδανικό μοντέλο κάμερας pinhole, όλες οι ακτίνες φωτός περνάνε από ένα πολύ μικρό οπτικό κέντρο μιας κάμερας και η εικόνα ενός αντικειμένου εγγράφεται πάνω στο επίπεδο μιας εικόνας, η οποία ονομάζεται ιδανική εικόνα. Στις ψηφιακές κάμερες, η εικόνα εγγράφεται στον αισθητήρα της εικόνας και οι συντεταγμένες των στοιχείων του διαφέρουν από τις ιδανικές συντεταγμένες. Η εικόνα της κάμερας εξαρτάται από τα φυσικά χαρακτηριστικά της κάμερας, όπως την εστιασκή απόσταση, τον προσανατολισμό του αισθητήρα και το μέγεθος.
-
-
-
-
-
-Οι ιδιότητες προβολής μίας κάμερας pinhole προέρχονται από την εικόνα αυτή και από την παραδοχή ότι ο άξονας της εικόνας είναι ευθυγραμμισμένος με τον x και τον y άξονες ενός 3Δ συστήματος συντεταγμένων. Ο οπτικός άξονας της κάμερας συμπίπτει με τον z άξονα και η προβολή ακολουθεί παρόμοια τρίγωνα. Προσθέτοντας περιστροφή και μετατόπιση για να τεθεί ένα 3Δ σημείο στο σύστημα συντεταγμένων πριν την προβολή, ολοκληρώνεται ο μετασχηματισμός προβολής. 
-
-%verykookou 
-
-
-
-Το σύνηθες μαθηματικό μοντέλο το οποίο περιγράφει τη σχέση μεταξύ των συντεταγμένων χώρου ενός αντικειμένου και της προβολής τους στην εικόνα είναι το μοντέλο κεντρικής προβολής. Περιγράφει την ιδανική φωτογραφική απεικόνιση και με ορισμένες παραδοχές μπορεί να περιγράψει με ικανοποιητική ακρίβεια το εξεταζόμενο φαινόμενο, απλά και με αρκετή ακρίβεια για μεγάλος πλήθος εφαρμογών.  
-
-Στην πραγματικότητα, η κεντρική προβολή περιγράφει με ακρίβεια μόνο τη μηχανή σημειακής οπής (pinhole camera), με αποτέλεσμα να αναφέρεται συχνά και ως pinhole camera model. H εικόνα, λοιπόν, η οποία δεν αποτελεί μία αυστηρά κεντρική προβολή, λόγω ποικίλων σφαλμάτων που οφείλονται στους φακούς, στην ατμόσφαιρα, κ.λπ., προσεγγίζεται γεωμετρικά από το μοντέλο αυτό, στο πλαίσιο της όρασης υπολογιστών.
+%gt pinhole?
+Το σύνηθες μαθηματικό μοντέλο το οποίο περιγράφει τη σχέση μεταξύ των συντεταγμένων χώρου ενός αντικειμένου και της προβολής τους στην εικόνα είναι το μοντέλο κεντρικής προβολής. Στην πραγματικότητα, η κεντρική προβολή περιγράφει με ακρίβεια μόνο τη μηχανή σημειακής οπής (pinhole camera), με αποτέλεσμα να αναφέρεται συχνά και ως pinhole camera model. 
 
 
 Το μοντέλο αυτό, βασίζεται στην θεώρηση ότι όλες οι ακτίνες φωτός περνούν μέσα από μία οπή αμελητέων διαστάσεων και το είδωλο ενός αντικειμένου προβάλλεται πάνω στο επίπεδο μιας εικόνας. Επειδή μέσω της κεντρικής προβολής δημιουργούνται ανεστραμμένες εικόνες \cite{fig:pinhole3}, πολλές φορές καθίσταται βολική η θεώρηση του επιπέδου προβολής μπροστά από την μικροσκοπική οπή, στην ίδια απόσταση που βρισκόταν και προηγουμένως, με αποτέλεσμα η φανταστική αυτή εικόνα να μην είναι ανεστραμμένη. 
+
+
+
+%εδω ξεκιναμε να λέμε για τα focal length kai ideal to sensor 
+Στις ψηφιακές κάμερες, η εικόνα εγγράφεται στον αισθητήρα της εικόνας και οι συντεταγμένες των στοιχείων του διαφέρουν από τις ιδανικές συντεταγμένες. Η εικόνα της κάμερας εξαρτάται από τα φυσικά χαρακτηριστικά της κάμερας, όπως την εστιακή απόσταση, τον προσανατολισμό του αισθητήρα και το μέγεθος. H εικόνα, λοιπόν, η οποία δεν αποτελεί μία αυστηρά κεντρική προβολή, λόγω ποικίλων σφαλμάτων που οφείλονται στους φακούς, στην ατμόσφαιρα, κ.λπ., προσεγγίζεται γεωμετρικά από το μοντέλο αυτό, στο πλαίσιο της όρασης υπολογιστών.
+
+
+
+%malik
+
+Το σχήμα~\ref{fig:pinhole2} δείχνει το μοντέλο κάμερας pinhole. Ο οπτικός άξονας ορίζεται ως η γραμμή που διαπερνά το κέντρο της εστίασης (ένα τρισδιάστατο σημείο), που είναι κάθετο στο επίπεδο της εικόνας. Η εικόνας μιας pinhole κάμερα σχηματίζεται στο επίπεδο $z=f$, όπου f είναι το εστιακό μήκος κάμερας.
+To principal point είναι η τομή ανάμεσα στον οπτικό άξονα και το πεδίο της εικόνας. 
+
+Συμπεραίνοντας ότι έχουμε οποιοδήποτε άλλο σημείο P = [X, Y, Z] στο 3Δ χώρο, και αν θεωρήσουμε το επίπεδο της εικόνας για να ορίσουμε τη δισδιάστατη εικόνα, τότε η δισδιάστατη προβολή του P είναι η τομή ανάμεσα στο επίπεδο της εικόνας και της γραμμής μέσα από το κέντρο της εστίασης και το P, που ορίζεται ως p = [x, y, z]. 
+
+
+%-----
+%ksekinoun mathematics
+Το μοντέλο της κάμερας έχει στόχο να μετασχηματίσει ένα 3D σημείο 
+$X = \begin{bmatrix} X\\ Y\\ Z\\ 1\end{bmatrix}$ του πραγματικού κόσμου σε ένα 2Δ σημείο $X = \begin{bmatrix} X\\ Y\\ 1\end{bmatrix}$
+
+Για το μετασχηματισμό αυτό, αρκεί μία απλή προοπτική προβολή. Με άλλα λόγια:
+
+
+\begin{equation}
+X=f\frac{X}{Z}\\
+Y=f\frac{Y}{Z}
+\end{equation}
+
 
 
 
@@ -525,14 +543,16 @@ In this chapter, we review prior work in the field of augmented reality from whi
 \end{figure}
 
 
-%siltanen ta leei poli apla kai katanoita
--camera transformation (απο World coordinates σε Camera coordinates)
 
 
 
+%siltanen ta leei poli apla kai katanoita-exei lathi
 
+
+
+%allo pinhole allo pragmatikes kameres!!!!!!
 -camera calibration matrix and optical distortions
-Τα φυσικά χαρακτηριστικά μιας κάμερας ορίζουν πώς θα διαμορφωθεί μία εικόνα στον αισθητήρα εικόνας μιας κάμερας. Στην κάμερα pinhole, μόνο το εστιακό μήκος της κάμερας επηρεάζει τη διάταξη της εικόνας. Η εικόνας μιας pinhole κάμερα σχηματίζεται στο επίπεδο $z=f$, όπου f είναι το εστιακό μήκος κάμερας.
+Τα φυσικά χαρακτηριστικά μιας κάμερας ορίζουν πώς θα διαμορφωθεί μία εικόνα στον αισθητήρα εικόνας μιας κάμερας. Στην κάμερα pinhole, μόνο το εστιακό μήκος της κάμερας επηρεάζει τη διάταξη της εικόνας. 
 
 Στις πραγματικές κάμερες, ο αισθητήρας εικόνας μπορεί να είναι ασύμμετρος, η αναλογία διαστάσεων pixel μπορεί να είναι ανόμοια και το κέντρο του αισθητήρα εικόνας $(p_{x},p_{y}$ μπορεί να διαφέρει σε απόσταση από τον οπτικό άξονα του συστήματος φακού.
 
@@ -665,30 +685,10 @@ Z
 
 
 
-%thesis quadrotor
-Το μοντέλος της κάμερας έχει ως στόχο να μετασχηματίσει το σημείο 
-~X = (X; Y;Z; 1) του πραγματικού κόσμου σε σημεία πάνω στην εικόνα ~x = (x; y; 1). 
-
-Για το μετασχηματισμό ενός 3D σημείου σε 2D, μία απλή προοπτική προβολή αρκεί:
-
-\begin{equation}
-X=-f\frac{X}{Z}\\
-Y=-f\frac{Y}{Z}
-\end{equation}
-
-%malik
--perspective or pinhole
-Θεωρώντας ότι έχουμε ένα σημείο [x, y, z] σε συντεταγμένες κάμερας, η προβολική γεωμετρίας μας επιτρέπει να ορίσουμε το μετασχηματισμό $M_{P}$ που μπορεί να μετατρέψει αυτό το τρισδιάστατο σημείο στο δισδιάστατο χώρο εικόνας.
 
 
 
-Το σχήμα δείχνει το μοντέλο κάμερας pinhole ή προοπτικής, το οποίο θεωρείται ως το πιο κοινό γεωμετρικό μοντέλο για βιντεοκάμερες. Ο οπτικός άξονας ορίζεται ως η γραμμή που διαπερνά το κέντρο της εστίασης (ένα τρισδιάστατο σημείο), που είναι κάθετο στο επίπεδο της εικόνας. Η απόσταση ανάμεσα στο επίπεδο της εικόνας και το κέντρο της εστίασης ονομάζεται εστιακή απόσταση (f)
-To principal point είναι η τομή ανάμεσα στον οπτικό άξονα και το πεδίο της εικόνας. Συμπεραίνοντας ότι έχουμε οποιοδήποτε άλλο σημείο P = [X, Y, Z] στο 3Δ χώρο, και αν θεωρήσουμε το επίπεδο της εικόνας για να ορίσουμε τη δισδιάστατη εικόνα, τότε η δισδιάστατη προβολή του P είναι η τομή ανάμεσα στο επίπεδο της εικόνας και της γραμμής μέσα από το κέντρο της εστίασης και το P, που ορίζεται ως p = [x, y, z]. Με άλλα λόγια, έχουμε 
 
-\begin{equation}
-X=f\frac{X}{Z}\\
-Y=f\frac{Y}{Z}
-\end{equation}
 
 %tzionas
 Σαν μοντέλο κάμερας στην παρούσα εργασία επιλέγεται το pinhole μοντέλο, σε συνδυασμό με ορισμένες παραμέτρους που μοντελοποιούν κάποιες παραμορφώσεις.
@@ -1277,7 +1277,7 @@ Z\\
 
 
 %clarke
-Η διαδικασία της βαθμονόμησης αποτελεί το σύνολο των μετρητικών και υπολογιστικών διαδικασιών που στόχο έχουν τον προσδιορισμό των στοιχείων του εσωτερικού προσανατολισμού της κάμερας από δισδιάστατες εικόνες. Η συνολική απόδοση της εφαρμογής που θα αναπτυχθεί, εξαρτάται άμεσα από την ακρίβεια της βαθμονόμησης της κάμερας.Ένας από τους λόγους που πραγματοποιείται η διαδικασία της βαθμονόμησης έγκειται στην απόκτηση των intrinsic παραμέτρων της κάμερας που χρησιμοποιείται. Αυτές περιλαμβάνουν την εστιακή απόσταση, το "principal point" και την αναλογία των διαστάσεων (aspect ratio). 
+Η διαδικασία της βαθμονόμησης αποτελεί το σύνολο των μετρητικών και υπολογιστικών διαδικασιών που στόχο έχουν τον προσδιορισμό των στοιχείων του εσωτερικού προσανατολισμού της κάμερας από δισδιάστατες εικόνες. Η συνολική απόδοση της εφαρμογής που θα αναπτυχθεί, εξαρτάται άμεσα από την ακρίβεια της βαθμονόμησης της κάμερας. Ένας από τους λόγους που πραγματοποιείται η διαδικασία της βαθμονόμησης έγκειται στην απόκτηση των εσωτερικών (intrinsic) παραμέτρων της κάμερας που χρησιμοποιείται. Αυτές περιλαμβάνουν την εστιακή απόσταση, το "principal point" και την αναλογία των διαστάσεων (aspect ratio). 
 
 
 %%tzionas
@@ -1311,7 +1311,7 @@ Z\\
 
 
 
-\subsection{Εντοπισμός Marker}
+\subsection{Ανίχνευση Marker}
 
 
 
@@ -1932,3 +1932,5 @@ The main application issues are �� content creation �� authoring. Other 
 While a variety of solutions to the registration problem have been proposed in the augmented reality literature, none fully address all the requirements of a robust system that is ready for consumer-level products. Some systems provide excellent stability and robustness of registration, but require sophisticated calibration steps and expensive hybrid tracking equipment. Other accurate vision-only registration approaches work with low-cost hardware, but the computational costs currently don’t allow interactive frame rates. Still others achieve real-time performance on low-cost hardware, but at the expense of stability and robustness. As can be seen, the various approaches all establish their own balance between cost, performance, and accuracy based on application-specific requirements. The ultimate goal of augmented reality is to provide seamless integration of virtual objects with natural, unprepared environments. Additionally, this integration should be automatic and reliable in a wide variety of lighting conditions and at various distances and user orientations, with the ability to interact with the virtual imagery. This requires solutions to many open problems, particularly in automatic calibration systems and tracking in arbitrary environments [AZUM01]. No system has addressed all of the requirements of the ideal augmented reality environment, but progress is being made in each of the problem domains. Clearly, an evolutionary rather than revolutionary approach is required to bring AR out from the research labs and into mainstream products.
 
 
+%vallino
+None of the prior work discussed to this point has included any interaction with the virtual objects except for the visual changes seen in the augmented reality display whenever the user changed viewpoint. One performance goal for an augmented reality system is that the user can naturally interact with the virtual objects. This interaction should include not only moving the objects, but also feeling their surfaces and the forces applied to them by gravity and by other objects in the environment. Haptic relates to the sense of touch. The user of a haptic interface receives tactile feedback that adds the ability to feel objects. There is no work in the literature that describes haptic extensions in augmented reality systems. All the previous haptic research is in the areas of telemanipulation and virtual reality. We can apply the work in these two areas for haptic interaction with the virtual objects but it does not provide insights into the problems of registration with the real scene or interactions between real and virtual objects. One of the reasons stated by Mine, Brooks, et. al. (1997) for the paucity of virtual-environment applications that have left the laboratory setting is the lack of haptic feedback. Brooks, Ouh-Young, et. al. (1990) describes one of the first examples of a haptic interface used in virtual reality. This system uses a large sized telemanipulation arm that is driven by motors to give force feedback to the user. Molecular docking is the application area addressed by the project. The user operates in an immersive environment experimenting with finding positions for bonding two molecules together. The forces of repulsion and attraction for a bonding operation are correctly simulated and applied to the manipulator. The molecular experts using this system find that this addition of haptic sensation greatly improves their ability to discover novel compound arrangements. Two reported medical applications of haptic interfaces in virtual environments are for medical training. Ziegler, Brandt, et. al. (1997) describe a simulator for arthroscopic surgery that uses force feedback in the virtual environment to train surgeons in the procedure. Using the Rutgers Master II force feedback device Dinsmore, Langrana, et. al. (1997) built a virtual environment for training physicians to locate and palpate tumor masses. The haptic device that is most suited for our augmented reality applications is the Phantom. Its applicability is due not only to its small size but also for the range of haptic feedback that is available. This tabletop device provides force feedback to the user’s fingertip. Because of its size it is well suited for workspaces that fall into the category of virtual-environment interaction that is “working within arm’s reach” (Mine, Brooks et al. 1997). The demonstrations of the work of State, Hirota et. al. (1996) show interaction with virtual objects. Correct visual interactions occur when virtual objects move behind a real object. Using the metaphor of a magnetic finger, the user is also able to attach a virtual object to his fingertip and move it within the workspace. This is all done within a framework of hybrid position tracking that requires knowledge of the 3D location of fiducial points in the scene. There is neither haptic feedback nor dynamic interactions between the virtual and real objects. Using the registration technique of Uenohara and Kanade (1995), Yokokohji, Hollis et. al. (1996) demonstrate a haptic interface for an augmented reality system. They use a Puma 560 robot for the force feedback and track a small plane attached to the end effector of the robot. The entire real scene is draped in blue cloth to allow for easy chroma-keying of the video image of the user’s arm and hand. The augmented display merges a virtual cube located where the small plane was detected and live video of the user’s arm and hand. There is neither motion of the virtual object nor interactions between virtual and real objects in their system.
