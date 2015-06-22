@@ -5,6 +5,18 @@
 
 \chap{Αξιολόγηση \& Συμπεράσματα}
 
+%wang-popovi - 6d hands-χρησιμοποιεί διπλό view για να μη χανει το χερι
+ However, all three approaches rely on
+a single-view pinch detection technique that suffers from occlusions, restricting the hand orientations that can be tracked.
+A unique feature of our approach is the use of two widebaseline
+viewpoints. Our two-view approach resolves occlusions
+from one view using information from the other, enabling
+robust gesture (e.g. pinch) detection. Our contribution
+is independent of the particular type of camera used (depth
+or RGB).
+
+
+%---
 In this work, we have presented a thorough overview of the theory and applications of augmented reality. We have concentrated on marker-based tracking and lightweight single-camera approaches, but also gave an overview of alternative tracking methods and referred to how additional cameras, sensors and other devices are used in different types of AR applications. We discussed the ways in which basic AR applications can be enhanced and the ways in which interactions between real and virtual objects can be handled. In addition, the appendices give a comprehensive review of theoretical background of methods and algorithms used in augmented reality. We have also presented how the author has contributed to different issues in AR application development. In addition, we have reported practical experiences in AR application development and usability issues. Furthermore, we reported our research results in many areas of augmented reality. In the previous chapter, we discussed AR application development and application areas in which the use of AR is beneficial, and finally we had a glance at future possibilities of AR. In the following, we summarize the main issues of AR application development and design.
 
 In the current work we have presented the design and implementation of an AR interface to interact with virtual content by means of a pinch gesture performed with bare hands, using the Leap Motion Controller -a depth sensing device- to obtain the information of hands, fingers and articulations. Firstly, we have introduced the basic concepts of interaction in AR, gesture recognition and its acceptance for interaction. A review of different approaches was shown, finding scarce implementations with this specific device, most of the research found included computer vision techniques applied with depth cameras that usually expose raw data while the device delivers the information of hand and fingers directly. Afterwards, we defined a set of guidelines to follow based on perceptual issues and recommendations from previous works, a description of the development frameworks and an architecture to integrate the AR and hand tracking technologies, including the definition of an algorithm to recognize pinch gestures through the device. An evaluation was conducted among different users in order to test the performance of the prototype with a simple grab-move-release task designed for this purpose. We found positive results related to the gesture but various issues in the AR perception. The Leap Motion’s technology is very promising in the sense that it has a potential for wide range of applications for gesture interaction, virtual and augmented reality environments and more robust and serious applications as sign language detection or control. Combined with an AR scenario, is potentially useful for virtual modelling and prototyping, collaborative environments or gaming.

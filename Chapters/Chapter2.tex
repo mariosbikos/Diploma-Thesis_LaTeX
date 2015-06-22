@@ -1112,71 +1112,105 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
 
 
 %Από εργασία μου δερματά
+Η αλληλεπίδραση του ανθρώπου με την τεχνολογία των υπολογιστών υπήρξε για πολλά χρόνια μια μηχανοκεντρική μορφή επικοινωνίας. Βασίστηκε στην ικανότητα του χρήστη να συμβιβάζεται με στρατηγικές διεπαφών που ταιριάζουν περισσότερο με την ίδια την τεχνολογία παρά με το χρήστη. Καθώς η χρήση της τεχνολογίας υπολογιστών εξαπλώνεται, οι φυσικοί και εκφραστικοί περιορισμοί των μεθόδων τους κάνει ραγδαία αντιπαραγωγικούς. Τη µεγαλύτερη ώθηση στη δηµιουργία interfaces που βασίζονται στην αναγνώριση χειρονοµίας έδωσε η ανάπτυξη εφαρµογών της περιοχής της εικονικής πραγµατικότητας, τα λεγόµενα εικονικά περιβάλλοντα. 
 
-H αναγνώριση χειρονομιών είναι η διαδικασία κατά την οποία οι χειρονομίες οι οποίες γίνονται από τον χρήστη αναγνωρίζονται από έναν δέκτη. Η αναγνώριση και η ερμηνεία των χειρονομιών απαιτεί από μία μηχανή την ικανότητα να μετρήσει τις δυναμικές ή στατικές παραμορφώσεις του χεριού, του βραχίονα ή ακόμα και άλλων μερών του ανθρωπίνου σώματος, τα οποία συμμετέχουν στην κίνηση.
-
-Σε κάθε σύστημα αναγνώρισης χειρονομιών το πρώτο στάδιο είναι η συλλογή δεδομένων από τον χρήστη.Οι πρώτες συσκευές συλλογής δεδομένων βασιζόντουσαν στη χρήση data gloves και καλωδίων, πράγμα που εμπόδιζε την φυσικότητα στην αλληλεπίδραση του χρήστη.Οι σημερινές προσεγγίσεις αξιοποιούν την χρήση βιντεοκάμερων και τεχνικών υπολογιστικής όρασης που καταγράφουν το αντικείμενο και με τεχνικές αναγνώρισης αναλύουν και ερμηνεύουν τις χειρονομίες.
-
-Πολλές και ποικίλες είναι οι προσεγγίσεις των ερευνητών στην αναγνώριση των χειρονομιών.Αυτά που διαφέρουν σε κάθε προσέγγιση είναι ο τρόπος με τον οποίο κάθε ερευνητής κατάφερε να συλλέξει δεδομένα και οι τεχνικές επεξεργασίας εικόνας που εφάρμοσε για να εξάγει χαρακτηριστικά.
-
-Οι νοηματικές χειρονομίες μπορούν να είναι πολύ σύνθετες, περιέχοντας ταυτόχρονες κινήσεις διάφορων σημείων, ωστόσο πρέπει να περιγραφούν στον υπολογιστή με τρόπο απλό και σαφή.
-
-%hoggan
-Οι χειρονομίες χρησιμοποιούνται ως μέσο αλληλεπίδρασης σε πολλά διαφορετικά είδη συσκευών και εφαρμογών. Μία από τις πιο γνωστές χειρονομίες είναι αυτή της χειρονομίας του "τσιμπήματος", που περιλαμβάνει την διαστολή ή συστολή της έκτασης των δακτύλων \cite{hoggan2013multi}.
+Οι χειρονοµίες µπορούν να ενισχύσουν τη διαδραστικότητα σε κλασσικές εφαρµογές του υπολογιστή αντικαθιστώντας το ποντίκι και ίσως σε ένα βαθµό το πληκτρολόγιο. Μπορούν επίσης να αντικαταστήσουν µοχλούς και κουµπιά σε µηχανές βασισµένες στον υπολογιστή και ακόµη µπορούν να χρησιµοποιηθούν ώς βοήθηµα για τα άτοµα µε ειδικές ανάγκες ή µε βλάβη στην όραση/ακοή ώστε να επικοινωνούν ευκολότερα µε τους συνανθρώπους τους. 
 
 
-Pinch It is defined as the movement of expansion and contraction of a nger spread. It has been used for different purposes depending on target applications, e.g. the zooming metaphor by contracting and expanding, scaling or picking. It resembles a grabbing or picking action and offers natural signal to select or move an object in an interactive system and due to the nature of the thumb and index ngers, the pinch grabbing is precise and has high performance.
+Ως αναγνώριση χειρονομιών ορίζεται η διαδικασία κατά την οποία οι χειρονομίες, οι οποίες γίνονται από τον χρήστη, αναγνωρίζονται από έναν δέκτη. Η αναγνώριση και η ερμηνεία των χειρονομιών απαιτεί από μία μηχανή την ικανότητα να μετρήσει τις δυναμικές ή στατικές παραμορφώσεις του χεριού, του βραχίονα ή ακόμα και άλλων μερών του ανθρωπίνου σώματος, τα οποία συμμετέχουν στην κίνηση.
 
+Σε κάθε σύστημα αναγνώρισης χειρονομιών το πρώτο στάδιο είναι η συλλογή δεδομένων κατά την καταγραφή κινήσεων του χρήστη. Οι πρώτες συσκευές συλλογής δεδομένων βασιζόντουσαν στη χρήση γαντιών δεδομένων και καλωδίων, πράγμα που εμπόδιζε την φυσικότητα στην αλληλεπίδραση και περιόριζε το χρήστη και την κίνησή του μέσα στο περιβάλλον. Οι σημερινές προσεγγίσεις αξιοποιούν την χρήση βιντεοκαμερών και τεχνικών υπολογιστικής όρασης που καταγράφουν την κίνηση και με τεχνικές αναγνώρισης αναλύουν και ερμηνεύουν τις χειρονομίες.
 
-Human interaction with computer technology has for many years been a machine-centric form of communication. It has relied on the user’s ability to conform to interface strategies that better suit the technology than the user. As the use of computer technology spreads, the physical and expressive limitations of current interaction methods are increasingly counter-productive. Current interface technology such as the mouse and keyboard associated with desktop computers has become ubiquitous in mainstream computing. This role is based on application interface technology that has been used for decades. As the application domain expands, this technology will reveal its performance inhibitions. In an effort to overcome the barrier associated with current interface solutions, much research is being done in the domain of gesture recognition. Because gesture recognition is a natural form of human expression, it seems reasonable to apply it to the communication channel of Human-Computer Interaction (HCI). Several techniques for capturing gesture have been proposed [OKA02, ULHA01, CROW95]. Gesture interpretation for HCI requires the measurability of hand, arm and body configurations. Initial methods were attempted to directly measure hand movements using glove-based strategies. These methods required that the user be attached to the computer through the connecting cables. This restricts the user significantly in their environment.
-
-Overcoming this contact-based interpretation requires the inference-based methods of computer vision. As processor power continues to rise, the once complex algorithms of the field are becoming available as real-time applications. Most computer vision-based gesture recognition strategies focus on static hand gestures known as postures. However, it has been argued that the motion within gesture communication conveys as much meaning as the postures themselves. Examples include global hand motion and isolated fingertip motion analysis. The interpretation of gesture can be broken down into three phases: modeling, analysis and recognition. Gesture modeling involves the schematic description of a gesture system that accounts for its known or inferred properties. Gesture analysis involves the computation of the model parameters based on detected image features captured by the camera. The recognition phase involves the classification of gestures based on the computed model parameters. These phases are outlined in figure 2.12.
-
-Although much research has been done in the field of gesture recognition, HCI interaction involving accurate, real-time interpretation is a long way off. The key to simplifying the domain of human gesture possibilities is to construct a gesture model which clearly describes the sub-domain of gesture that will be classified by the associated system.
+Πολλές και ποικίλες είναι οι προσεγγίσεις των ερευνητών στο πεδίο της αναγνώρισης χειρονομιών. Αυτά που διαφέρουν σε κάθε προσέγγιση είναι ο τρόπος με τον οποίο κάθε ερευνητής κατάφερνει να συλλέξει δεδομένα και οι τεχνικές επεξεργασίας εικόνας που εφάρμόζει για να εξάγει χαρακτηριστικά. 
+Οι χειρονομίες μπορούν να είναι πολύ σύνθετες, περιέχοντας ταυτόχρονες κινήσεις διάφορων σημείων, ωστόσο πρέπει η περιγραφή τους στον υπολογιστή να γίνεται με τρόπο απλό και σαφή.
 
 
 
-To determine an appropriate model for a given HCI system, the application must be clearly defined. Simple gesture requirements result in simple gesture models. Likewise, complex gesture interpretation, involves defining a complex model.
+%mcdonald
+Έχουν προταθεί πολλές τεχνικές για την καταγραφή και την αναγνώριση των χειρονομιών [OKA02, ULHA01, CROW95]. Η ερμηνεία των χειρονομιών για το πεδίο της αλληλεπίδρασης ανθρώπου - υπολογιστή, αρχικά έγινε δυνατή χρησιμοποιώντας μετρήσεις σχετικά με την κίνηση του χεριού φορώντας ειδικά γάντια. 
 
-Gesture is defined as the use of body and motion as a form of expression and social interaction. This interaction must be interpreted for communication to be successful. Gesture interpretation is considered a psychological issue, which plays a role in the taxonomy of the varying types of human gesture. Figure 2.13 outlines one such taxonomy.
-
-It is crucial for any gesture recognition system to distinguish between the higher level classifications such as gesture versus unintentional movements and manipulation versus communicative. It has been suggested that the temporal domain of human gesture, for example, can help classify a gesture from unintentional movement. The temporal aspect of gesture has three phases: preparation, nucleus, and retraction [PAVL97]. The preparation phase involves the preparatory movement of the body from its rest position. The nucleus phase involves a definite form of body, while the retraction phase describes the return of the body to its rest position. The preparation and retraction phase are characterized by rapid motion, whereas the nucleus phase shows relatively slow motion. Some measurable stray from these temporal properties could indicate unintentional movement as opposed to gestures in the classification process. Two forms of modeling are being explored; appearance and 3D model-based modeling. Appearance-based modeling deals with the direct interpretation of gesture from images using templates. Image content features such as contours, edges, moments and even fingertips can form a basis for parameter extraction with respect to the gesture model chosen. Three-dimensional model-based modeling is used to describe motion and posture in order to then infer the gesture information. Volumetric models are visually descriptive, but are complex to interpret using computer vision. Skeletal models describe joint angles which can be used to infer posture and track motion.
+Για να εφευρεθούν νέες μέθοδοι που δεν βασίζονται στην ερμηνεία επαφής με γάντια, απαιτείται η αξιοποίηση μεθόδων υπολογιστικής όρασης. Καθώς η ισχύς των επεξεργαστών συνεχίζει να αυξάνεται, οι αλγόριθμοι που κάποτε θεωρούνταν πολύπλοκοι, γίνονται διαθέσιμοι σε εφαρμογές πραγματικού χρόνου.
 
 
-\subsection{Αναγνώριση Blob}
-%ΤΙ ΕΙΝΑΙ Η ΑΝΑΓΝΩΡΙΣΗ BLOB
+Το κλειδί για την απλοποίηση της δημιουργίας ενός συστήματος αναγνώρισης χειρονομιών είναι η κατασκευή ενός μοντέλου που περιγράφει ξεκάθαρα το είδος της χειρονομίας που θα ταξινομηθεί με το σχετικό σύστημα. Για να βρεθεί το μοντέλο αυτό, η εφαρμογή πρέπει να έχει οριστεί με σαφήνεια. Οι απλές απαιτήσεις χειρονομιών έχουν σαν αποτέλεσμα απλά μοντέλα χειρονομιών.
+
+Είναι ιδιαίτερα σημαντικό, κάθε σύστημα αναγνώρισης χειρονομιών να μπορεί να διαχωρίσει την αναγνώριση μιας χειρονομίας σε σχέση με ακούσιες κινήσεις. Έχει προταθεί, για παράδειγμα, ότι το χρονικό πεδίο της ανθρώπινης χειρονομίας μπορεί να βοηθήσει στην ταξινόμηση μιας χειρονομίας έναντι μιας ακούσιας κίνησης. 
+
+
+
+Δύο μορφές μοντελοποίησης είναι η μοντελοποίηση εμφάνισης και η μοντελοποίηση που βασίζεται σε 3Δ μοντέλο. Το πρώτο είδος μοντελοποίησης ασχολείται με την άμεση ερμηνεία της χειρονομίας από εικόνες χρησιμοποιώντας πρότυπα. Τα χαρακτηριστικά του περιεχομένου της εικόνας όπως περιγράμματα, ακμές, ορμές, ακόμα και ακροδάκτυλα μπορούν να σχηματίσουν μία βάση για την εξαγωγή παραμέτρων ως προς το μοντέλο χειρονομίας που επιλέχθηκε. Το δεύερο είδος μοντελοποίησης χρησιμοποιείται για να περιγράψει την κίνηση και τη στάση ώστε να συναχθεί η πληροφορία για τη χειρονομία. Ορισμένα σκελετικά μοντέλα περιγράφουν τις γωνίες των συνδέσμων οι οποίες μπορούν να χρησιμοποιηθούν για να συναχθεί η στάση και η ανίχνευση κίνησης.
+
+
+%greek thesis
+Ωστόσο δεν πρέπει να ξεχνάµε και την πολυπλοκότητα στην ανάλυση και αναγνώριση των χειρονοµιών.Τα 3D µοντέλα απαιτούν µεγάλη υπολογιστική ικανότητα απαγορευτική της χρήσης σε πραγµατικό χρόνο ενώ τα µοντέλα βασισµένα στην εµφάνιση αν και επιτρέπουν γρήγορους υπολογισµούς προσφέρονται πιο πολύ για χειρονοµίες επικοινωνίας. 
+
+
+
+
+Στο κεφάλαιο αυτό παρουσιάζεται αρχικά η γενική θεωρία γύρω από το πρόβλημα της ανίχνευσης και παρακολούθησης χειρονομιών (detection and tracking of hand gestures) σε ακολουθίες εικόνων (video). Στη συνέχεια του κεφαλαίου η προσοχή επικεντρώνεται σε μια εφαρμογή του προβλήματος αυτού,
+την αναγνώριση της κίνησης των ανθρώπινων χειρονομιών, που αποτελεί και το αντικείμενο της παρούσας εργασίας. Γίνεται έτσι μια εισαγωγή στη δομή του συστήματος αναγνώρισης χειρονομιών που υλοποιήθηκε, ενώ αναλυτικά το σύστημα που υλοποιήθηκε περιγράφεται στο κεφάλαιο 4.
+
+
+\subsection{Εξαγωγή Blob}
+
+Το αρχικό βήμα σε συστήματα αναγνώρισης χειρονομιών είναι η ανίχνευση των χεριών και η κατάτμηση των αντίστοιχων περιοχών της εικόνας. Η κατάτμηση αυτή είναι κρίσιμης σημασίας, διότι απομονώνει τις περιοχές ενδιαφέροντος από το παρασκήνιο της εικόνας, πριν περάσουν στην μετέπειτα παρακολούθηση τους και τα στάδια αναγνώρισης.
+
+
+Στο πεδίο της όρασης υπολογιστών, η εξαγωγή blob στοχεύει στην κατηγοριοποίηση εικονοστοιχείων μιας ψηφιακής εικόνας σε ξεχωριστές ομάδες, δηλαδή στην ανίχνευση περιοχών σε μία εικόνα που διαφέρει σε ιδιότητες, όπως σε φωτεινότητα ή χρώμα σε σχέση με τις γύρω περιοχές. Άτυπα, ένα blob είναι μία περιοχή μιας εικόνας όπου κάποιες ιδιότητες είναι συνεχείς ή σχετικά συνεχείς, δηλαδή κάθε σημείο σε ένα blob μπορεί να θεωρηθεί κατά κάποιο τρόπο παρόμοιο με ένα άλλο στο ίδιο blob. Σε αυτό το πλαίσιο, ένα blob είναι ουσιαστικά ένα σχήμα που αναγνωρίζεται σε μία εικόνα και αναπαριστά ένα συγκεκριμένο αντικείμενο.
+
+
+Μία εικόνα κατάτμησης είναι μία εικόνα που αναπαριστά ένα και μόνο blob, όπου τα pixels του blob είναι λευκά (255) και τα pixels του παρασκηνίου (δηλαδή όλα τα υπόλοιπα) είναι μαύρα (0). Ως ακμές των περιγραμμάτων ορίζονται οι εξωτερικές και εσωτερικές συνοριακές ακμές που διαφοροποιούν το αντικείμενο από το παρασκήνιο. 
+
+Οι εικόνες~\ref{fig:blob1} και~\ref{fig:blob2} δείχνουν παράδειγμα μιας εικόνας κατάτμησης με τα περιγράμματά της. Η λευκή περιοχή είναι το blob που αναπαριστά το αντικείμενο, οι μαύρες περιοχές είναι το παρασκήνιο και οι κόκκινες γραμμές είναι οι γραμμές των περιγραμμάτων. Το αντικείμενο στο παράδειγμα έχει μία "τρύπα" μέσα του και επομένως έχει και μία εσωτερική ακμή περιγράμματος πέρα από το εξωτερικό περίγραμμα. 
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6, angle=0]{Files/Figures/blob1.png}
+    \caption[Εικόνα κατάτμησης - Blob]{Εικόνα κατάτμησης - Blob}
+    \label{fig:blob1}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6, angle=0]{Files/Figures/blob2.png}
+    \caption[Ακμές περιγραμμάτων]{Ακμές περιγραμμάτων}
+    \label{fig:blob2}
+\end{figure}
+
+
+
+Μερικές προσεγγίσεις ανιχνεύουν τα χέρια, σε επίπεδο εικόνας blob σε κάθε καρέ και χρονικά αντιστοιχούν τα blob στις αντίστοιχες κοντινές περιοχές σε όλα τα frames. Οι προσεγγίσεις που βασίζονται στα blobs είναι σε θέση να διατηρήσουν την παρακολούθηση του χεριού, ακόμη και όταν υπάρχουν μεγάλες χρονικά διαστήματα από καρέ σε καρέ.
+
 
 
 \subsection{Αναγνώριση Χειρονομίας Τσιμπήματος}
 %ANALYΣΕ ΤΟ PINCH, ΠΩΣ ΓΙΝΕΤΑΙ, ΓΙΑΤΙ ΕΙΝΑΙ ΕΥΚΟΛΟ,ΠΟΥ ΧΡΗΣΙΜΟΠΟΙΕΙΤΑΙ, ΠΩΣ ΑΝΙΧΝΕΥΕΤΑΙ(WILSON,ETC)
 
-%wang-popovi
+%hoggan
+Οι χειρονομίες χρησιμοποιούνται ως μέσο αλληλεπίδρασης σε πολλά διαφορετικά είδη συσκευών και εφαρμογών. Μία από τις πιο γνωστές χειρονομίες είναι αυτή της χειρονομίας του "τσιμπήματος", που περιλαμβάνει την διαστολή ή συστολή της έκτασης των δακτύλων \cite{hoggan2013multi}.
 
 
-Pinching has been shown to be an effective gesture for “clicking”
-in 3D space. Hilliges and colleagues use a single depth
-camera to detect pinches above a table top [9]. Benko and
-Wilson [4] track pinches using an infrared camera above a
-projector. Wilson uses a webcam to detect pinches above
-the keyboard [26]. However, all three approaches rely on
-a single-view pinch detection technique that suffers from occlusions,
-restricting the hand orientations that can be tracked.
-A unique feature of our approach is the use of two widebaseline
-viewpoints. Our two-view approach resolves occlusions
-from one view using information from the other, enabling
-robust gesture (e.g. pinch) detection. Our contribution
-is independent of the particular type of camera used (depth
-or RGB).
-%--
+Η χειρονομία "τσιμπήματος" θεωρείται μία από τις κοινότερες χειρονομίες για αλληλεπίδραση με ψηφιακές διεπαφές. 
+Έχει χρησιμοποιηθεί για διαφορετικούς σκοπούς ανάλογα με το πεδίο των εφαρμογών, όπως για παράδειγμα ως μεταφορική χειρονομία για μεγέθυνση, κλιμάκωση ή επιλογή. Μοιάζει με κίνηση αρπαγής (grabbing) ή επιλογής και δείχνει ένα φυσικό σήμα επιλογής ή μετακίνησης ενός αντικειμένου σε ένα διαδραστικό σύστημα. 
 
-Successful gesture recognition requires clear classification of the model parameters. This process can be difficult when attempting feature extraction schemes that rely on complex computer vision techniques. For example, contours can be misinterpreted when used for the recognition of gesture so their use is usually restricted to tracking. On the other hand, slight changes in hand rotation while presenting the same posture can be interpreted as different postures using geometric moments. Temporal variance is an important issue that needs to be studied in more detail. For example, hand clapping should be recognized properly regardless if it is done slowly or quickly. Hidden Markov Models (HMMs) have shown promise in distinguishing gesture in the presence of duration and variation changes
-
-Another recognition approach is to use motion history images (MHIs) or temporal templates. Motion templates accumulate the motion history of a sequence of visual images into a single two-dimensional image. Each MHI is parameterized by the time history window that was used for its computation. Multiple templates with varying history window times are gathered to allow time duration invariance. This process is computationally simple, but recognition problems can stem from the presence of artifacts in the images when auxiliary motions are present. Although it seems that 3D model-based approaches can capture the richest set of hand gestures in HCI, the applications that use such methods are rarely real-time. The most widely used gesture recognition approaches use appearance-based models. Current applications in the field of hand gesture related to HCI are attempting to replace the keyboard and mouse hardware with gesture recognition. Exciting possibilities with helping physically-challenged individuals and the manipulation of virtual objects are being explored.
+Κατά τη διάρκεια της αλληλεπίδρασης με πραγματικά αντικείμενα, χρησιμοποιείται για το άρπαγμα μικρών κομματιών ή μαλακών αντικειμένων όπως υφάσματα. Μοιάζει με μία κίνηση αρπαγής ή επιλογής και προσφέρει ένα φυσικό σήμα για την επιλογή ή τη μετακίνηση ενός αντικειμένου σε ένα διαδραστικό σύστημα.
 
 
 
-%\section{Διαδραστική Επαυξημένη Πραγματικότητα}
-%OTI ΔΕΝ ΕΙΠΑΜΕ ΣΤΗΝ ΕΙΣΑΓΩΓΗ ΓΙΑ AR, ΚΥΡΙΩΣ ΑΝΑΦΟΡΑ ΕΡΓΑΣΙΩΝ ΠΟΥ ΑΣΧΟΛΟΥΝΤΑΙ ΜΕ INTERACTION OF VIRTUAL OBJECTS, KAI MEΘΟΔΟΥΣ ΠΟΥ ΧΡΗΣΙΜΟΠΟΙΟΥΝΤΑΙ, ΓΙΑΤΙ ΕΙΝΑΙ ΧΡΗΣΙΜΗ Η ΑΛΛΗΛΕΠΙΔΡΑΣΗ ΣΤΟ ar
+Η χειρονομία αυτή μπορεί να εντοπιστεί σχετικά εύκολα, διότι δεν υπάρχει αμφιβολία αν ο αντίχειρας αγγίζει τον δείκτη ή όχι. Μάλιστα, λόγω της φύσης των δακτύλων δείκτη και αντίχειρα, η χειρονομία τσιμπήματος είναι ακριβής και υψηλών επιδόσεων.
+
+
+
+Αν και οι προσεγγίσεις που βασίζονται σε 3Δ μοντέλα μπορούν να καταγράψουν το μεγαλύτερο σύνολο των χειρονομιών στο πεδίο της αλληλεπίδρασης ανθρώπου-υπολογιστή, οι εφαρμογές που χρησιμοποιούν αυτές τις μεθόδους λειτουργούν σπάνια σε πραγματικό χρόνο. Οι περισσότερες προσεγγίσεις αξιοποιούν μοντέλα που βασίζονται στην εμφάνιση (appearance-based models) \cite{Wang2011}.
+
+Για τους σκοπούς της συγκεκριμένης εργασίας και με βάση τις πιο κοινά χρησιμοποιημένες χειρονομίες όπως περιγράφονται στο \cite{Piumsomboon2013}, το "τσίμπημα" είναι μία καίρια χειρονομία για την υλοποίηση αλληλεπιδράσεων μέσα στο χώρο της επαυξημένης πραγματικότητας.
+
+Η χειρονομία αυτή είναι ιδανική για την αλληλεπίδραση μέσω χειρονομιών, καθώς είναι εύκολο να πραγματοποιηθεί και να εντοπιστεί και σε αντίθεση με άλλες χειρονομίες δεν απαιτεί χρονικό όριο, ενώ μπορεί να ανιχνευθεί εύκολα, διότι κατά τη διεξαγωγή της, αρκεί να εντοπιστεί η "τρύπα" που σημιουργείται στο χέρι, μόλις ο δείκτης αγγίξει τον αντίχειρα με χρήση τεχνικών υπολογιστικής όρασης.
+
 
 
 \section{Σχετικές Ερευνητικές Εργασίες}
@@ -1185,7 +1219,12 @@ Another recognition approach is to use motion history images (MHIs) or temporal 
 %ΨΑΧΝΟΝΤΑΣ ΣΕ PAPERS ΑΝΑΦΕΡΕ ΠΑΡΟΜΟΙΕΣ ΕΡΓΑΣΙΕΣ ΝΑ ΕΧΟΥΝ ΣΧΕΣΗ ΜΕ GESTURE RECOGNITION FOR AR, VIRTUAL OBJECT MANIPULATION, AR TABLETOP GAMES
 Σε προηγούμενες ερευνητικές εργασίες, παρουσιάστηκαν διαφορετικές προσεγγίσεις για την κατανόηση των δυνατοτήτων που προσφέρουν οι χειρονομίες στην αλληλεπίδραση με εικονικά αντικείμενα σε ένα περιβάλλον επαυξημένης πραγματικότητας. Επιπλέον, σε βιβλιογραφικές αναφορές μπορούμε να εντοπίσουμε τις δυνατότητες της επαυξημένης πραγματικότητας στον χώρο της ψυχαγωγίας και συγκεκριμένα των βιντεοπαιχνιδιών, τις βασικές έννοιες της αλληλεπίδρασης μεσω χειρονομιών και της ρεαλιστικής απεικόνισης εικονικών αντικειμένων.
 
-
+%6d hands wang popovi
+Hilliges and colleagues use a single depth
+camera to detect pinches above a table top [9]. Benko and
+Wilson [4] track pinches using an infrared camera above a
+projector. Wilson uses a webcam to detect pinches above
+the keyboard [26]. 
 %thomas-cie-apps of ar gaming
 Augmented reality chess games have been implemented on previous works. One approach
 [1] used a handheld pen prop with a marker cube on top of it in order to interact with the
