@@ -881,28 +881,23 @@ f_{x} & 0 & 0 \\
 Τέλος το σύστημα υπολογίζει την πόζα, με βάση τις πληροφορίες από τη θέση στην οποία ανιχνεύθηκε ο marker.
 
 Τα βασικά βήματα ανίχνευσης είναι τα παρακάτω:
-\begin{itemize}
 
-\item Ανάκτηση εικόνας
+
+\begin{description}
+
+\item[Ανάκτηση εικόνας]
 Ανάκτηση μίας εικόνας έντασης επιπέδων του γκρι.
 Το στάδιο της απόκτησης εικόνας είναι ουσιαστικά μια ξεχωριστή διαδικασία. Πριν από την πραγματική ανίχνευση ενός marker, το σύστημα πρέπει να πάρει μία εικόνας έντασης (greyscale image) για να ξεκινήσει η διαδικασία ανίχνευσης. Aν το format της εικόνας που καταγράφηκε είναι άλλου τύπου, πχ RGB, τότε θα μετασχηματιστεί σε εικόνας κλίμακας γκρι χρησιμοποιώντας μία γνωστές τεχνικές \cite{Gonzalez}. 
 
 
-\item Προεπεξεργασία
--Επεξεργασία εικόνας σε χαμηλό επίπεδο-low level image processing
--Αντιστροφή της Παραμόρφωσης(undistortion)
--Ανίχνευση ακμών και προσαρμογή ακμών
--Ανίχνευση γωνιών marker
-
-
-Πρώτος στόχος είναι η ανίχνευση των ακμών πιθανών markers. 
+\item[Προεπεξεργασία] Αφού γίνει αντιστροφή της παραμόρφωσης λόγω του φακού της κάμερας, πρώτος στόχος είναι η ανίχνευση των ακμών πιθανών markers. 
 Συνήθως, είτε γίνεται πρώτα κατωφλίωση της εικόνας και έπειτα αναζήτηση για markers από τη δυαδική εικόνα που προκύπτει, είτε γίνεται ανίχνευση ακμών από την εικόνα κλίμακας του γκρι. Αυτές οι μέθοδοι επεξεργασίας χαμηλού επιπέδου(thresholding,
 edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \cite{szeliski2010computer} και επομένως δε θα αναλυθούν περαιτέρω στη συγκεκριμένα εργασία. 
 
 
 Τα συστήματα τα οποία χρησιμοποιούν προσεγγίσεις κατωφλίωσης, συνήθως χρησιμοποιούν μεθόδους προσαρμοστικής κατωφλίωσης ώστε να αντιμετωπίσουν τις τοπικές αλλαγές φωτεινότητας. 
 Μετά την κατωφλίωση το σύστημα έχει μία δυαδική εικόνα που αποτελείται από το παρασκήνιο και τα αντικείμενα. Όλα τα αντικείμενα είναι πιθανοί υποψήφιοι markers σε αυτό το στάδιο.
-Συνήθως η επόμενη φάση είναι η επισήμανσή τους ή ο συνεχής εντοπισμός τους. 
+Συνήθως η επόμενη φάση είναι η επισήμανσή τους ή ο συνεχής εντοπισμός τους. \\
 Κατά τη διαδικασία της επισήμανσης το σύστημα μπορεί να απορρίψει αντικείμενα τα οποία είτε είναι πολύ μικρά είτε είναι οτιδήποτε άλλο εκτός από marker. Τέλος οι ακμές όλων των πιθανών markers επισημαίνονται και οι θέσεις τους εξομαλύνονται(undistort) για το στάδιο του line fitting. 
 Έπειτα, το σύστημα εξετάζει και πάλι πιθανά markers, ελέγχοντας αν έχουν 4 ευθείες γραμμές και 4 γωνίες. Τέλος, το σύστημα βελτιστοποιεί τις θέσεις των γωνιών με ακρίβει sub-pixel. 
 Η ανίχνευση ακμών σε εικόνες κλίμακας του γκρι είναι μία διαδικασία που παίρνει αρκετό χρόνο και επομένως τα συστήματα συνήθως χρησιμοποιούν υποδειγματοληψία και ανιχνεύουν ακμές μόνο σε ένα προκαθορισμένο πλέγμα.
@@ -912,12 +907,7 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
 Για να βελτιωθεί η ακρίβεια, τα συστήματα βελτιστοποιούν τις θέσεις μετά την αρχική ανίχνευση.
 
 
-\item Ανίχνευση πιθανών markers και απόρριψη προφανών non-markers 
-Γρήγορη απόρριψη των προφανών non-markers
-Γρήγορη αποδοχή των πιθανών markers.
-
-Οι εφαρμογές επαυξημένης πραγματικότητας στοχεύουν σε επεξεργασία πραγματικού χρόνου και γρήγορες αποδόσεις, καθώς αυτές θεωρούνται επιτακτικές. Τα συστήματα δεν μπορούν να σπαταλήσουν πολύτιμο χρόνο υπολογισμών στην επεξεργασία στοιχείων που δεν είναι markers. 
-Επομένως, πολλές υλοποιήσεις χρησιμοποιούν κριτήρια αποδοχής / απόρριψης για να ξεχωρίσουν τα πραγματικά markers από τα αντικείμενα που προφανώς είναι οτιδήποτε άλλο.Στη συνέχεια αναλύουμε ορισμένα τέτοια τεστ που χρησιμοποιούνται συχνά.
+\item[Ανίχνευση πιθανών markers και απόρριψη non-markers ] Οι εφαρμογές επαυξημένης πραγματικότητας στοχεύουν σε επεξεργασία πραγματικού χρόνου και γρήγορες αποδόσεις, καθώς αυτές θεωρούνται επιτακτικές. Τα συστήματα δεν μπορούν να σπαταλήσουν πολύτιμο χρόνο υπολογισμών στην επεξεργασία στοιχείων που δεν είναι markers. Επομένως, πολλές υλοποιήσεις χρησιμοποιούν κριτήρια αποδοχής / απόρριψης για να ξεχωρίσουν τα πραγματικά markers από τα αντικείμενα που προφανώς είναι οτιδήποτε άλλο.Στη συνέχεια αναλύουμε ορισμένα τέτοια τεστ που χρησιμοποιούνται συχνά.
 
 
 Ένα σύστημα μπορεί να απορρίψει περιοχές που αποτελούνται μόνο από μερικά pixels. Συνήθως οι περιοχές αυτές δεν είναι markers, αλλά και να ήταν, το μικρό μέγεθός τους θα σήμαινε ότι το marker είναι πολύ μακριά από την κάμερα. Σε αυτή την περίπτωση η πόζα του marker δε θα ήταν πολύ ακριβής και απομένως άχρηστη. Επιπλέον, αν το marker συρρικνωθεί σε μέγεθος μερικών μόνο pixels, το σύστημα δε θα μπορεί να το αναγνωρίσει, εκτός αν κρατά ιστορικό εμφάνισης κάθε marker.
@@ -925,44 +915,37 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
 
 Το σύστημα πρέπει να δίνει προσοχή σε περιοχές στο εσωτερικό των markers και να σιγουρευτεί ότι δεν αφαιρεί κομμάτια ή στοιχεία που ανήκουν στο marker. Το ιστόγραμμα ενός ασπρόμαυρου marker είναι διπολικό και το σύστημα μπορεί να αξιοποιήσει τη διπολικότητα αυτή ως ένα κριτήριο για γρήγορη αποδοχή ή απόρριψη. Ωστόσο, το τεστ πρέπει να λάβει υπόψη του τις αντανακλάσεις, οι οποίες μπορεί να δημιουργήσουν τιμές στη μέση του ιστογράμματος (γκρι περιοχές). 
 
-Ο υπολογισμός του αριθμού των εικονοστοιχείων που ανήκουν στην περίμετρο είναι μία γρήγορη διαδικασία η οποία μπορεί να πραγματοποιηθεί στο στάδιο της επισήμανσης, σε αντίθεση με τον υπολογισμό του μεγέθους του αντικειμένου που είναι πιο περίπλοκο και απαιτεί χρόνο.
 
-Ένα άλλο γρήγορο κριτήριο που χρησιμοποιείται για την εκτίμηση της περιοχής, είναι η μέγιστη διαγώνιος ή άνοιγμα. Μερικές φορές ένα σύστημα μπορεί να απορρίψει περιοχές που είναι πολύ μεγάλες αν έχει γνώση για να δικαιολογήσει το συμπέρασμα ότι είναι κάτι άλλο εκτός από marker.
+Ο υπολογισμός του αριθμού των εικονοστοιχείων που ανήκουν στην περίμετρο είναι μία γρήγορη διαδικασία η οποία μπορεί να πραγματοποιηθεί στο στάδιο της επισήμανσης, σε αντίθεση με τον υπολογισμό του μεγέθους του αντικειμένου που είναι πιο περίπλοκο και απαιτεί χρόνο. Ένα άλλο γρήγορο κριτήριο που χρησιμοποιείται για την εκτίμηση της περιοχής, είναι η μέγιστη διαγώνιος ή άνοιγμα. Μερικές φορές ένα σύστημα μπορεί να απορρίψει περιοχές που είναι πολύ μεγάλες αν έχει γνώση για να δικαιολογήσει το συμπέρασμα ότι είναι κάτι άλλο εκτός από marker.
 
-Το βέλτιστο όριο για το μέγεθος ενός marker εξαρτάται από την εφαρμογή και τον τύπο του marker.
-Για παράδειγμα, το ARToolKit συμπεραίνει ότι τα markers είναι σε μία λογική απόσταση από την κάμερα. Η ανίχνευση markers του ARToolKit παραβλέπει περιοχές που είναι πολύ μεγάλες ή πολύ μικρές μετά την επισήμανση. Με άλλα λόγια, κρατά τις περιοχές όπου ο αριθμός των pixels που ανήκουν σε αυτές είναι μέσα στα όρια για περαιτέρω ανάλυση.
+
+Το βέλτιστο όριο για το μέγεθος ενός marker εξαρτάται από την εφαρμογή και τον τύπο του marker. Για παράδειγμα, το ARToolKit συμπεραίνει ότι τα markers είναι σε μία λογική απόσταση από την κάμερα. Η ανίχνευση markers του ARToolKit παραβλέπει περιοχές που είναι πολύ μεγάλες ή πολύ μικρές μετά την επισήμανση. Με άλλα λόγια, κρατά τις περιοχές όπου ο αριθμός των pixels που ανήκουν σε αυτές είναι μέσα στα όρια για περαιτέρω ανάλυση.
+
 
 Ανάλογα με τον τύπο του marker, ένα σύστημα μπορεί να γνωρίζει κάτι για την συνολική εμφάνιση του marker. Για παράδειγμα, τα απλά πρότυπα markers έχουν μία μαύρη εκόνα σε μία λευκή περιοχή που περιβάλλεται από μία μαύρη ακμή.
 Σε μία ιδεατή περίπτωση, οι markers έχουν ένα γνωστό αριθμό από οπές (λευκές περιοχές) μέσα σε μία μαύρη περιοχή του marker. Επιπλέον οι περιοχές που είναι εντελώς μαύρες, δεν είναι markers σίγουρα. Ο υπολογισμός του αριθμού των οπών είναι γρήγορος και επομένως ένα σύστημα μπορεί να εφαρμόσει σαν κριτήριο απόρριψης τον αριθμό των οπών, κατά την προεπεξεργασία.
 
+
 Μια ευρετική μέθοδος απόρριψης προφανών μη-markers είναι ο υπολογισμός αριθμού αλλαγών έντασης σε δύο κάθετες κατευθύνσεις. Αν ο αριθμός αλλαγών είναι χαμηλός, τότε δεν μπορεί να είναι marker. Αυτό το κριτήριο λειτουργεί μόνο σε τύπους markers όπου η κωδικοποίηση εγγυάται υψηλή διακύμανση και μη ύπαρξη σχεδόν λευκών ή σχεδόν μαύρων markers. 
+
 
 Μία προοπτική εικόνα ενός τετραγώνου είναι πάντα τετράπλευρη. Επομένως, βολεύει να εφαρμοστεί ένα τεστ τετραπλεύρων για τετράγωνα markers. Ο αριθμός γραμμών και γωνιών είναι εύκολο να υπολογίστει και επομένως οι υλοποιήσεις ανίχνευσης markers χρησιμοποιούν το συγκεκριμένο κριτήριο.Για παράδειγμα το ARToolKit χρησιμοποιεί line fitting για τα pixels των ακμών για να ελέγξει την ύπαρξη ακριβώς 4 γραμμών στην περίμετρο.
 
 
-
-Επιπλέον, το σύστημα μπορεί να εφαρμόσει και άλλα γρήγορα κριτήρια, ανάλογα με τον τύπο των markers, πχ για κυκλικά markers, ένα κριτήριο εξαρτάται από κάποιο τέστ κυκλικότητας. Στην επεξεργασία πραγματικού χρόνου, το σύστημα πρέπει να επικεντρώνεται στην επεξεργασία σχετικών πληροφοριών και επομένως αυτά τα γρήγορα τεστ είναι ιδιαίτερα σημαντικά. Τα τεστ αυτά πραγματοποιούνται από τα συστήματα καθόλη τη διάρκεια της ανίχνευσης markers και της διαδικασίας ταυτοποίησης. 
-
-\item Ταυτοποίηση και αποκωδικοποίηση markers
--Αντιστοίχιση προτύπων
--Αποκωδικοποίηση πληροφορίας marker
+Στην επεξεργασία πραγματικού χρόνου, το σύστημα πρέπει να επικεντρώνεται στην επεξεργασία σχετικών πληροφοριών και επομένως αυτά τα γρήγορα τεστ είναι ιδιαίτερα σημαντικά. Τα τεστ αυτά πραγματοποιούνται από τα συστήματα καθόλη τη διάρκεια της ανίχνευσης markers και της διαδικασίας ταυτοποίησης. 
 
 
-\item Υπολογισμός πόζας marker
--Εκτίμηση της πόζας marker
--Επαναληπτικός υπολογισμός πόζας για εύρεση ακριβούς πόζας
+\item [Aποκωδικοποίηση markers] Στο στάδιο αυτό, πρέπει να πάρουμε μία εμπροσθια όψη του marker χρησιμοποιώντας τις αρχές της ομογραφίας (homography) και να αντιστοιχίσουμε τον κωδικό με μία δομή που περιγράφει το αντικείμενο το οποίο αντιστοιχεί στο marker.
 
 
-\end{itemize}
+\item Υπολογισμός πόζας marker Το στάδιο αυτό αναλύθηκε στην προηγούμενη ενότητα. Ουσιαστικά γίνεται εκτίμηση της θέσης του marker ως προς την κάμερα, καθώς επίσης πραγματοποιείται επαναληπτικός υπολογισμός της πόζας του για μεγαλύτερη ακρίβεια.
 
 
-%---
+\end{description}
 
 
-Γενικά οι διαδικασίες ανίχνευσης marker μπορούν να διαφέρουν από την παραπάνω σειρά βημάτων. Μπορεί η σειρά εκτέλεσης να είναι διαφορετική ή το σύστημα να συνενώσει βήματα στον ίδιο αλγόριθμο. Συγκεκριμένα, πολλές υλοποιήσεις συνδυάζουν τεστ αποδοχής/απόρριψης με άλλες διεργασίες. Το σύστημα μπορεί να απορρίψει ένα υποψήφιο marker σε οποιοδήποτε στάδιο της ανίχνευσης, μόλις παρατηρήσει ότι ο υποψήφιος δεν μπορεί να είναι marker. 
-Ωστόσο η βασική αρχή είναι η ίδια συνήθως. 
 
-
+Γενικά οι διαδικασίες ανίχνευσης marker μπορούν να διαφέρουν από την παραπάνω σειρά βημάτων. Μπορεί η σειρά εκτέλεσης να είναι διαφορετική ή το σύστημα να συνενώσει βήματα στον ίδιο αλγόριθμο. Συγκεκριμένα, πολλές υλοποιήσεις συνδυάζουν τεστ αποδοχής/απόρριψης με άλλες διεργασίες. Το σύστημα μπορεί να απορρίψει ένα υποψήφιο marker σε οποιοδήποτε στάδιο της ανίχνευσης, μόλις παρατηρήσει ότι ο υποψήφιος δεν μπορεί να είναι marker. Ωστόσο η βασική αρχή είναι η ίδια συνήθως. 
 
 
 
@@ -1058,10 +1041,7 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
     \label{fig:aruco5}
 \end{figure}
 
-
 \end{itemize}
-
-
 
 \item Για τα έγκυρα markers, βελτιώνουμε τις γωνίες χρησιμοποιώντας subpixel παρεμβολή.
 
@@ -1091,15 +1071,21 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
 
 Τα συστήματα επαυξημένης πραγματικότητας καλούνται, επομένως, να βελτιώσουν την χρησιμότητα και τη ανθεκτικότητα ενός συστήματος αξιοποιώντας markersboards. Σε αυτή την ενότητα, περιγράφουμε πώς ένα σύστημα επαυξημένης πραγματικότητας μπορεί να ορίσει και να ανιχνεύσει μια διάταξη από markers.
 
- 
-
 
 
 Συγκεκριμένα, μπορούν να διαχειριστούν μερικές αποκρύψεις και να εξάγουν τη θέση ενός marker ακόμα και αν είναι αόρατο, αρκεί να γίνει η ανίχνευση άλλων markers που ανήκουν στο ίδιο πεδίο των markers. Προκειμένου να εξάγουμε τη θέση ενός μη εντοπισμένου marker, ένα σύστημα πρέπει να ξέρει τη σχετική θέση ενός marker σε σχέση με τα άλλα. Είτε η σχετική θέση των markers πρέπει να είναι προκαθορισμένη, ή το σύστημα πρέπει να επιτρέψει την ελεύθερη κατανομή των markers και να εξάγει μία διάταξη δεικτών καθώς τα ανιχνεύει. 
 
 
 Προκαθορισμένα συστήματα πολλαπλών markers χρησιμοποιούνται ευρέως και υποστηρίζονται από αρκετά εργαλεία και βιβλιοθήκες. 
-Για παράδειγμα, το ARToolKit \cite{artoolkit}, η ALVAR \cite{alvar} και η ArUco\cite{aruco} διαθέτουν δυνατότητες αξιοποίησης των markerboards. Η προσέγγιση είναι η ίδια με τη χρήση ενός μεγάλου marker με περισσότερα από 4 σημεία. Ουσιαστικά, ένα markerboard είναι ένα μεγάλο marker και τα markers μέσα σε αυτό είναι υπο-χαρακτηριστικά. Ένα σύστημα multi-marker μπορεί, επίσης, να χρησιμοποιήσει ένα ανεπίπεδο προκαθορισμένο marker επίσης, για παράδειγμα οι marker μπορούν να καλύπτουν τις πλευρές ενός κύβου, ορισμένοι να είναι σε ένα τοίχο κλπ.\cite{uematsu2005ar}
+Για παράδειγμα, το ARToolKit \cite{artoolkit}, η ALVAR \cite{alvar} και η ArUco\cite{aruco} διαθέτουν δυνατότητες αξιοποίησης των markerboards. Η προσέγγιση είναι η ίδια με τη χρήση ενός μεγάλου marker με περισσότερα από 4 σημεία. Ουσιαστικά, ένα markerboard είναι ένα μεγάλο marker και τα markers μέσα σε αυτό είναι υπο-χαρακτηριστικά. Ένα σύστημα multi-marker μπορεί, επίσης, να χρησιμοποιήσει ένα ανεπίπεδο προκαθορισμένο marker επίσης, για παράδειγμα οι marker μπορούν να καλύπτουν τις πλευρές ενός κύβου, ορισμένοι να είναι σε ένα τοίχο κλπ.\cite{uematsu2005ar}.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7, angle=0]{Files/Figures/markerboard_example.png}
+    \caption[Παράδειγμα markerboard]{Παράδειγμα markerboard}
+    \label{fig:coordinatesDiagram}
+\end{figure}
 
 
 Τα markers τα οποία επισυνάπτονται πάνω σε τρισδιάστατα αντικείμενα επιτρέπουν στο σύστημα να τα ανγνωρίσει από διαφορετικές οπτικές γωνίες, κάτι το οποίο είναι επιθυμητό με tangible διεπαφές.Το πρόβλημα με τις ανεπίπεδες προσεγγίσεις έχει να κάνει με το γεγονός ότι είναι δύσκολο να μετρηθεί η φυσική θέση και ο προσανατολισμός κάθε marker σε σχέση με ένα άλλο, με τη διαδικασία βαθμονόμησης να απαιτεί χρόνο και να είναι ανακριβής αν γίνει χειροκίνητα.
@@ -1214,249 +1200,96 @@ edge detection, line fitting, etc.) είναι γνωστές \cite{Gonzalez}, \
 
 
 \section{Σχετικές Ερευνητικές Εργασίες}
-%ΑΝΑΦΕΡΕ ΠΑΡΟΜΟΙΕΣ ΕΡΓΑΣΙΕΣ ΓΙΑ GESTURE INTERACTION, AR TABLETOP GAMING, KAI AZUMA CLASSICS ETC.
+%ΑΝΑΦΕΡΕ ΠΑΡΟΜΟΙΕΣ ΕΡΓΑΣΙΕΣ ΓΙΑ GESTURE INTERACTION, AR TABLETOP GAMING
 %ΠΕΣ ΣΙΓΟΥΡΑ ΓΙΑ ΠΑΡΟΜΟΙΑ ΣΚΑΚΙΑ ΣΤΟ ΤΕΛΟΣ
 %ΨΑΧΝΟΝΤΑΣ ΣΕ PAPERS ΑΝΑΦΕΡΕ ΠΑΡΟΜΟΙΕΣ ΕΡΓΑΣΙΕΣ ΝΑ ΕΧΟΥΝ ΣΧΕΣΗ ΜΕ GESTURE RECOGNITION FOR AR, VIRTUAL OBJECT MANIPULATION, AR TABLETOP GAMES
+
+
 Σε προηγούμενες ερευνητικές εργασίες, παρουσιάστηκαν διαφορετικές προσεγγίσεις για την κατανόηση των δυνατοτήτων που προσφέρουν οι χειρονομίες στην αλληλεπίδραση με εικονικά αντικείμενα σε ένα περιβάλλον επαυξημένης πραγματικότητας. Επιπλέον, σε βιβλιογραφικές αναφορές μπορούμε να εντοπίσουμε τις δυνατότητες της επαυξημένης πραγματικότητας στον χώρο της ψυχαγωγίας και συγκεκριμένα των βιντεοπαιχνιδιών, τις βασικές έννοιες της αλληλεπίδρασης μεσω χειρονομιών και της ρεαλιστικής απεικόνισης εικονικών αντικειμένων.
 
-%6d hands wang popovi
-Hilliges and colleagues use a single depth
-camera to detect pinches above a table top [9]. Benko and
-Wilson [4] track pinches using an infrared camera above a
-projector. Wilson uses a webcam to detect pinches above
-the keyboard [26]. 
-%thomas-cie-apps of ar gaming
-Augmented reality chess games have been implemented on previous works. One approach
-[1] used a handheld pen prop with a marker cube on top of it in order to interact with the
-chess pieces. As the writers admit, the tracking of interaction props was inaccurate and slow
-to provide unencumbered and natural use. Another one[2] used nger tracking techniques that
-allow gestural interaction with the chess pieces. In this approach, manipulation of virtual objects
-is possible using grab and release gestures, as well as image processing techniques to detect hand
-gestures, using a single camera. The nger tracker that is implemented is using a hands 3D
-model that can determine enough information to robustly track the position, orientation and
-pose of the users index nger. However, this solution resorts to using a marked glove with
-retro-re
-ective spheres on top of the forengers joints, something that may disturb users and is
-denitely not a natural way to interact with content. Other approaches utilize mobile markers
-that correspond to a specic type of chess piece and users had to move the markers to different
-positions of a chessboard in order to play the chess game. Of course this would take quite an
-amount of effort to correctly print and create the congurable chessboard and is really similar
-to just using a real chessboard with real chess pieces.
 
 
-Η εφαρμογή AR2Hockey ήταν ένα από τα πρώτα βιντεοπαιχνίδια στο χώρο της επαυξημένης πραγματικότητας[Ohshima et al. 1998]. Στο συγκεκριμένο παιχνίδια, χρησιμοποιοιείται τεχνολογία optical see-through HMD display για 2 παίκτες. The game is played on a standard table with landmarks. The landmarks allow for a hybrid optical tracking and the Polhemus’ Fastrack. The game basically supports the traditional form of air hockey, but replaces the physical pucks with virtual ones. As an extension to this,Mueller et al. developed an AR remote version of air hockey [Mueller et al. 2006]. Two remote physical air hockey tables, one for each player, provide the playing surface for the game. There is a video conferencing display across the middle of each table providing a real-time video feed of the other player. What makes this game different is that the users play with physical pucks. Once a puck is hit across the table, it is caught with a mechanism under the video conference display. The mechanism then automatically shoots the puck back in response to the shot from the other player. The game of pool (or billiards) has been investigated by a number of researchers as an application domain for AR. Jebara et al. developed the first mobile AR pool system [Jebara et al. 1997]. This is an HMDbased AR game, for which many of the first algorithms for image processing and physics engines for pool-based games were developed. This game served as a trainer for the end user by displaying AR information on the correct cue placement. Each of these games supports a physical gaming interface, adding to the evidence that AR incorporates both the physical and virtual worlds. AR2Hockey was a very early AR game, and as such required more expensive display and tracking equipment; but the price for both these forms of hardware has fallen dramatically. The Jebara et al. pool system also required a large structure, the pool table, to play the game upon. This system also incorporates a tutoring system for the players, including suggestions for shots.
+%AR TABLETOP GAMING
 
+Ένα παιχνίδι επαυξημένης πραγματικότητας με την ονομασία Facade, επεκτάθηκε σε μία επαυξημένη έκδοση με χρηση ενός HMD. Το παιχνίδι αυτό \cite{Dow2007} διέφερε πολύ από τις παραδοσιακές ιδέες για βιντεοπαιχνίδια επαυξημένης πραγματικότητας που είχαν υλοποιηθεί προηγουμένως. Πρόκειται για ένα περίπλοκο παιχνίδι ρόλων που μοιάζει με διαδραστικό θέατρο. Το συγκεκριμένο βιντεοπαιχνίδι χρησιμοποιεί χειρονομίες και φωνητικές εντολές ως κύριες μορφές αλληλεπίδρασης. Τα αντικείμενα τα οποία μπορούσαν να χειριστούν τόσο οι εικονικοί, όσο και οι πραγματικοί χρήστες παρουσιάζονταν ως αντικείμενα επαυξημένης πραγματικότητας στον παίκτη μέσω του HMD.
 
-A number of AR card games have been developed: Billinghurst et al. created an ARToolkit memory game, where the users flip physical cards [Billinghurst et al. 2000]. When a card is flipped over, a 3D graphic is displayed. The cards interact with each other by playing an animation when there is a match between the cards. This was the first AR game developed with the ARToolkit. Diaz et al. created a variant which employed hand gestures as the means of interaction [Diaz et al. 2006]. They used special cards to enable the system to sense card flipping by embedding Hall effect switches in the cards. BattleBoard is another example of a tabletop AR card game [Andersen et al. 2004]. This is an ARToolkit fiducial marker-based AR system which attaches virtual game pieces to the markers. One player employs an HMD with a camera and the second player views the game through a monitor. Battles are fought when pieces come in close proximity to each other, and thus activate AR animations. The Billinghurst et al. card game was designed for a public demonstration at an ACM SIGGraph conference with quick gameplay. BattleBoard employs a similar technology to the Billinghurst et al. card game, but BattleBoard’s design is more advanced, and is similar to a duelling card game. The Tankwar game was developed for more extended gameplay, investigating how AR could be employed for games with a more traditional time span.
-
-
-%interaction in ar games
-A drama-based game, Fac¸ade, was extended into an HMD AR version, AR Fac¸ade [Dow et al. 2007a, 2006, 2007b]. This game is a major break from traditional AR gaming ideas developed previously. This is a complex, real-life, role-playing game; very much like interactive theatre. Originally, the game was played on a traditional workstation; AR Fac¸ade is played on a HMD with a mobile backpack system, with gestures and voice as the main forms of interaction. The authors constructed virtual and physical representations of many of the game objects, such as walls and furniture, in an apartment. Objects that were manipulated by both the virtual characters and the physical players were presented as AR objects to the game player in the HMD. Due to the large area the game is played in a large area with an IS1200 tracking system. A Wizard of Oz method was employed to support user interactions to make formore robust gesture and speech processing systems during user studies. The authors found this form of interaction engaging for the user, but more research is required
 
 %playstation app with board and monitor for AR
-Το βιντεοπαιχνίδι Eye of Judgement της πλατφόρμας Sony PS3 είναι ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας σε τρίτο πρόσωπο, που περιλαμβάνει μία ψηφιακή βιντεοκάμερα η οποία καταγράφει το ταμπλό του παιχνιδιού και απεικονίζει μία επαυξημένη του έκδοση στην τηλεόραση. Αυτός ο τύπος παιχνιδιού απαιτεί από τους χρήστες να επικεντρώνουν την προσοχή τους τόσο στο πραγματικό ταμπλό, όσο και στην έκδοση που παρουσιάζεται στην οθόνη. Μόλις οι κάρτες του παιχνιδιού τοποθετηθούν πάνω στο ταμπλό, δρουν ως καθοδηγητικοί δείκτες(markers) για τον εντοπισμό τεράτων επαυξημένης πραγματικότητας και τα κομμάτια του παιχνιδιού απεικονίζονται επάνω τους. Η μηχανή παιχνιδιών αναλαμβάνει τα τρισδιάστατα γραφικά των καρτών μόλις εντοπιστούν. Το παιχνιδί αυτό, ήταν ένα από τα πρώτα εμπορικά βιντεοπαιχνίδια επαυξημένης πραγματικότητας που κυκλοφόρησαν στην αγορά που επέτρεπε τη χρήση καθογητητικών δεικτών (fiducial markers).
+Το βιντεοπαιχνίδι Eye of Judgement της πλατφόρμας Sony PS3 είναι ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας σε τρίτο πρόσωπο, που περιλαμβάνει μία ψηφιακή βιντεοκάμερα η οποία καταγράφει το ταμπλό του παιχνιδιού και απεικονίζει μία επαυξημένη του έκδοση στην τηλεόραση. Αυτός ο τύπος παιχνιδιού απαιτεί από τους χρήστες να επικεντρώνουν την προσοχή τους τόσο στο πραγματικό ταμπλό, όσο και στην έκδοση που παρουσιάζεται στην οθόνη. Μόλις οι κάρτες του παιχνιδιού τοποθετηθούν πάνω στο ταμπλό, δρουν ως καθοδηγητικοί δείκτες(markers) για τον εντοπισμό τεράτων επαυξημένης πραγματικότητας και τα κομμάτια του παιχνιδιού απεικονίζονται επάνω τους. Η μηχανή παιχνιδιών αναλαμβάνει τα τρισδιάστατα γραφικά των καρτών μόλις εντοπιστούν. Το παιχνιδί αυτό, ήταν ένα από τα πρώτα εμπορικά βιντεοπαιχνίδια επαυξημένης πραγματικότητας που κυκλοφόρησαν στην αγορά που επέτρεπε τη χρήση καθογητητικών δεικτών (fiducial markers) \cite{Thomas2010}.
 
 
-%Εργασίες με σκάκι ή pinch gestures για χειρισμό εικονικών αντικειμένων 
-Οι Dorfmuller-Ulhaas και Schmalstieg δημιούργησαν ένα σύστημα οπτικής ανίχνευσης δακτύλων, με απώτερο σκοπό την αφαίρεση των ενοχλητικών καλωδίων κατά τη διάρκεια της αλληλεπίδρασης με τα εικονικά αντικείμενα. Μάλιστα, η τεχνολογίας που ανέπτυξαν, παρουσιάστηκε μέσα από μία επαυξημένη έκδοση ενός πολύ γνωστού παιχνιδιού, που δεν είναι άλλο από το σκάκι. [Dorfmuller-Ulhaas and Schmalstieg 2001].
 
-%vale kai mobile collaborative ar chess
-
-
-%wang,popovi
-RELATED WORK
-Many methods have been proposed for markerless or gloveless
-hand tracking, but they are either too slow for interactive
-applications, e.g. [24, 7], or the range of poses that they can
-detect do not permit the precise selection required in CAD
-applications, e.g. [14, 13, 20]. In comparison, our system
-achieves bimanual 6-DOF pose estimation at interactive rates
-and reliably detects poses suited for discrete selection such as
-pinching and pointing.
-Glove tracking has been proposed to ease and speed up the
-problem of hand tracking, e.g. [27, 25]. However, gloves are
-a significant drawback if one wants to also use the keyboard
-and mouse. Users may be reluctant to put on a glove when
-switching from a 2D task such as menu navigation to a 3D
-task such as object assembly. Wearing a glove may also become
-uncomfortable during long work sessions.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.2, angle=0]{Files/Figures/eyejudgment.jpg}
+    \caption[Eye of Judgement Game]{Eye of Judgement Game}
+    \label{fig:ps3game}
+\end{figure}
 
 
-%krevelen
-Besides registering virtual data with the user‟s real world
-perception, the system needs to provide some kind of interface
-with both virtual and real objects. Our technological
-advancing society needs new ways of interfacing with both
-the physical and digital world to enable people to engage in
-those environments [67]. 
-WIMP (windows, icons, menus, and pointing), as the
-conventional desktop UI metaphor is referred to, does not
-apply that well to AR systems. Not only is interaction required
-with six degrees of freedom (6DOF) rather than 2D, the use of conventional devices like a mouse and keyboard
-are cumbersome to wear and reduce the AR experience.
-Like in WIMP UIs, AR interfaces have to support selecting,
-positioning, and rotating of virtual objects, drawing
-paths or trajectories, assigning quantitative values (quantification)
-and text input. However as a general UI principle,
-AR interaction also includes the selection, annotation, and,
-possibly, direct manipulation of physical objects. This
-computing paradigm is still a challenge [20].
+
+%GESTURES IN AR
+
+Το 2006 ο A. Wilson παρουσίασε μία τεχνική όρασης υπολογιστών που επιτρέπει την ανίχνευση της επαφής ενός δείκτη με τον αντίχειρα ενός χρήστη (χειρονομία "τσιμπήματος" υπό συνθήκες κοντινών αποστάσεων \cite{Wilson2006}. Η τεχνική αυτή αποφέυγει πολύπλοκους και εύθραυστους αλγορίθμους ανίχνευσης χεριών εντοπίζοντας απλά την "τρύπα" που δημιοργείται όταν ο δείκτης ακουμπήσει τον αντίχειρα. Η εργασία αυτή χρησιμοποιήθηκε από μεγάλο εύρος επιστημονικών εργασιών για το χειρισμό εικονικών αντικειμένων και όχι μόνο.
+
+
+
+Για παράδειγμα, με βάση την παραπάνω τεχνική, το 2009, ο Hilliges και συνάδελφοί του χρησιμοποίησαν μία κάμερα βάθους για τον εντοπισμό χειρονομιών "τσιμπήματος" πάνω από ένα τραπέζι \cite{Wilson2}. Ενώ συνήθως ο χειρισμός των αντικειμένων που απεικονίζονταν στην επιφάνεια ενός ειδικού διαδραστικού τραπεζιού γινόταν σε 2 διαστάσεις, η εργασία αυτή κατάφερε να σχεδιάσει μια τεχνική που επιτρέπει στα εικονικά αντικείμενα να επιλεγούν και να μετακινηθούν και στις 3 διαστάσεις. Οι χρήστες είχαν τη δυνατότητα να σηκώσουν τα αντικείμενα και να τα αφήσουν σε κάποια άλλη θέση.
 
 
 
 
-In stead of using hand-worn trackers, hand movement may
-also be tracked visually, leaving the hands unencumbered. A
-head-worn or collar-mounted camera pointed at the user‟s
-hands can be used for gesture recognition. Through gesture
-recognition, an AR could automatically draw up reports of
-activities [105]. For 3D interaction, UbiHand uses
-wrist-mounted cameras enable gesture recognition [14],
-while the Mobile Augmented Reality Interface Sign Interpretation Language 16 [16] recognises hand gestures on a
-virtual keyboard displayed on the user‟s hand (Fig. 12). A
-simple hand gesture using the Handy AR system can also be
-used for the initialization of markerless tracking, which estimates
-a camera pose from a user‟s outstretched hand [97].
-Cameras are also useful to record and document the user‟s
-view, e.g. for providing a live video feed for teleconferencing,
-for informing a remote expert about the findings of AR
-field-workers, or simply for documenting and storing everything
-that is taking place in front of the mobile AR system
-user.
-Common in indoor virtual or augmented environments is
-the use of additional orientation and position trackers to
-provide 6DOF hand tracking for manipulating virtual objects.
-For outdoor environments, Foxlin and Harrington [60] experimented
-with ultrasonic tracking of finger-worn acoustic
-emitters using three head-worn microphones
+Σε μία άλλη εργασία \cite{Lee2008}, περιγράφεται ένα σύστημα που βασίζεται σε τεχνικές όρασης υπολογιστών για τον εντοπισμό των χεριών στο 3D χώρο με στόχο τη δημιουργίας μιας διεπαφής επαυξημένης πραγματικότητας.  Υλοποιήθηκε μία φυσική μέθοδος αλληλεπίδρασης με τα χέρια που βασίζεται στην 3D όραση και αποτελείται από 4 βήματα που περιλαμβάνουν την κατάτμηση με βάση το χρώμα του δέρματος, την εύρεση χαρακτηριστικών σημείων, τον υπολογισμό της κατεύθυνσης του χεριού και την ανίχνευση συγκρούσεων με βάση μία μικρή ακτίνα από το δάκτυλο του χρήστη για την αλληλεπίδραση ανάμεσα στο χέρι του χρήστη και τα εικονικά αντικείμενα. Παρά το γεγονός ότι οι χρήστες μπορούν να χρησιμοποιήσουν το σύστημα της διεπαφής για αλληλεπίδραση σε περιβάλλοντα επαυξημένης πραγματικότητας, η χρήση ενός και μόνο δακτύλου (του δείκτη) για την αλληλεπίδραση φάνηκε επιρρεπής σε λάθη διότι το δάκτυλο είναι πολύ λεπτό για να υπολογιστεί η στερεοσκοπική διαφορά. Επίσης οι συγγραφείς πιστεύουν ότι χρειάζεται περισσότερη ακρίβεια, φυσικότητα και ταχύτητα.
+
+
+
+Το 2013 ο Bai κ.α παρουσίασαν μία μέθοδο αλληλεπίδρασης μέσω χειρονομιών για εφαρμογές επαυξημένης πραγματικότητας σε φορητές συσκευές \cite{Bai2013}. Για να συμβεί αυτό, χρειάστηκε η σύνδεση ενός αισθητήρα χρώματος - βάθους με ένα tablet.
+Συνδυάζοντας την πληροφορία βάθους με τις χειρονομίες, η αλληλεπίδραση μπορεί να επεκταθεί σε ολόκληρο το 3D χώρο. Στο σύστημα που αναπτύχθηκε, γίνεται ανάκτηση του 3D σκελετού του χεριού από τα frames χρώματος και βάθους και τα αποτελέσματα αντιστοιχίζονται στο χειρισμό των εικονικών αντικειμένων στην επαυξημένη σκηνή. Η μέθοδος αυτή επιτρέπει τον έλεγχο των εικονικών αντικειμένων στον 3D χώρο με τη χρήση γυμνών χεριών και την εκτέλεση διεργασιών όπως η μετακίνηση, η περιστροφή και η μεγέθυνση. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5, angle=0]{Files/Figures/BaiApp.png}
+    \caption[Το σύστημα που αναπτύχθηκε για φορητές συσκευές]{Το σύστημα που αναπτύχθηκε για φορητές συσκευές}
+    \label{fig:ps3game}
+\end{figure}
+
+
+
+%google glass manipulation project
+Η αλληλεπίδραση με εικονικά αντικείμενα μέσω χειρονομιών για εφαρμογές επαυξημένης πραγματικότητας επιχειρήθηκε και για συσκευές όπως το Google Glass \cite{Bai2014} . Όπως επισημαίνουν οι συγγραφείς, ο εντοπισμός του χειριού είναι ιδιαίτερα δύσκολος, αν κάποιος θέλει να δημιουργήσει ένα ολοκληρωμένο 3D σκελετικό μοντέλο, ενώ το Google Glass δεν έχει τους κατάλληλους αισθητήρες και την υπολογιστική δύναμη για να πραγματοποιήσει κάτι τέτοιο σε πραγματικό χρόνο.
+Για το λόγο αυτό, πραγματοποίησαν τον εντοπισμό του χεριού σε έναν υπολογιστή και επέλεξαν να στείλουν το αποτέλεσμα στο Glass για την απεικόνιση και την αλληλεπίδραση. Αυτό επιτρέπει την ολοκληρωμένη 3D αλληλεπίδραση σε πραγματικό χρόνο. Συγκεκριμένα σύνδεσαν έναν αισθητήρα χρώματος - βάθους με έναν υπολογιστή για την παραγωγή 3D μοντέλα πραγματικού χρόνου και των δυο χεριών στο χώρο από κάτω από τον αισθητήρα, ενώ χρησιμοποιήσαν μία εικόνα σαν ως σημείο αναφοράς για τις συντεταγμένες. Έτσι συνδύασαν το σύστημα συντεταγμένων του αισθητήρα χρώματος - βάθους και του Google Glass στην ίδια σκηνή, με αποτέλεσμα να μοιράζονται το ίδιο σύστημα συντεταγμένων κόσμου με βάση το marker εικόνα. Το 3Δ μοντέλο χεριού που εντοπίζεται από τον υπολογιστή μπορεί να μεταδοθεί στο Glass μέσω ενός ασύρματου δικτύου σε πραγματικό χρόνο. Έτσι γίνεται δυνατή η χρήση του χεριού ως 3D είσοδος στο σύστημα. Πέρα από τον εντοπισμό της θέσης του χεριού και του σχήματος του, το λογισμικό που υλοποιήθηκε επιτρέπει την αναγνώριση απλών χειρονομιών όπως είναι η χειρονομία "τσιμπήματος". 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3, angle=0]{Files/Figures/GestureBannerFinal1.png}
+    \caption[Google Glass interaction]{Google Glass interaction}
+    \label{fig:ps3game}
+\end{figure}
 
 
 
 
-Immersed in an environment containing virtual information, the user is left with few mechanisms for interacting with the virtual augmentations. The use of hardware devices [VEIG02] can be physically restrictive given the special freedom goals of Augmented Reality. Interaction with virtual augmentation through a physical mediator such as a touch screen [ULHA01] is becoming a common practice. An interesting alternative is the use of natural human gestures to communicate directly with the environment. Gesture recognition has been explored mainly for the purpose of communicative interaction. Gesture systems have explored many aspects of hand gesture including three-dimensional hand posture [HEAP96] and fingertip motion [OKA02, ULHA01, CROW95]. The system presented in this chapter attempts to bridge these two fields of study by describing a hand gesture system that is used for manipulative interaction with the virtual augmentation. Although natural human gestures are too complex to recognize in realtime, simple gesture models can be defined to allow a practical interactive medium for real-time Augmented Reality systems.
 
 
-%vale to google glass manipulation project
+%SKAKIA APO TUGRAZ
+Στη βιβλιογραφία εντοπίζονται 2 επιστημονικές εργασίες, όπου παρουσιάζονται υλοποιήσεις σκακιών επαυξημένης πραγματικότητας. Στην πρώτη εργασία \cite{Reitmayr2001}, χρησιμοποιήθηκε ένα 
+φορητό βοήθημα σαν στυλό, πάνω στο οποίο τοποθετήθηκε ένας κύβος, οι πλευρές του οποίου είχαν ένα marker. Με αυτό τον τρόπο γινόταν δυνατή η αλληλεπίδραση με ψηφιακά πιόνια σκακιού Όπως παραδέχονται και οι συγγραφείς, ο εντοπισμός των markers πάνω στο στυλό δεν ήταν ιδιαίτερα ακριβής, ενώ παράλληλα ήταν αργός για να επιτευχθεί απρόσκοπτη και φυσική χρήση.
 
-\section{Προκλήσεις και Προβλήματα}
-%ΣΥΓΧΡΟΝΑ ΠΡΟΒΛΗΜΑΤΑ ΣΤΟ AR
-
-%ziegler
-State of the Art Recent tracking systems produced very good results for indoor applications. Predominantly, they use hybrid approaches and work within a limited range (cp. [ZDB08, HF04, ABB+01]). According to Zhou et al.[ZDB08] current tracking systems consist of two stages. The first stage is dedicated to either learning and training or feature extraction. The second stage takes care of the tracking itself, using the knowledge gained through training or the features that have been extracted. The first stage usually requires the most computational resources, if the system uses a learning algorithm. Using a learning stage can reduce the resources the on-line tracking needs, enabling the system to work in real time. 2.3.5.1 Limitations and Challenges Even though tracking systems are accurate enough to achieve good results, the environments they work in are usually restricted not only to being indoors but also to being known in advance[ABB+01]. Dynamical adaption to unknown environments still poses a challenge. Complex scenes are challenging for real-time 3D tracking as is the motion of target objects[ZDB08]. Coping with rapid camera movements is difficult as resulting motion-blur hinders the re-observation of features. Rapid and unpredictable changes, that may occur in outdoor environments, constrain tracking results[HF04]. Especially illumination changes, which often and repeatedly occur outdoors, complicate the tracking process[ZDB08]. Basically all changes which cannot be controlled or anticipated are hard to handle. Some systems feature automatic reinitialisation, but the recovery of the camera pose, when the tracking has failed, cannot be achieved easily[ZDB08]. It is limited to applications which possess enough knowledge about the environment or which do not solely rely on vision-based tracking. 2.3.5.2 Trends Current research features many tracking approaches. Coping with unknown outdoor environments is an important topic. One way researchers are trying to achieve that is by further investigating hybrid approaches. As the growing number of publications during the past years indicate, Mobile AR becomes more and more popular among researches[SW07, WRM+08]. The growing computational resources of mobile devices present novel possibilities. The number of commercial applications from which users can choose continually rises. Among them are Layar9, Nokia Point \& Find10, Twitter AR11 and Virus Killer 36012. Building a reference presentation of the environment while tracking is a popular trend, research focusing especially on Simultaneous Localisation and Mapping (SLAM)[CGKM07, DRMS07, KM09]. Such systems usually require a high amount of computational resources. However, through certain restrictions, SLAM works on a mobile phone, too, as has recently been shown by the work of Klein and Murray[KM09]. Instead of using as many features as possible and hoping that some of the chosen features provide robust tracking, researchers try to find methods to detect only suitable and useful features in the first place[ZDB08, ST94]. Researchers try to find ways of making initialisation processes automatic[SKSK07]. Focusing on model-based tracking is popular as well[FL07, WS07]. Last but not least, ubiquitous tracking, that is tracking acquired by forming a dense network of sensors that enables tracking everywhere, seems to be achievable in the near future[HPK+07].
+Την ίδια χρονιά, οι Dorfmuller-Ulhaas και Schmalstieg δημιούργησαν ένα σύστημα οπτικής ανίχνευσης δακτύλων, με απώτερο σκοπό την αφαίρεση των ενοχλητικών καλωδίων κατά τη διάρκεια της αλληλεπίδρασης με τα εικονικά αντικείμενα \cite{Dorfmuller-Ulhaas2001}. Μάλιστα, η τεχνολογίας που ανέπτυξαν, παρουσιάστηκε μέσα από μία επαυξημένη έκδοση ενός παιχνιδιού σκακιού. Οι συγγραφείς αξιοποίησαν τεχνικές εντοπισμού των δακτύλων για την αλληλεπίδραση μέσω χειρονομιών με εικονικά πιόνια.  Πιο συγκεκριμένα χρησιμοποίησαν χειρονομίες αρπαγής και αποδέσμευσης (grab and release gestures), καθώς και τεχνικές επεξεργασίας εικόνας για τον εντοπισμό των χειρονομιών, μέσω μιας κάμερας. Ο ανιχνευτής δακτύλων που υλοποιείται αξιοποιεί ένα 3D μοντέλο χεριού, το οποίο μπορεί να καθορίσει αρκετές πληροφορίες για τον απρόσκοπτο εντοπισμό της θέσης, του προσανατολισμού και της πόζας του δείκτη των χρηστών. Ωστόσο, η προσέγγιση αυτή απαιτεί τη χρήση ενός γαντιού με σφαίρες αντανάκλασης που τοποθετούνται ακριβώς πάνω από τους συνδέσμους των δακτύλων, κάτι το οποίο μπορεί να ενοχλεί τους χρήστες και σίγουρα δεν ενθαρρύνει έναν φυσικό τρόπο αλληλεπίδρασης με το εικονικό περιεχόμενο. 
 
 
-%--
-Μία από τις μεγαλύτερες προκλήσεις με τις οποίες έρχονται αντιμέτωποι οι δημιουργοί εφαρμογών επαυξημένης πραγματικότητας είναι η σωστή τοποθέτηση του εικονικού αντικειμένου εντός του πραγματικού περιβάλλοντος, έτσι ώστε η συνθετική πληροφορία να δίνει την εντύπωση ότι ανήκει σε αυτό. Η διαδικασία αυτή είναι γνωστή ως registration (γεωαναφορά). Η σωστή συγχώνευση και ευθυγράμμιση των δύο κόσμων – του φυσικού και του παραγόμενου από υπολογιστή – είναι κύρια προϋπόθεση για την εκπλήρωση του στόχου των εφαρμογών επαυξημένης πραγματικότητας, ενώ λάθη ή ανακρίβειες στην τοποθέτηση του εικονικού αντικειμένου θα έχουν ως αποτέλεσμα να χαθεί η ψευδαίσθηση ότι οι δύο κόσμοι συνυπάρχουν [3]. Πολλές εφαρμογές, μάλιστα, όπως για παράδειγμα στην ιατρική, απαιτούν ακριβή γεωαναφορά και δεν είναι επιτρεπτά λάθη και αστοχίες. Για τη σωστή γεωαναφορά, απαραίτητη προϋπόθεση είναι η πρότερη ανίχνευση της θέσης και του προσανατολισμού της κάμερας – και γενικά της συσκευής μέσω της οποίας επαυξάνεται η πραγματικότητα – ή του κεφαλιού του χρήστη (π.χ. σε εφαρμογή με HMD). Η διαδικασία αυτή είναι γνωστή ως tracking (ανίχνευση), απαντά στα ερωτήματα: πού βρίσκεται ο χρήστης, πού εστιάζεται το ενδιαφέρον του και πού πρέπει να παρουσιαστεί το εικονικό αντικείμενο [72] και συνεπώς η σωστή και ακριβής, ανάλογα με την εφαρμογή διεκπεραίωσή της είναι κρίσιμη για τη δημιουργία πειστικών εφαρμογών επαυξημένης πραγματικότητας. Για την επίτευξη των τελευταίων, η ανίχνευση πρέπει πρακτικά να διεξάγεται σε πραγματικό χρόνο, δηλαδή η εκτίμηση της θέσης να γίνεται σε χιλιοστά του δευτερολέπτου, καθώς επίσης και να είναι εύρωστη, δηλαδή να δίνει ικανοποιητικά αποτελέσματα κάτω από ποικίλες συνθήκες, όπως για παράδειγμα σε μεταβαλλόμενο φωτισμό [68]. Υπάρχουν πολλές μέθοδοι ανίχνευσης 6 βαθμών ελευθερίας (6DOF tracking), όπως το μηχανικό tracking, τεχνική που υιοθετήθηκε και από το πρώτο σύστημα επαυξημένης πραγματικότητας του Sutherland, το υπερηχητικό tracking και το οπτικό tracking. Υπάρχουν και άλλες που υπολογίζουν μόνο θέση ή προσανατολισμό, όπως για παράδειγμα το tracking που βασίζεται σε πληροφορίες μόνο από GPS ή μόνο από γυροσκόπια [15]. Για εφαρμογές που απαιτούν ακριβή γεωαναφορά, ωστόσο, απαιτείται ακριβές στιγμιαίο 6DOF tracking υπό οποιεσδήποτε συνθήκες. Επειδή η τέλεια ανίχνευση είναι – τουλάχιστον προς το παρόν – ανέφικτη, εξαιτίας των χρονικών καθυστερήσεων ή και των περιορισμών λόγω ακριβείας, κύρια πρόκληση αποτελεί η εύρεση της μεθόδου ανίχνευσης που είναι ιδανική για τη συγκεκριμένη κάθε φορά εφαρμογή [73]. Υπάρχει ένας ακόμη αριθμός προκλήσεων που συνδέονται με το πρόβλημα της ανίχνευσης και τοποθέτησης του εικονικού αντικειμένου εντός του φυσικού περιβάλλοντος [4], η κυριότερη από τις οποίες είναι οι αποκρύψεις (occlusion). Σύμφωνα με την τελευταία, πρέπει να επιτυγχάνεται η πλήρης ή μερική απόκρυψη του εικονικού αντικειμένου όταν κάποιο άλλο αντικείμενο του πραγματικού περιβάλλοντος τοποθετείται μπροστά από αυτό και το κρύβει, πλήρως ή μερικώς. Άλλη δυσκολία στις εφαρμογές επαυξημένης πραγματικότητας, σχετική με την οπτική ανίχνευση, είναι η μη εστιασμένη κάμερα στο marker ή στο πρότυπο που πρέπει να αναγνωριστεί για την επαύξηση της πραγματικότητας, γεγονός το οποίο μπορεί να οδηγήσει στη μη αναγνώρισή του, ή σε λάθη στην τοποθέτηση του εικονικού αντικειμένου, λόγω της χαμηλότερης ακρίβειας με την οποία αποδίδεται. Μία ακόμη πρόκληση, συγγενική με την οπτική ανίχνευση (visual tracking), είναι ο μη ομοιόμορφος φωτισμός, λόγω του οποίου ένα marker μπορεί να συσκοτιστεί σε κάποια τμήματά του και να μην αναγνωρίζεται από το πρόγραμμα ή να αναγνωρίζεται ως διαφορετικό marker. Όμοια, λόγω μεταβαλλόμενου φωτισμού, υπάρχει η πιθανότητα μη αναγνώρισης της εικόνας που έχει οριστεί ως πρότυπο. Τέλος, η θαμπάδα που μπορεί να προκληθεί λόγω γρήγορης κίνησης της κάμερας – κυρίως μίας κινητής συσκευής – είναι ένας ακόμα παράγοντας που δύναται να δυσκολέψει τη σωστή επαύξηση της πραγματικής σκηνής. Ένα κύριο στοιχείο των εφαρμογών επαυξημένης πραγματικότητας είναι η απεικόνιση του εικονικού αντικειμένου στην πραγματική σκηνή, δηλαδή η δημιουργία της συνθετικής επαυξημένης σκηνής, σε πραγματικό χρόνο (real-time rendering). Η φύση κάποιων εφαρμογών απαιτεί οι γραφικές πληροφορίες να ενσωματώνονται στο φυσικό περιβάλλον με τέτοιο τρόπο ώστε ο παρατηρητής να μην μπορεί να ξεχωρίσει ποιο είναι το πραγματικό και ποιο το εικονικό. Στις εφαρμογές αυτές, εκτός από το σωστό και ακριβές tracking και registration, απαιτείται ταυτόχρονα και φωτορεαλιστικό rendering, με σωστή σκίαση και φωτισμό του εικονικού αντικειμένου και οποιαδήποτε άλλη αυτόματη από το λογισμικό επεξεργασία πραγματικού χρόνου αυτό συνεπάγεται [6]. Καθοριστικό στοιχείο στη βελτίωση της ποιότητας του rendering αποτελεί η ικανότητα της εφαρμογής να λαμβάνει και να αξιοποιεί πληροφορία για το φωτισμό του περιβάλλοντος και την ανάκλαση [3]. Ένα ακόμη βασικό στοιχείο των εφαρμογών επαυξημένης πραγματικότητας είναι, όπως έχει ήδη αναφερθεί, η τεχνολογία θέασης, η οποία ταυτόχρονα αποτελεί και μία πρόκληση, καθώς η βελτίωσή της, ανάλογα με τις απαιτήσεις της εκάστοτε εφαρμογής, μπορεί να συντελέσει σε μεγαλύτερη αποδοχή της τεχνολογίας αυτής από το κοινό. Πράγματι, είναι πολύ πιο βολικό και «γνώριμο» στον άνθρωπο να φορέσει γυαλιά ή φακούς που θα επαυξήσουν την πραγματικότητά του σε σχέση με κάποια βαριά και μεγάλη συσκευή που προσαρτάται στο κεφάλι του (HMD ή HMPD). Εκτός από τέτοιου είδους περιορισμούς, που οφείλονται στον ανθρώπινο παράγοντα και για τους οποίους γίνονται σήμερα πολλές προσπάθειες βελτίωσης, υφίστανται και άλλες προκλήσεις σχετικές με την τεχνολογία θέασης της επαυξημένης πραγματικότητας [6], όπως είναι για παράδειγμα οι οπτικοί περιορισμοί λόγω του περιορισμένου οπτικού πεδίου του χρήστη, καθώς και οι τεχνικοί περιορισμοί, όπως η περιορισμένη ανάλυση και διάφοροι άλλοι παράγοντες. Εκτός των παραπάνω σημαντικών προκλήσεων με τις οποίες έρχονται αντιμέτωπες οι εφαρμογές επαυξημένης πραγματικότητας, υπάρχουν και άλλα τεχνικά ζητήματα σχετικά με αυτές, όπως είναι η αλληλεπίδραση του χρήστη με την εικονική πληροφορία, γεγονός το οποίο θα του δώσει την αίσθηση της πλήρους ενσωμάτωσης στο συνθετικό αυτό κόσμο, που συνδυάζει το πραγματικό με το εικονικό. Τέλος, οι δημιουργοί των εφαρμογών επαυξημένης πραγματικότητας πρέπει να δίνουν σημασία και στο πλήθος των εικονικών πληροφοριών που υπερτίθενται στο πραγματικό περιβάλλον του χρήστη, έτσι ώστε αυτό να μην εμποδίζει το χρήστη από τη θέαση του φυσικού κόσμου, αλλά ούτε και να είναι ανεπαρκές.
+
+%pes kai gia skaki tis meta
+Το 2014, η εταιρία Meta δημιούργησε μια σειρά ειδικών γυαλιών επαυξημένης πραγματικότητας με την ονομασία Meta One και Meta Pro, που συνδυάζουν τον πραγματικό κόσμο με ολογραφικές εικόνες. Για την προώθηση των συγκεκριμένων προϊόντων, δημιούργησαν ένα διαφημιστικό βίντεο \cite{metaglasses}, όπου παρουσιάζονται δύο χρήστες να παίζουν σκάκι με εικονικά πιόνια και σκακιέρα, χρησιμοποιώντας τα γυαλιά και τα χέρια τους, χωρίς κάποιο άλλο βοήθημα, όπως γάντια, markers κ.λπ. Παρά το γεγονός ότι το βίντεο αυτό παρουσιάζει μία ιδανική προσέγγιση για ένα σκάκι επαυξημένης πραγματικότητας, δεν αποτελεί πραγματικά υλοποιημένη εφαρμογή, ωστόσο αποτέλεσε πηγή έμπνευσης για τη συγκεκριμένη εργασία.
+
+
+
+
+%epilogos
+Η ποικιλομορφία συσκευών, εργαλείων και εφαρμογών επαυξημένης πραγματικότητας είναι εντυπωσιακή. Γενικά, η τεχνολογία της επαυξημένης πραγματικότητας είναι μια μέθοδος απεικόνισης που μπορεί να χρησιμοποιηθεί σε πολλές εφαρμογές, ενώ παράλληλα επιτρέπει φυσικές αλληλεπιδράσεις και είναι ένα καλό εργαλείο ανάπτυξης διαδραστικών βιντεοπαιχνιδιών που μπορεί να ενισχύσει την εμπειρία που βιώνουν οι χρήστες. Σε αυτή την εργασία, στοχεύουμε στη δημιουργία μιας μεθόδου αναγνώρισης χειρονομιών τσιμπήματος που μπορεί να χρησιμοποιηθεί για το διαδραστικό, απλό και γρήγορο χειρισμό εικονικών αντικειμένων σε περιβάλλοντα επαυξημένης πραγματικότητας. Οι αλγόριθμοι που αναπτύσσονται, εξετάζονται και αξιολογούνται υλοποιώντας ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας του γνωστού επιτραπέζιου παιχνιδιού, του σκακιού.
+
+
+
+
  
-%krevelen
-
-AR faces technical challenges regarding for example binocular
-(stereo) view, high resolution, colour depth, luminance,
-contrast, field of view, and focus depth. However,
-before AR becomes accepted as part of user‟s everyday life,
-just like mobile phones and personal digital assistants
-(PDAs), issues regarding intuitive interfaces, costs, weight,
-power usage, ergonomics, and appearance must also be addressed.
-A number of limitations, some of which have been
-mentioned earlier, are categorised here.
-
--Portability and outdoor use
-Most mobile AR systems mentioned in this survey are
-cumbersome, requiring a heavy backpack to carry the PC,
-sensors, display, batteries, and everything else. Connections
-between all the devices must be able to withstand outdoor use,
-including weather and shock, but universal serial bus (USB)
-connectors are known to fail easily. However, recent developments
-in mobile technology like cell phones and PDAs
-are bridging the gap towards mobile AR.
-Optical and video see-through displays are usually unsuited
-for outdoor use due to low brightness, contrast, resolution,
-and field of view. However, recently developed at
-MicroVision, laser-powered displays offer a new dimension
-in head-mounted and hand-held displays that overcomes this
-problem.
-Most portable computers have only one CPU which limits
-the amount of visual and hybrid tracking. More generally,
-consumer operating systems are not suited for real-time
-computing, while specialised real-time operating systems
-don‟t have the drivers to support the sensors and graphics in
-modern hardware.
-
--Tracking and (auto)calibration
-Tracking in unprepared environments remains a challenge
-but hybrid approaches are becoming small enough to be added to mobile phones or PDAs. Calibration of these devices
-is still complicated and extensive, but this may be
-solved through calibration-free or auto-calibrating approaches
-that minimise set-up requirements. The latter use
-redundant sensor information to automatically measure and
-compensate for changing calibration parameters [19].
-Latency A large source of dynamic registration errors are
-system delays [19]. Techniques like precalculation, temporal
-stream matching (in video see-through such as live broadcasts),
-and prediction of future viewpoints may solve some
-delay. System latency can also be scheduled to reduce errors
-through careful system design, and pre-rendered images may
-be shifted at the last instant to compensate for pan-tilt motions.
-Similarly, image warping may correct delays in 6DOF
-motion (both translation and rotation).
-
--Depth perception
-One difficult registration problem is accurate depth perception.
-Stereoscopic displays help, but additional problems
-including accommodation-vergence conflicts or low resolution
-and dim displays cause object to appear further away
-than they should be [52]. Correct occlusion ameliorates some
-depth problems [138], as does consistent registration for
-different eyepoint locations [158].
-In early video see-through systems with a parallax, users
-need to adapt to vertical displaced viewpoints. In an experiment
-by Biocca and Rolland [35], subjects exhibit a large
-overshoot in a depth-pointing task after removing the HMD.
-
--Overload and over-reliance
-Aside from technical challenges, the user interface must
-also follow some guidelines as not to overload the user with
-information while also preventing the user to overly rely on
-the AR system such that important cues from the environment
-are missed [156]. At BMW, Bengler and Passaro [29] use
-guidelines for AR system design in cars, including orientation
-on the driving task, no moving or obstructing imagery,
-add only information that improves driving performance,
-avoid side effects like tunnel vision and cognitive capture,
-and only use information that does not distract, intrude or
-disturb given different situations.
-
--Social acceptance
-Getting people to use AR may be more challenging than
-expected, and many factors play a role in social acceptance of
-AR ranging from unobtrusive fashionable appearance
-(gloves, helmets, etc.) to privacy concerns. For instance,
-Accenture‟s Assistant (Fig. 14) blinks a light when it records
-for the sole purpose of alerting the person who is being recorded.
-These fundamental issues must be addressed before
-AR is widely accepted [73].
-
-%---
-The diversity of AR platforms, devices, tools and applications is stunning. Overall,
-augmented reality is a pronounced visualisation method, which is used in many
-application areas. It is especially advantageous in on-site real-time visualisations
-of database information and for purposes where there is a need to enhance the
-3D perceptive skills of the user. Augmented reality enables natural interactions
-and is a good tool to create interactive games and enhance user experience in
-other areas as well. In this work, we aim to give a thorough overview of the whole
-field, whilst concentrating on the fundamental issues of single-camera visual augmented
-reality.
-
-
-In conclusion, the augmented reality application developer needs to take into consideration several different issues: technical, application and other issues affecting the user experience. The main technological issues relate directly to the definition of augmented reality (real-time, interactive, 3D, combining real and virtual). Application issues arise from the ease of creating AR applications. Other important issues relate to user experience. The main technological issues in augmented reality are �� performance �� interaction �� alignment.
-
-The main application issues are �� content creation �� authoring. Other important issues affecting the user experience are �� visual perception �� user interface �� devices �� power consumption. Next, we review what we mean by these issues and how they affect the usability and user experience of an AR application. An augmented reality system needs to be able to perform in real-time. Otherwise, the system may augment old or flawed information, or the augmentation may not correspond to the current state of the environment. Performance issues are characteristic to all AR algorithm and application development. Research results from other fields (e.g. image processing) are not directly applicable to AR. For instance, traditional image inpainting methods do not fulfil the real-time requirement, and therefore they cannot be used for diminished reality as such (see Section 6.2). Performance is an issue especially in mobile environment where the processing power and memory are limited. The user should be able to interact with the system naturally. The usability and the user experience are disturbed if the interaction is unnatural. The interaction needs to be natural in the user interface level as we discussed in the Section 7.1. The same holds true at the application level; the interaction between the real world objects and virtual objects needs to be smooth as well. Application needs to adapt virtual elements according to real scene, as for example in our interior design application where the user was able to adjust virtual lights easily according to real ones (see Section 6.1.3). At times, the application needs to remove existing objects virtually to be able to augment virtual objects on the same place. We discussed in Section 6.2 how to handle this kind of interaction with diminished reality. The camera calibration needs to be correct and the tracking needs to be accurate. Otherwise, the augmented data is shifted in the real environment: the virtual overlay is in the wrong place or it flutters. People find this alignment error annoying. In Chapter 3, we concentrated on marker-based approaches for accurate tracking, and in Chapter 4, on alternative tracking methods, mainly feature-based tracking and hybrid tracking methods. In addition, Appendix C gives an overview of camera calibration. The content creation is also an important aspect of application development. An application can visualise information from a database (e.g. in augmented assembly) or provide textual information (e.g. in AR browsers). Sometimes the information in database is in unsuitable format and format conversion is needed. In addition, when no database is available someone needs to create the content. Furthermore, if nice graphics are required, they need to be created to the approboth mobile environments and high quality visualisation. Besides content creation, authoring is a big application issue as we discussed in Section 7.4. Creation of AR applications should be brought to a non-expert nonprogramming level, where users can combine objects, interactions and events at a conceptual level. Visual perception should support the purpose of the application as we discussed in Chapter 6. Some applications require (photo-)realistic rendering, other applications benefit from focus and content -type highlighting of augmented objects. The user should be able to concentrate on the task, and the visual perception should sustain the task, without distracting the user. The user interface should be, as always, easy to use and intuitive. It should support the task at hand and make the user experience smooth as discussed in Section 7.1. The AR application should run on the appropriate device; mobile applications on lightweight devices, high-end visualisations on larger good-quality monitors. Furthermore, the terminal device should be taken into account already at the application design stage. There is no point in implementing computationally intensive methods on mobile phones if the application would then run on a slow frame rate. Devices often play very important role in the development process. The diversity of mobile platforms is perhaps the main obstacle for wider use of mobile AR applications. Applications need to be ported mostly to each platform separately, which deprives resources from application development. Furthermore, mobile devices are an ideal platform for consumer applications; they are equipped with cameras and new models with various additional sensors; people carry them with them all the time. Likewise, in special applications where an expert operates the system, it is feasible to invest in special devices such as HMDs, 3D displays, additional sensors, etc. if they support the task. One more aspect that significantly affects user experience is power consumption. Many applications require the user to be able to move freely, and thus wireless devices are optimal and then battery life plays a big role. A mobile application that discharges the battery in 15 minutes is unrealistic. We once tested a HMD where the camera ran out of batteries in less than two hours. The user had to change the batteries often, which was annoying especially as the camera and projector were wired to a computer anyway. It is hard to imagine this kind of setup in practical use, e.g. in a factory. In conclusion, the most important issue of augmented reality application development is the user experience, which is affected by all technological, application and other issues.
-
-
-Η ποικιλομορφία συσκευών, εργαλείων και εφαρμογών επαυξημένης πραγματικότητας είναι εντυπωσιακή. Γενικά, η τεχνολογία της επαυξημένης πραγματικότητας είναι μια μέθοδος απεικόνισης που μπορεί να χρησιμοποιηθεί σε πολλές εφαρμογές, ενώ παράλληλα επιτρέπει φυσικές αλληλεπιδράσεις και είναι ένα καλό εργαλείο ανάπτυξης διαδραστικών βιντεοπαιχνιδιών που μπορεί να ενισχύσει την εμπειρία που βιώνουν οι χρήστες. Σε αυτή την εργασία, στοχεύουμε στη δημιουργία μιας μεθόδου που προσφέρει απλό και γρήγορο χειρισμό των εικονικών αντικειμένων. Οι αλγόριθμοι που αναπτύσσονται, εξετάζονται και αξιολογούνται υλοποιώντας ένα βιντεοπαιχνίδι επαυξημένης πραγματικότητας του γνωστού επιτραπέζιου παιχνιδιού, του σκακιού.
-
-%μαλικ
-While a variety of solutions to the registration problem have been proposed in the augmented reality literature, none fully address all the requirements of a robust system that is ready for consumer-level products. Some systems provide excellent stability and robustness of registration, but require sophisticated calibration steps and expensive hybrid tracking equipment. Other accurate vision-only registration approaches work with low-cost hardware, but the computational costs currently don’t allow interactive frame rates. Still others achieve real-time performance on low-cost hardware, but at the expense of stability and robustness. As can be seen, the various approaches all establish their own balance between cost, performance, and accuracy based on application-specific requirements. The ultimate goal of augmented reality is to provide seamless integration of virtual objects with natural, unprepared environments. Additionally, this integration should be automatic and reliable in a wide variety of lighting conditions and at various distances and user orientations, with the ability to interact with the virtual imagery. This requires solutions to many open problems, particularly in automatic calibration systems and tracking in arbitrary environments [AZUM01]. No system has addressed all of the requirements of the ideal augmented reality environment, but progress is being made in each of the problem domains. Clearly, an evolutionary rather than revolutionary approach is required to bring AR out from the research labs and into mainstream products.
-
-
-%vallino
