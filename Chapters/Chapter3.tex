@@ -7,28 +7,25 @@
 
 
 
-The suitable architecture and frameworks presented previously, chapter 3 are implemented in
-this section, starting with a summary of the development tools and equipment required. At first,
-we show the implementation of the basic scenario in the Unity engine, after we present the
+Στο κεφάλαιο 2, διερευνήσαμε το πεδίο της επαυξημένης πραγματικότητας και τις μαθηματικές αρχές από τις οποίες διέπεται. Παρουσιάσαμε επίσης τη χρησιμότητα της ενσωμάτωσης δυνατοτήτων αναγνώρισης χειρονομιών σε εφαρμογές, καθώς και ερευνητικές εργασίες σχετικές με τη διπλωματική αυτή εργασία. 
+Όπως αναφέρθηκε, πολλές εφαρμογές επαυξημένης πραγματικότητας έχουν αναπτυχθεί στον τομέα των βιντεοπαιχνιδιών. 
+
+The suitable architecture and frameworks presented previously, chapter 3 are implemented in this section, starting with a summary of the development tools and equipment required. At first, we show the implementation of the basic scenario in the Unity engine, after we present the
 description of the evaluation performed with two tasks and the experimental set-up used.
 
-Visual mixed and augmented realities have historically been applied to the gaming application domain. A number of academic mixed and augmented reality
-research projects
-
-Στα κεφάλαια \ref{c:complex} και \ref{c:crypto}, διερευνήσαμε τη δύναμη της Κβαντικής Πληροφορίας στα πλαίσια της πολυπλοκότητας επικοινωνίας και της κρυπτογραφίας. Τα Κβαντικά Αποτυπώματα, μάλιστα, προσφέρουν τόσο εκθετική εξοικονόμηση στο κόστος της πολυπλοκότητας επικοινωνίας όσο και απεριόριστη ασφάλεια σε κρυπτογραφικά πρωτόκολλα. Σε αντίθεση με τις κλασικές υλοποιήσεις τους, όμως, στα πρωτόκολλα κβαντικής επικοινωνίας και κρυπτογραφίας, η πειραματική τους επιτευξιμότητα παίζει εξίσου σημαντικό ρόλο με τη θεωρητική τους επινόηση. Εκτός από το πρωτόκολλο Κβαντικής Διανομής Κλειδιού (QKD), το οποίο έχει ήδη εγκατασταθεί πάνω σε πολύπλοκα δίκτυα και μεγάλες αποστάσεις \cite{QKDexp1,QKDexp2}, δεν υπάρχει άλλο πρωτόκολλο με την ίδια τύχη. Αυτό συμβαίνει, κυρίως, λόγω των σύνθετων κβαντικών καταστάσεων πολλών qubits που απαιτούνται για τη μετάδοση της πληροφορίας. Επομένως, υπάρχει ένα μεγάλο πλήθος κβαντικών πρωτοκόλλων επικοινωνίας των οποίων οι πειραματικές υλοποιήσεις δεν είναι εφικτές με την τρέχουσα τεχνολογία.
 
 
+Στις παρακάτω ενότητες θα πραγματοποιηθεί ανάλυση των μεθόδων που αναπτύχθηκαν για την δημιουργία ενός σκακιού επαυξημένης πραγματικότητας, όπου ο χρήστης μπορεί να χειριστεί εικονικά πιόνια μόνο με τα χέρια του με χειρονομίες "τσιμπήματος". Αρχικά θα παρουσιαστούν τα εργαλεία και ο αισθητήρας που χρησιμοποιήθηκαν, καθώς και η πειραματική εγκατάσταση που χρησιμοποιήθηκε. Τα επόμενα στάδια περιλαμβάνουν την ανάλυση της διαδικασίας βαθμονόμησης και την παρουσίαση των μεθόδων ανίχνευσης της θέσης του τσιμπήματος και χειρισμού των εικονικών αντικειμένων. %..............++
 
-%----
-Επειδή σε κάθε αλγόριθμο γίνεται έντονη χρήση nested loops, διαφόρων κατωφλίων και συνθηκών, επιέχθηκε η παρουσίασή τους να μη γίνει με τη μορφή κειμένου, αλλά να παρουσιάστει με τη μορφή κειμένων σε διαγράμματα ροής.
-
-
+Πριν από την παρουσίαση της υλοποίησης της εφαρμογής, παρουσιάζονται τα εργαλεία ανάπτυξης και οι συσκευές που χρησιμοποιήθηκαν.
 
 
+%eftekhari
+Η ανάπτυξη και η υλοποίηση ενός συστήματος επαυξημένης πραγματικότητας προϋποθέτει από το σχεδιαστή να πάρει αποφάσεις σχετικά με τις επιλογές για την υλοποίηση, κάτι που μπορεί να επιφέρει προδιάθεση στην ανθρώπινη απόδοση. Οι επιλογές τόσο σε software όσο και σε  hardware πρέπει να εξεταστούν πριν ξεκινήσει η διαδικασία της ανάπτυξης. Οι ανθρώπινοι παράγοντες που συζητήθηκαν προηγουμένως και σχετίζονται με προσεγγίσεις σε software και hardwareείναι κλειδί για τη σωστή προσέγγιση. Ορισμένες επιλογές που παίζουν σημαντικό ρόλο στο σχεδιασμό έχουν να κάνουν με τη μέθοδο ανίχνευσης, το είδος των marker που θα χρησιμοποιηθούν, τον τύπο HMD ή monitor, και το λογισμικό που θα υλοποιηθεί. Άλλοι περιορισμοί που πρέπει να ληφθούν υπόψη αφορούν το κόστος και τη δυσκολίας ενσωμάτωσης.
 
-Στο συγκεκριμένο κεφάλαιο,  we describe the considerations to follow in an interactive Augmented Reality scenario, the integration of Augmented Reality and Hand-motion tracking technologies along with an algorithm suitable for our purpose seen in the problem statement, chapter 1, focusing on
-a single pinch gesture and the basis of the intended system development described in a technical
-workflow as well as the limitations in the design process
+
+Επειδή στους αλγόριθμους που αναπτύχθηκαν και θα παρουσιαστούν στη συνέχεια γίνεται έντονη χρήση nested loops, διαφόρων κατωφλίων και συνθηκών, επιλέχθηκε η παρουσίασή τους να μη γίνει με τη μορφή κειμένου, αλλά να παρουσιάστει με τη μορφή διαγραμμάτων ροής.
+
 
 
 
@@ -75,49 +72,184 @@ workflow as well as the limitations in the design process
 
 
 
-Στη συγκεκριμένη εργασία χρησιμοποιήσαμε το πρώτο είδος αισθητήρα, Intel\textregistered\ RealSense\texttrademark{} 3D F200 το οποίο διατίθεται από την Intel μέσω ενός Development Kit στην τιμή των 99 δολλαρίων.
+Στη συγκεκριμένη εργασία χρησιμοποιήσαμε το πρώτο είδος αισθητήρα, Intel\textregistered\ RealSense\texttrademark{} 3D F200 το οποίο διατίθεται από την Intel μέσω ενός Development Kit στην τιμή των 99 δολλαρίων. Διαθέτει ανάλυση βάθους Full VGA, κάμερα RGB 1080p, εύρος περίπου 0.2–1.2 μέτρα και συνδέεται μέσω USB 3.0.
 
 
-Διαθέται ανάλυση βάθους Full VGA, κάμερα RGB 1080p, εύρος περίπου 0.2–1.2 μέτρα και συνδέεται μέσω USB 3.0.
+Ο αισθητήρας βάθους μέσω υπερύθρων προσφέρει καλύτερη αναγνώριση χειρονομιών από μία παραδοσιακή κάμερα. Μέσω του αισθητήρα της Intel, μπορούμε να προσθέσουμε δυνατότητες αναγνώρισης χειρονομιών σε ήδη υπάρχοντα συστήματα βιντεοπαιχνιδιών.
+ενώ μας δίνεται η δυνατότητας να αξιοποιήσουμε τα χέρια μας ως χειριστήρια.
+
+Η συσκευή RealSense 3D επιλέχθηκε για τις δυνατότητές της σε σχέση με άλλους αισθητήρες όπως το Microsoft Kinect, λόγω του μικρού μεγέθους και της δυνατότητας ανίχνευσης βάθους σε κοντινότερες αποστάσεις. Επίσης προσφέρει εύκολο χειρισμό των ακατέργαστων δεδομένων (raw data), καθώς επίσης μέσω του SDK προσφέρονται αλγόριθμοι για την εξαγωγή blobs, το φιλτράρισμα και τον καθορισμό παραμέτρων. 
 
 
-Ο αισθητήρας βάθους μέσω υπερύθρων καλύτερη αναγνώριση χειρονομιών από μία παραδοσιακή κάμερα.
-Μέσω του αισθητήρα της Intel, μπορούμε να προσθέσουμε δυνατότητες αναγνώρισης χειρονομιών σε ήδη υπάρχοντα συστήματα βιντεοπαιχνιδιών.
-Χρησιμοποιώντας τους αισθητήρες τεχνολογίας αίσθησης βάθους μας δίνεται η δυνατότητας να αξιοποιήσουμε τα χέρια μας ως χειριστήρια.
 
-%βαλε αναφορές σε εργασίες που χρησιμοποιούν intel realsense αισθητήρες
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3, angle=0]{Files/Figures/RealSenseCamera.jpg}
+    \caption[Η Συσκευή Intel\textregistered\ RealSense\texttrademark{} 3D F200]{Η Συσκευή Intel\textregistered\ RealSense\texttrademark{} 3D F200}
+    \label{fig:realsense}
+\end{figure}
+
+
 
 \section{Επιλογή Εργαλείων Ανάπτυξης}
-%PEΣ ΓΙΑ ARUCO,OPENCV,KLP
+%ΠΕΣ ΓΙΑ ARUCO,OPENCV,KLP
 
-There have been a number of supporting technologies developed for AR gaming. The most notable is the ARToolkit [Kato and Billinghurst 1999], as this is historically the most popular AR development library. ARToolkit’s public availability, ease of use,robustness, and low cost of entry, allowed for a rapid uptake of this technology.
-%ξιμενεζ
-3.2 Choice of frameworks Prior to the design and during a process of testing, the libraries and frameworks to use was an essential aspect to consider to carry out this project. As explained in the previous chapter 2.2, the Leap Motion device was chosen because of its capabilities against other tracking devices, it provides support for different languages and due to its size, is potentially portable; despite it doesn’t provides direct manipulation of the raw data, the exposed information is robust enough as it provides the coordinates, velocities and direction vectors of the tracked fingers an palm. Nonetheless, we needed to look for options compatible with its development platforms. Among a variety of libraries for Augmented Reality, the Qualcomm Vuforia library[47] has been chosen due to its robustness on tracking using fiducial markers, images, text, comparing to other such as ARToolkit which only tracks fiducial markers. The current version 2.8 (April 2014) has support for different development platforms (Java, C++, Unity3D) and devices, is well documented and its API provides a comprehensive guide through its different capabilities; additionally, and comparing to Metaio, it has a free license, even for commercial purposes [47]. On the other hand, at an initial stage, the 3D graphics library OpenGL ES -a version of OpenGL for mobile devices-, that is well known and widely available in multiple platforms, was the best choice to work, however OpenGL works with low level functions to render graphics, and nontrivial tasks to interact with graphics would have increase the programming complexity. To facilitate the development, the solution was to use a game engine, Unity3D has multi-platform support and well documented API through scripting, is good for rapid development of good quality applications and both Vuforia and Leap Motion have support for Unity3D.
+
+Πριν το σχεδιασμό μιας εφαρμογής επαυξημένης πραγματικότητας, η διαδικασία επιλογής των κατάλληλων βιβλιοθηκών και εργαλείων λογισμικού που θα χρησιμοποιηθούν, αποτελεί μία σημαντική πτυχή για την πετυχημένη υλοποίηση της εφαρμογής. 
+
+Πέρα από την κατάλληλη επιλογή αισθητήρα χρώματος - βάθους,
+έπρεπε να επιλεγούν εργαλεία τα οποία θα ήταν συμβατά με τον αισθητήρα και τις απαιτήσεις του. Πιο συγκεκριμένα, για τη σωστή λειτουργία του αισθητήρα απαιτείται υπολογιστική μονάδα με επεξεργαστή Intel\textregistered\ Core\texttrademark{} τουλάχιστον 4ης γενιάς και λειτουργικό Windows 8.1 (64bit). Επιπλέον η υπολογιστική μονάδα πρέπει να διαθέτει θύρες USB 3.0 για τη σύνδεση με τον αισθητήρα, ενώ σαν γλώσσες προγραμματισμού υποστηρίζονται οι C++, JavaScript, C\#, Java και Processing 2.1.2 ή πιο πρόσφατη.
+
+
+Για τους παραπάνω λόγους, η υλοποίηση της εφαρμογής έλαβε μέρος σε ένα φορητό υπολογιστή  MacBook Pro με επεξεργαστή Intel\textregistered\ Core\texttrademark{} i5 4278U (2.6GHz) με μνήμη RAM στα 16GB και λειτουργικό σύστημα Windows 8.1 Professional (64bit). Επίσης λόγω της πολυπλοκότητας υλοποίησης απαιτείται η χρήση πολλών διαφορετικών βιβλιοθηκών και η αξιοποίηση των χαρακτηριστικών τους. Για τον ευκολοτερο συνδυασμό των βιβλιοθηκών, χρησιμοποίηθηκε ως IDE το Visual Studio 2010.
+
+
+Μεταξύ μιας ποικιλίας βιβλιοθηκών επαυξημένης πραγματικότητας, επιλέχθηκε η βιβλιοθήκη ArUco λόγω της απλότητάς της (ανίχνευση markers με μία μόνο γραμμή κώδικα C++) και της δυνατότητας δημιουργίας markerboards που επιτρέπουν την απρόσκοπτη ανίχνευσή τους. Η έκδοση που χρησιμοποιήθηκε (1.2.5) διαθέτει υποστήριξη για διαφορετικές πλατφόρμες (Java, C++, Python) και είναι καλά τεκμηριωμένη (documentation). Επιπλέον διαθέτει ελεύθερη άδεια προς χρήση σε σύγκριση με εργαλεία όπως αυτά που προσφέρουν άλλες εταιρίες όπως η Metaio. Το γεγονός ότι μπορεί εύκολα να συνδυαστεί με την OpenCV και την OpenGL είναι αυτό που συνετέλεσε κυρίως στην επιλογή της.
+
+
+Οι βιβλιοθήκες λογισμικού που αξιοποιήθηκαν εμφανίζονται παρακάτω:
+
+\begin{description}
+
+
+\item[OpenGL \& GLUT:] Πρόκειται για μία διαγλωσσική διεπαφή προγραμματισμού εφαρμογών που υποστηρίζει πολλές πλατφόρμες για την απεικόνιση 2D και 3D γραφικών. Χρησιμοποείται στην εφαρμογή μας για την απεικόνιση των εικονικών αντικειμένων πάνω στο βίντεο το οποίο καταγράφει την πραγματική σκηνή. Παρά το γεγονός ότι θα μπορούσε να χρησιμοποιηθεί μία μηχανή βιντεοπαιχνιδιών όπως η Unity3D για την ευκολότερη διαχείριση των ιδιοτήτων των εικονικών αντικειμένων, επιλέξαμε τη χρήση της OpenGL, προκειμένου να κατανοηθούν οι βασικές τεχνικές που χρησιμοποιούνται στην ανάπτυξη εφαρμογών επαυξημένης πραγματικότητας.
+
+
+
+\item[OpenCV (2.4.10):] Γνωστή βιβλιοθήκη προγραμματιστικών συναρτήσεων που έχουν ως στόχο την ανάπτυξη εφαρμογών υπολογιστικής όρασης και την επεξεργασία εικόνας και βίντεο. Η συγκεκριμένη βιβλιοθήκη ανοιχτού κώδικα σχεδιάστηκε για να είναι αποδοτική ώστε να υποστηρίζει εφαρμογές πραγματικού χρόνου, ενώ υποστηρίζει διάφορες πλατφόρμες όπως Windows, Linux, Mac OS X, iOS και Android και διαθέτει διεπαφές για τις γλώσσες C,C++ και Java. 
+
+
+\item[Qt (5.4)]: Πρόκειται για ένα framrwork ανάπτυξης που υποστηρίζει πολλές πλατφόρμες για την δημιουργία εφαρμογών, διεπαφών χρηστών (UI) και συσκευών. Για την ανάπτυξη της εφαρμογής σκακιού επαυξημένης πραγματικότητας, χρησιμοποιήθηκαν μόνο οι ιδιότητες της κλάσης \textbf{QProcess} που επιτρέπει την επικοινωνία με εκτελέσιμα αρχεία.
+
+
+\item[Realsense SDK:] Το συγκεκριμένο SDK παρέχει πρόσβαση στα δεδομένα των αισθητήρων χρώματος και βάθους της κάμερας, καθώς επίσης έτοιμους αλγορίθμους για την εξαγωγή blob και περιγραμμάτων (contours), τον εντοπισμό χεριών και την αναγνώριση ομιλίας. 
+
+
+
+\end{description}
 
 
 
 \section{Πειραματική Εγκατάσταση}
 
-Ο σχεδιασμός και η αρχιτεκτονική του συστήματός μας έχει χτιστεί έτσι ώστε ο αισθητήρας Realsense 3D να μπορεί να τοποθετηθεί πάνω σε ένα HMD όπως το Oculus Rift. Μέσα από το HMDοι χρήστες μπορούν να δουν την έγχρωμη εικόνα της πραγματικής σκηνής που καταγράφει η Realsense camera. Έτσι ουσιαστικά δημιουργούμε μία συσκευή video see-through display. Ωστόσο λόγω χρονικών και περιορισμών και πολυπλοκότητας, αποφασίστηκε ότι η ενσωμάτωση του Oculus Rift στην αρχιτεκτονική της εφαρμογής θα ήταν υπερβολική. Συνεπώς, η συγκεκριμένη εφαρμογή ορίστηκε σε ένα πλαίσιο πειραματικής εγκατάστασης που προσομοιώνει ωστόσο τις παραμέτρους του ύψους και της γωνίας θέασης ενός χρήστη αν τοποθετούσε τον αισθητήρα επάνω σε ένα HMD. Επομένως οι αλγόριθμοι που αναπτύχθηκαν μπορούν να λειτουργήοσυν άψογα αν κάποιος αποφασίσει να ενσωματώσει τον αισθητήρα σε ένα HMD όπως το Oculus Rift. 
+Ο σχεδιασμός και η αρχιτεκτονική του συστήματός μας σχεδιάστηκε έτσι, ώστε ο αισθητήρας Realsense 3D να μπορεί να τοποθετηθεί πάνω σε ένα HMD όπως το Oculus Rift. Μέσα από το HMD οι χρήστες θα μπορούσαν να δουν την έγχρωμη εικόνα της πραγματικής σκηνής που καταγράφει η Realsense camera. Έτσι ουσιαστικά δημιουργούμε μία συσκευή video see-through display. Ωστόσο λόγω χρονικών και περιορισμών και πολυπλοκότητας, αποφασίστηκε ότι η ενσωμάτωση του Oculus Rift στην αρχιτεκτονική της εφαρμογής θα ήταν υπερβολική. Συνεπώς, η συγκεκριμένη εφαρμογή ορίστηκε σε ένα πλαίσιο πειραματικής εγκατάστασης που προσομοιώνει ωστόσο τις παραμέτρους του ύψους και της γωνίας θέασης ενός χρήστη αν τοποθετούσε τον αισθητήρα επάνω σε ένα HMD. Επομένως οι αλγόριθμοι που αναπτύχθηκαν μπορούν να λειτουργήσουν άψογα αν στο μέλλον ενσωματωθεί ο αισθητήρας σε ένα HMD όπως το Oculus Rift. 
+
 
 Με στόχο να μπορούμε να αλληλεπιδράσουμε με το εικονικό περιεχόμενο και να αξιοποιήσουμε την αλληλεπίδραση με βάση τη χειρονομία "τσιμπήματος", ορίσαμε μία περιοχή δοκιμών, όπου το markerboard τοποθετείται επάνω σε ένα τραπέζι και είναι εύκολα προσβάσιμο από έναν χρήστη που κάθεται μπροστά του. 
-
-Η κάμερα Realsense 3D τοποθετείται στο πίσω μέρος ενός απλού καπέλου το οποίο φοράει ο χρήστης κατά τη διάρκεια των δοκιμών, εμπνευσμένο από την εργασία \cite{Mathews2007}. Όσο ο χρήστης φορά το καπέλο με τον αισθητήρα, ο αισθητήρας βλέπει προς το markerboard με αποτέλεσμα να συμπεριλαμβάνεται η περιοχή της αλληλεπίδρασης. Τέλος, ένας φορητός υπολογιστής τοποθετείται μπροστά από το markerboard και το χρήστη, ώστε να μπορεί να δει το επαυξημένο video που καταγράφει η κάμερα. Η κάμερα είναι συνδεδεμένη με το φορητό υπολογιστή, στον οποίο τρέχει η εφαρμογή. 
-
-
-\section{Διαδικασία Βαθμονόμησης}
-Στο πλαίσιο της παρούσας εργασίας, έγινε βαθμονόμηση με λήψη εικόνων επίπεδης σκακιέρας, με χρήση του παραδείγματος της βιβλιοθήκης OpenCV. 
-
-Η διαδικασία αυτή είναι αυτόματη, ενώ τα μόνα δεδομένα εισόδου που θα πρέπει να δώσουμε στο εργαλείο της OpenCV είναι οι εικόνες της σκακιέρας και ο αριθμός των εσωτερικών γωνιών των τετραγώνων της στις δύο κάθετες διευθύνσεις. Για παράδειγμα στην εικόνα~\ref{fig:calibration_screenshot} έχουμε μία σκακιέρα με αριθμό διαστάσεων με βάση τις εσωτερικές γωνίες 7x6.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6, angle=0]{Files/Figures/calibration.png}
-    \caption[Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV]{ Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV}
-    \label{fig:calibration_screenshot}
+    \includegraphics[scale=0.8, angle=0]{Files/Figures/planviewoftheexperimentalsetup.png}
+    \caption[Κάτοψη της σχεδιασμού της πειραματικής εγκατάστασης]{Κάτοψη της σχεδιασμού της πειραματικής εγκατάστασης}
+    \label{fig:ps3game}
 \end{figure}
 
+
+Η κάμερα Realsense 3D τοποθετείται στο πίσω μέρος ενός απλού καπέλου το οποίο φοράει ο χρήστης κατά τη διάρκεια των δοκιμών, εμπνευσμένο από άλλη εργασία \cite{Mathews2007}. Όσο ο χρήστης φορά το καπέλο με τον αισθητήρα, ο αισθητήρας βλέπει προς το markerboard με αποτέλεσμα να "κοιτά" προς την περιοχή της αλληλεπίδρασης. Τέλος, ένας φορητός υπολογιστής τοποθετείται μπροστά από το markerboard και το χρήστη, ώστε να μπορεί να δει το επαυξημένο video που καταγράφει η κάμερα. Η κάμερα είναι συνδεδεμένη με το φορητό υπολογιστή, στον οποίο τρέχει η εφαρμογή. Η εικόνα~\ref{fig:test} δείχνει την πειραματική εγκατάσταση και έναν χρήστη κατά τη διάρκεια δοκιμής της εφαρμογής.
+
+
+
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{Files/Figures/user1.png}
+  \caption{1a}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.7\linewidth]{Files/Figures/user2.png}
+  \caption{1b}
+  \label{fig:sfig2}
+\end{subfigure}\\
+\caption{Φωτογραφία χρήστη κατά τη διάρκεια των δοκιμών}
+\label{fig:test}
+\end{figure}
+
+
+
+\section{Διαδικασία Βαθμονόμησης}
+
+
+Για την εύρεση των εσωτερικών παραμέτρων της κάμερας επιλέχθηκε η απλή, έτοιμη και αποτελεσματική λύση του εργαλείου βαθμονόμησης που παρέχεται μέσω της OpenCV. Η OpenCV διαθέτει έτοιμες συναρτήσεις και εργαλεία για την βαθμονόμηση της κάμερας που βασίζονται σε μεθόδους που αναφέρθηκαν στο κεφάλαιο 2. Επιπλέον μέσω της OpenCV μπορούμε να μάθουμε τους συντελεστές παραμόρφωσης της κάμερας. 
+
+
+Για τη διεξαγωγή της βαθμονόμησης απαιτείται η χρήση μιας απλής, επίπεδης εικόνας ασπρόμαυρης σκακιέρας, που μπορεί να εκτυπωθεί με ένα κοινό εκτυπωτή. Η διαδικασία αυτή είναι αυτόματη, ενώ τα μόνα δεδομένα εισόδου που θα πρέπει να δώσουμε στο εργαλείο της OpenCV είναι ο αριθμός των εσωτερικών γωνιών των τετραγώνων της στις δύο κάθετες διευθύνσεις. Για παράδειγμα το πρότυπο της βαθμονόμησης φαίνεται στο σχήμα~\ref{fig:pattern}, όπου έχουμε μία σκακιέρα με αριθμό διαστάσεων με βάση τις εσωτερικές γωνίες 7x6.
+Οι γωνίες τοποθετούνται σε σε ένα σύστημα 3D συντεταγμένων όπου z=0 (δηλαδή όλα τα σημεία βρίσκονται στο ίδιο επίπεδο). Η πληροφορία αυτή αξιοποιείται μέσω μεθόδων της OpenCV και επιστρέφονται ο πίνακας των εσωτερικών παραμέτρων της κάμερας και οι συντελεστές παραμόρφωσης. 
+
+
+
+Η βαθμονόμηση της κάμερας πραγματοποιείται μόνο μία φορά σαν αρχικό βήμα (offline calibration) κατά το αρχικό στάδιο της ανάπτυξης της εφαρμογής. Πιο συγκεκριμένα, κάνουμε ξεχωριστό calibration για κάθε διαφορετικό μοντέλο κάμερας που μπορεί να χρησιμοποιηθεί στην αναπτυσσόμενη εφαρμογή, καθώς και για κάθε διαφορετική ανάλυση αυτών. Το αποτέλεσμα είναι ένα ξεχωριστό αρχείο για κάθε κάμερα και κάθε ανάλυση που περιέχει τις αντίστοιχες εσωτερικές παράμετρους. Ανάλογα με τον εξοπλισμό και τις επιλογές του χρήστη φορτώνεται κατά την έναρξη της εφαρμογής το ανάλογο αρχείο. Έτσι οι εσωτερικές παράμετροι είναι γνωστές, ώστε σε μεταγενέστερο στάδιο να βρεθούν οι εξωτερικές παράμετροι.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6, angle=0]{Files/Figures/pattern.png}
+    \caption[Πρότυπο σκακιέρας για τη βαθμονόμησης της κάμερας]{Πρότυπο σκακιέρας για τη βαθμονόμησης της κάμερας}
+    \label{fig:pattern}
+\end{figure}
+
+
+
+
+
+
+Στο πλαίσιο της παρούσας εργασίας, έγινε βαθμονόμηση με λήψη εικόνων επίπεδης σκακιέρας με μέγεθος 7 x 6 εσωτερικών γωνιών, με χρήση του παραδείγματος της βιβλιοθήκης OpenCV. Το μέγεθος κάθε τετραγώνου της σκακιέρας ορίστηκε στα 2,5cm. Το πρότυπο αυτό καταγράφηκε μέσω της καμερας σε 25 διαφορετικές θέσεις. Η κάμερα διατηρήθηκε σε σταθερό σημείο και μετακινήσαμε την εκτυπωμένη εικόνα της σκακιέρας σε διαφορετικές θέσεις και με διαφορετικές κλίσεις. 
+
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{Files/Figures/calibration.png}
+  \caption{1a}
+  \label{fig:calibration_screenshot1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{Files/Figures/calib2.png}
+  \caption{1b}
+  \label{fig:calibration_screenshot2}
+\end{subfigure}
+\caption[Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV]{Στιγμιότυπο κατά τη διαδικασία της βαθμονόμησης κάμερας μέσω της OpenCV}
+\label{fig:calibration_screenshot}
+\end{figure}
+
+
+Η διαδικασία της βαθμονόμησης σε ανάλυση 640 x 480 έδωσε σαν αποτέλεσμα τις παρακάτω εσωτερικές παραμέτρους:
+
+
+\begin{equation}
+K=
+\begin{bmatrix}
+603.77848970443176 & 0 & 319.5\\
+0 & 603.77848970443176 & 239.5\\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+Βλέποντας τις τιμές των principal points $c_{x}=319.5$ and $c{y}=239.5$ βλεπουμε ότι είναι περίπου στο κέντρο των επιλεγμένων διαστάσεων δηλαδή κοντά στις τιμές  320 (640/2) και 240(480/2). Επίσης βλέπουμε ότι $f_{x}=f_{y}$ που σημαίνει ότι χρησιμοποιείται κοινή εστιακή απόσταση και για τους 2 άξονες.
+
+
+Εξ ορισμού η OpenCV μας δίνει 5 συντελεστές παραμόρφωσης, 3 ακτινικούς και 2 εφαπτομενικούς. Συγκεκριμένα κατά τη βαθμονόμηση πήραμε:
+
+\begin{equation}
+\begin{aligned}
+k1= 0.16901284929874760\\
+k2= -1.0214355567073656\\
+p1= 0\\
+p2= 0\\
+k3= 1.3599972288823818 
+\end{aligned}
+\end{equation}
+
+Το σφάλμα επαναπροβολής (Re-projection error) δίνει μία καλή εκτίμηση της ακρίβειας των παραμέτρων που βρέθηκαν κατά τη βαθμονόμηση της κάμερας. Η τιμή του πρέπει να είναι όσο γίνεται πιο κοντά στο 0. Υπολογίζεται με βάση τους πίνακες εσωτερικών παραμέτρων, συντελεστών παραμόρφωσης, περιστροφής και μετατόπισης. Πρέπει αρχικά να μετατρέψουμε το σημείο του αντικειμένου σε σημείο στην κάμερα. Έπειτα υπολογίζουμε την απόλυτη νόρμα ανάμεσα στο αποτέλεσμα που πήραμε με το μετασχηματισμό και με τον αλγόριθμο εύρεσης γωνιών. Για να βρούμε το μέσα σφάλμα υπολογίζουμε τον αριθμητικό μέσο των σφαλμάτων για όλες τις εικόνες βαθμονόμησης. Μετά τη διαδικασία βαθμονόμησης το σφάλμα που πήραμε ήταν πολύ κοντά στο 0 και συγκεκριμένα :
+
+\begin{equation}
+Avg_Reprojection_Error = 0.20315774320090751
+\end{equation}
 
 
 \section{Δημιουργία Markerboard}
@@ -125,7 +257,12 @@ There have been a number of supporting technologies developed for AR gaming. The
 
 Since the game of chess is a tabletop game that always uses a chessboard as a base for placing the chess pieces on, we considered that using a markerboard would be really similar to the use of a chessboard and the occlusion of the markerboard from the users hand would not affect the rendering of virtual chess pieces during a piece movement. That is why, we created a markerboard which consists of 64 markers in a 8x8 grid, just like a board that is used in chess games, as the main marker of the system. A paper published by the founders of ArUco described the methodology that can be used in order to create speci c marker IDs for the markerboard which will have a high number of bit transitions so that they are less likely to be confused with environment objects. While previous works impose xed dictionaries, the latest version of ArUco library proposes an automatic method for generating a board of marker with the desired number of markers and with the desired number of bits. We used the ArUco samples and created a board of highly reliable markers which corresponds to the size and dimensions of a real chessboard as described by the World Chess Organization.
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.1, angle=0]{Files/Figures/markerboard.jpg}
+    \caption[Το markerboard που δημιουργήθηκε μέσω της ArUco]{Το markerboard που δημιουργήθηκε μέσω της ArUco}
+    \label{fig:ps3game}
+\end{figure}
 
 \section{Αναγνώριση Χειρονομίας Τσιμπήματος}
 %ΠΩΣ ΑΚΡΙΒΩΣ ΚΑΝΩ ΤΗ ΧΕΙΡΟΝΟΜΙΑ ΤΣΙΜΠΗΜΑΤΟΣ-ΤΑ ΘΕΩΡΗΤΙΚΑ ΜΕΡΗ
@@ -171,7 +308,7 @@ The pinch is a basic gesture that can be used to interact on a 3D space rather t
 
 
 
-\section{Ανίχνευσης Θέσης Τσιμπήματος}
+\section{Ανίχνευση Θέσης Τσιμπήματος}
 %ΠΩΣ ΑΝΙΧΝΕΥΕΤΑΙ Η 3D ΘΕΣΗ ΤΣΙΜΠΗΜΑΤΟΣ ΜΕ ΒΑΣΗ ΤΗ ΜΕΘΟΔΟΛΟΓΙΑ ΜΟΥ
 
 
@@ -182,12 +319,53 @@ The simple gesture model introduced in this chapter describes two gestures class
 The interaction created by this gesture model is a point and select mechanism similar to the commonly used mouse interaction with a window-based operating system. To allow a closed system of human-computer interaction, the actions generated by the hand gestures define a set of system states. The possible states of the gesture system are pointing, selecting and no hand detection. The transitions between states are triggered by a change in finger count. This transition is represented by a pair of values, (cp,cc), indicating the previous and current finger counts. The possible values for cp and cc are 0, indicating no hand detection, 1, indicating a single detected finger pointer, and n, indicating more than one detected finger pointer. This state machine is shown in figure 5.5 and the system begins in the no hand detection state.
 
 
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{Files/Figures/2.png}
+  \caption{1a}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{Files/Figures/3.png}
+  \caption{1b}
+  \label{fig:sfig2}
+\end{subfigure}\\
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{Files/Figures/4.png}
+  \caption{1a}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{Files/Figures/5.png}
+  \caption{1b}
+  \label{fig:sfig2}
+\end{subfigure}
+\caption{Pinch Gesture Detection Phases}
+\label{fig:fig}
+\end{figure}
+
+
+
+
 \section{Tαυτοποίηση Συστημάτων Συντεταγμένων}
 
 Coordinate Systems Matching A first step is to consider a unified coordinate system between the AR target and hand tracking sensor. The simplest coordinate systems matching is based on the assumption that our AR marker and sensor are placed on the same origin, when this is not the case, i.e. the sensor and marker are placed in different areas from the camera view perspective, a translation of the Leap Motion’s pose matrix needs to be performed by using the AR marker as a reference. A solution to this, is to use the image target to act as the world center and bring the Leap Motion’s coordinate system by multiplying the inverse pose of our main target (image target) by the pose of the Leap Motion’s target. This creates an offset matrix that can be used to bring points from Leap Motion to image target coordinate system[47]. Nevertheless, for our prototype purpose, it is assumed that the AR marker and sensor are placed in the same origin, where it matches both coordinate systems. This is done, both programmatically, through the game engine and physically where are adjusted in the same origin from a camera view perspective as seen on the Figure.
 
 
 \section{Απεικόνιση Εικονικών Αντικειμένων} \label{s:rendering}
+%clarke
+
+
+As last part of the experimental studies 3D objects are rendered onto the views. the virtual camera uses the pose calculated by the ArUco's algorithm which should be placed at the same position as the real camera. 
+
+Using the calculated camera poses virtual objects have been rendered onto the images. Knowing where the object should be placed in the real world is essential for an augmented reality application. 
+
+
+
 %σελ 25 jimenez
 Although the Unity platform deals with the graphics and integration of libraries for this project, it is necessary to give a deeper review of the process by explaining the target pose calculation and content positioning in the AR framework and the hand controller’s integration. The AR framework exposes a 3x4 Pose Matrix, equation 3.2 that represents the pose of a target with respect to the camera plane. The left 3X3 matrix expresses the rotation matrix, which indicates how the target is rotated while the right column is the translation vector, which is the position of the target as seen from the camera[47], e.g. an identity matrix indicates that the target is parallel to the camera plane (rotation) and a vector (0,0,0) indicates the camera and the target are in the same position.
 
@@ -205,6 +383,10 @@ transforming to suitable coordinates in the interaction box, Figure 13 explained
 When the user pinches with one hand,
 we select the closest object, and translate according to the
 pinching hand.
+
+
+%mcdonald
+With this visual feedback mechanism in place, a mechanism for initiating interaction with the controls on the panel is needed. The behaviour associated with control manipulation is defined in the normal event driven, object-oriented fashion associated with window– based application programming. Applying the gesture model to this augmented interaction requires only a simple communicative translation between the gestures, including posture parameters, and the event-based control manipulation. This translation is defined in terms of the gesture state machine outlined in figure 5.5. For example, when a selection gesture is recognized immediately following a pointing gesture, a mouse-down event is sent to the actual control panel dialog, along with the pointer location parameter as if it were sent by the mouse hardware. This way, when the gesture occurs over a button on the virtual panel, the event generates the equivalent button press on the dialog box. On the other hand, when a pointing gesture immediately follows a selection gesture, a mouse-up event is sent
 
 
 \section{Αντιμετώπιση Απόκρυψης Αντικειμένων} \label{s:occlusion}
@@ -268,22 +450,64 @@ in Figure 5 (d),(e). These steps are applied to both left and right images for o
 images.
 
 %-----
+Για να μπορέσει ένας χρήστης να εκτελέσει επιτυχώς ορισμένες διεργασίες σε περιβάλλοντα επαυξημένης πραγματικότητας, χρειάζεται να παρέχεται από το σύστημα ένα συγκεκριμένο επίπεδο "εμβύθισης" του χρήστη. Πρέπει δηλαδή ο χρήστης να πιστέψει, όσο γίνεται, ότι τα εικονικά αντικείμενα είναι πραγματικά. 
+Στις περισσότερες προσεγγίσεις, οι αποκρύψεις των εικονικών αντικειμένων δεν λαμβάνονται υπ'όψην και επομένως τα εικονικά αντικείμενα απεικονίζονται πάντα πάνω από το frame του βίντεο, συνεπώς πάνω από τα πραγματικά αντικείμενα της σκηνής. 
+Ωστόσο, για να δημιουργηθούν καθηλωτικές και ρεαλιστικές εφαρμογές, η απόκρυψη ανάμεσα στα εικονικά και τα πραγματικά αντικείμενα πρέπει να πραγματοποιηθεί σωστά, ώστε οι χρήστες να μπορούν να κοιτάξουν σε μία σκηνή, όπου το εικονικό περιεχόμενο θα είναι εναρμονισμένο με το φυσικό περιβάλλον. Μία τέτοια προσέγγιση μας επιτρέπει να πετύχουμε υψηλό επίπεδο "εμβύθισης" αφού τα εικονικά αντικείμενα μπορούν να εναρμονιστούν με τα χέρια του χρήστη, ώστε να εμφανίζεται σωστά το ένα πάνω από το άλλο ή το αντίθετο. 
 
-For a user to successfully perform tasks in mixed reality environments, a certain level of im- mersion should be provided by the system. In most approaches occlusions are not taken into consideration, so virtual objects are always rendered on top of physical objects. However, to create an immersive and realistic experience, the occlusion between virtual and real objects has to be managed correctly, so that users can look at a scene where virtual content blends with the natural environment. Such an approach allows us to achieve high level of user immersion since the augmented objects occlude the users hands properly; something which is not possible with conventional AR. In OpenGL, when an object is rendered, the depth of a generated pixel (z coordinate) is stored in a buffer, called the z-buffer or depth buffer. This buffer is usually arranged as a two-dimensional array (x-y) with one element for each screen pixel. If another object of the scene must be rendered in the same pixel, the method compares the two depths and overrides the current pixel if the object is closer to the observer. The chosen depth is then saved to the z-buffer, replacing the old one. In the end, the z-buffer will allow the method to correctly reproduce the usual depth perception: a close object hides a farther one.
-
-The main problem when dealing with occlusion is that usually there is no depth information of the real scene. In order to overcome this problem, the depth of the real world from the users viewpoint has to be employed. In the current work, we use the Realsense 3D cameras depth sensor to aid in the process of acquiring the depth map of the environment scene. The Realsense 3D Camera can measure the distance of everything it sees, creating a depth map. This way the depth of every pixel of the depth frame can be estimated. The depth image is basically a 640480 (although it can be smaller) matrix where each pixel value represents the distance from the camera to that point in space (expressed in mm). When a video card renders a virtual scene it computes occlusion from the depth buffer, i.e. the z distance of every object in the virtual scene. Usually when another virtual object must be rendered in the same pixel of the z-buffer, the method compares the 2 depths and overrides the current pixel, if the object is closer to the observer, which in this case is our camera. The trick is to initialize the Z-Buffer of OpenGL with the depth values taken from the Realsense 3D Camera depth image before rendering any 3D virtual object and after rendering the quad which shows the color video stream. By doing so, when the chess pieces are rendered, they will be occluded by what it appears to be real-life objects such as our hand. Its like simulating a render of the entire environment in 3D and using the resulting z-buffer values. So, in order to handle occlusion in our application, we had to map the whole depth image to the color image, transform the values in millimeters to meters and then write to the OpenGLs z-buffer. Before we jump into writing in the z-buffer we need to consider what kind of projection we use (ortho or perspective). So we have to modify the data based on the perspective view that the virtual objects are rendered. In our case virtual objects are drawn using perspective projection. For a perspective projection, the relationship between Z and depth is non-linear. Speci cally, it's of the form
-
-EQUATION
+Κάτι τέτοιο συνήθως δε συμβαίνει στις περισσότερες εφαρμογές επαυξημένης πραγματικότητας. Στην OpenGL, όταν ένα αντικείμενο απεικονίζεται στην οθόνη, το βάθος ενός pixel που παράγεται (z coordinate) αποθηκεύεται σε ένα buffer που ονομάζεται z-buffer ή buffer βάθους (depth buffer). Αυτός ο buffer ορίζεται συνήθως ως ένα δισδιάστατος πίνακας (x-y) με ένα στοιχείο για κάθε εικονοστοιχείο της οθόνης. Αν κάποιο άλλο αντικείμενο της σκηνής πρέπει να απεικονιστεί στο ίδιο εικονοστοιχείο, η μέθοδος συγκρίνει τα 2 βάθη και αντικαθιστά το τρέχων εικονοστοιχείο, αν το αντικείμενο είναι πιο κοντά στο θεατή. Έπειτα, το επιλεγμένο βάθος αποθηκεύεται στο z-buffer, αντικαθιστώντας την προηγούμενη τιμή. Εν τέλει, ο z-buffer θα επιτρέψει στη μέθοδο να αναπαράγει σωστά την αντίληψη του βάθους, δηλαδή το γεγονός ότι ένα αντικείμενο που βρίσκεται πιο κοντά θα πρέπει να κρύβει ένα άλλο που βρίσκεται πιο μακριά.
 
 
-Also we have to bear in mind that points in front of the viewpoint have negative Z coordinates. After applying this transformation to the depth data we can write the data to the z-buffer.Once we write our depth data to the buffer, we can see that virtual object and real objects (such as our hands) blend naturally together.
+Το κύριο πρόβλημα που εμφανίζεται προκειμένου και εμποδίζει την αντιμετώπιση του φαινομένου της απόκρυψης στα επαυξημένα περιβάλλοντα βρίσκεται στο γεγονός ότι, συνήθως, δεν υπάρχει πληροφορία για το βάθος της σκηνής. Για να ξεπεραστεί αυτό το πρόβλημα, πρέπει να αξιοποιηθεί το βάθος της πραγματικής σκηνής όπως το βλέπει ο χρήστης, δηλαδή ως προς τη θέση του χρήστη. 
+
+Στην παρούσα διπλωματική εργασία, χρησιμοποιήθηκε ο αισθητήρας βάθους της κάμερας Realsense 3D, για την υποστήριξη της διαδικασίας απόκτησης ενός χάρτη βάθους της σκηνής του περιβάλλοντος. O αισθητήρας αυτός μπορεί να μετρήσει την απόσταση κάθε αντικειμένου που βλέπει, δημιουργώντας ένα χάρτη βάθους. Με αυτό τον τρόπο το βάθος κάθε pixel του depth frame μπορεί να εκτιμηθεί. Η εικόνα βάθους είναι ουσιαστικά ένας πίνακας διαστάσεων 640 x 480  όπου η τιμή κάθε pixel αναπαριστά την απόσταση της κάμερας βάθους από το συγκεκριμένο σημείο στο 3D χώρο (σε χιλιοστά). 
+
+
+Όταν μία κάρτα βίντεο απεικονίζει μία εικονική σκηνή, υπολογίζει την απόκρυψη μέσω του depth buffer, δηλαδή την απόσταση z κάθε αντικειμένου από την εικονική σκηνή. Συνήθως, όταν ένα άλλο εικονικό αντικείμενο πρέπει να απεικονιστεί στο ίδιο pixel του z-buffer, η μέθοδος συγκρίνει τα 2 βάθη και αντικαθιστά το τρέχων pixel αν το αντικείμενο είναι πιο κοντά στον παρατηρητή, δηλαδή την κάμερα.
+
+Το τέχνασμα που χρησιμοποιείται είναι η αρχικοποίηση του Z-Buffer της OpenGL με τις τιμές βάθους που παίρνουμε από τον αισθητήρα πριν την απεικόνιση ενός 3D εικονικού αντικειμένου και αφού απεικονίσουμε το πολύγωνο που δείχνει την έγχρωμη εικόνα που καταγράφει το βίντεο. Με αυτό τον τρόπο, όταν τα εικονικά πιόνια απεικονίζονται στην οθόνη, θα αποκρύπτονται από τα χέρια του χρήστη ή από οποιοδήποτε άλλο αντικείμενο περάσει από πάνω τους. 
+
+Η διαδικασία αυτή μοιάζει με την προσομοίωση της απεικόνισης ενός ολόκληρου περιβάλλοντος 3D και τη χρήση των τιμών του z-buffer. Eπομένως, προκειμένου να αντιμετωπίσουμε το πρόβλημα της απόκρυψης αντικειμένων (occlusion handling) έπρεπε να αντιστοιχήσουμε ολόκληρη το χάρτη βάθους στην έγχρωμη εικόνα που καταγράφεται, να μετατρέχουμε τις τιμές βάθους από χιλιοστά σε μέτρα και μετά να γράψουμε κάθε τιμή στο z-buffer της OpenGL.
+
+
+Ώστόσο, πριν φτάσουμε στο σημείο να γράψουμε στο z-buffer, πρέπει να λάβουμε υπ'οψην μας το είδος της προβολής που χρησιμοποιείται από την OpenGL στην εφαρμογή μας (ορθή ή προοπτική). 
+
+
+Στη συγκεκριμένη περίπτωση, το είδος της προβολής με την οποία απεικονίζονται τα εικονικά αντικείμενα της σκηνής είναι η προοπτική προβολή και πρέπει να τροποποιήσουμε τα δεδομένα με βάση αυτή. Σε αυτό το είδος προβολής, η σχέση ανάμεσα στην τιμή Z και το βάθος είναι μη-γραμμική και συγκεκριμένα της μορφής:
+
+
+
+\begin{equation}
+\begin{aligned}
+depth=\frac{A}{Z}+B \\
+A=\frac{Z_{far}Z_{near}}{Z_{far}-Z_{near}}\\ B=\frac{Z_{far}}{Z_{far}-Z_{near}}
+\end{aligned}
+\end{equation}
+
+Τέλος πρέπει να προσέξουμε το γεγονός ότι τα σημεία μπροστά από το σημείο παρατήρησης (viewpoint) στην OpenGL έχουν αρνητικές τιμές συντεταγμένων στον άξονα Z. Αφού εφαρμόσουμε το μετασχηματισμό που αναφέρθηκε με την προηγούμενη εξίσωση, μπορούμε να γράψουμε τις τιμές των δεδομένων στον z-buffer. Μόλις συμβεί αυτό, παρατηρούμε ότι τα πραγματικά και τα εικονικά αντικείμενα "δένουν" αρμονικά μαζί στη σκηνή με αρκετά μεγάλη ακρίβεια. 
 
 
 
 
 \section{Ενσωμάτωση Μηχανής Σκακιού}
 
-After the implementation of the pinch gesture detection algorithm, we decided that for our applications purposes, user should be able to play against the computer. This way, a natural sequence of chess events would take place and the application would simulate a real chess game against an opponent, something that would help with the evaluation of the system. In order for the user to be able to play against a computer, normally, we need to implement arti cial intelligence algorithms so that our program could think the next move based on the past moves made by the user. However the implementation of these algorithms for our chess game was out of the scope of this thesis and a simple way for AI functionality integration had to be investigated. This is where the chess engines emerge. A chess engine is a computer program that that receives a board position as input, analyzes the position of chess pieces and calculates the best move based on that board within a given amount of possible effort (in most cases a time limit). The chess engine estimates the next moves, but typically does not interact directly with the user. Most chess engines do not have their own graphical user interface (GUI) but are rather console applications that communicate with a GUI via a standard protocol. This allows the user to play against multiple engines without learning a new user interface for each, and allows different engines to play against each other. The GUI, in this case, is our application so far. What we need is a way to connect it with the chess engine properly. Nowadays, the most used way of communication with a chess engine is the Universal Chess Interface (UCI) Protocol. The Universal Chess Interface (UCI) is an open communication protocol that enables a chess program's engine to communicate with its user interface through a set of speci c commands. In order to integrate a chess engine to the augmented reality chess game, we need to exchange commands(strings) with a chess engine. A chess engine receives commands via standard input from an application and outputs its responses to standard output. So it has no graphical user interface, no mouse input, no pictures, just a plain console window, it is nothing more than an executable. To communicate with the engines executable, we decided to use a feature provided by Qt, through a class named QProcess which allows to start an executable le and easily read and write string commands from and to it. The interaction with the engine starts with a uci command that tells the engine to identify itself. It then receives commands that may change the values of options and the way output is presented by the engine. Afterwards, the engine takes as an input from our application the users completed move, and outputs the next best move for the enemy pieces. The chess engine is told to spend a speci c amount of time to search for a best move. It starts its search and considers the best move before the time limit expires. For our application we considered that the time limit should be really small(40ms) so that we can get immediate feedback from our program. Usually, chess engines dont have the ability to know whether or not a move command by the user is a valid one or not, based on the pieces type and the state of the board. However, we used the iCE Engine[link] which stores the possible moves for every chess piece and when an invalid move is taken as an input from the user, it returns the string Invalid chess move. This feature really helped us in changing the architecture of our code logic and makes it even easier for the user not to execute a wrong move at all. What is more, the engine we used can output the outcome of the game, so that our program can detect if the user won or lost the game. So we implemented the basic functionality to send and receive strings to and from the engine and according to these strings the correct actions can be taken in our program.
+Μετά την υλοποίηση του αλγορίθμου ανίχνευσης της χειρονομίας του "τσιμπήματος" και την αντιμετώπιση του προβλήματος απόκρυψης αντικειμένων, κρίθηκε απαραίτητο, ο χρήστης να μπορεί να παίξει ένα παιχνίδι σκακιού ενάντια στον υπολογιστή. Με αυτό τον τρόπο, πετχαίνουμε μία φυσική αλληλουχία γεγονότων στο παιχνίδι του σκακιού και προσμοιώνουμε ολοκληρωμένα ένα πραγματικό παιχνίδι σκακιού απέναντι σε έναν αντίπαλο, κάτι που θα μας βοηθήσει στη συνέχεια με την αξιολόγηση του συστήματος. 
+
+
+Για να μπορέσει ο χρήστης να παίξει σκάκι ενάντια στον υπολογιστή, κανονικά θα έπρεπε να υλοποιηθούν αλγόριθμοι τεχνητής νοημοσύνης που θα επέτρεπαν στο πρόγραμμα μας να καθορίσει την επόμενη κίνηση του υπολογιστή με βάση τις προηγούμενες κινήσεις που έλαβαν μέρος κατά τη διάρκεια του παιχνιδιού. Ωστόσο η υλοποίηση τέτοιων αλγορίθμων για την εφαρμογή μας δεν βρίσκεται μέσα στους σκοπούς της παρούσας διπλωματικής εργασίας και έπρεπε να αναζητηθεί ένα απλός τρόπος για την ενσωμάτωση λειτουργιών τεχνητής νοημοσύνης. 
+
+
+Εκεί ακριβώς προκύπτει η λύση των μηχανών σκακιού. Μία μηχανή σκακιού δεν είναι τίποτα άλλο από ένα πρόγραμμα υπολογιστή το οποίο δέχεται σαν είσοδο την θέση ενός πιονιού στη σκακιέρα, αναλύει τις θέσεις όλων των πιονιών και υπολογίζει την καλύτερη δυνατή κίνηση με βάση τη διάταξη των πιονιών στη σκακιέρα μέσα σε ένα χρονικό περιθώριο που ορίζεται εκ των προτέρων. Η μηχανή σκακιού μπορεί να εκτιμήσει τις επόμενες κινήσεις, αλλά συνήθως δεν αλληλεπιδρά απευθείας με το χρήστη, καθώς οι περισσότερες μηχανές δεν έχουν δική του γραφική διεπαφή για την επικοινωνία με το χρήστη. Αντίθετα οι περισσότερες είναι εφαρμογές κονσόλας που επικοινωνούν με μία γραφική διεπαφή μέσω ενός καθορισμένου πρωτοκόλλου. Αυτό επιτρέπει στο χρήστη να παίζει ενάντια σε πολλές διαφορετικές μηχανές χωρίς να χρειάζεται να εκπαιδευτεί εκ νέου σε νέες διεπαφές κάθε φορά και επιτρέπει σε διαφορετικές μηχανές να παίζουν η μία ενάντια στην άλλη. Στη συγκεκριμένη περίπτωση, η εφαρμογή μας παίζει το ρόλο της γραφικής διεπαφής ως τώρα. 
+
+
+Στις μέρες μας, ο πιο πιο γνωστός τρόπος επικοινωνίας με μηχανές σκακιού πραγματοποιείται μέσω ενός πρωτοκόλλου που ονομάζεται Universal Chess Interface (UCI) Protocol. Πρόκειται για ένα πρωτόκολλο ανοιχτής επικοινωνίας που επιτρέπει σε μία μηχανή σκακιού ενός προγράμματος να επικοινωνεί με τη διεπαφή χρήστη μέσα από ένα σύνολο αυστηρά καθορισμένων εντολών. Επομένως, για να ενσωματώσουμε μία μηχανή σκακιού στην εφαρμογή μας, πρέπει να βρούμε ένα τρόπο ώστε να γίνει ανταλλαγή εντολών (συμβολοσειρές) ανάμεσα στην εφαρμογή μας και τη μηχανή σκακιού. 
+
+
+Η μηχανή δέχεται εντολές μέσω standard input από μια εφαρμογή και παράγει τις απαντήσεις σε συμβολοσειρές του standard output. Δεν έχει δηλαδή γραφική διεπαφή, είσοδο μέσω ποντικιού ή εικόνες, παρά μόνο ένα απλό παράθυρο κονσόλας, που δεν είναι τίποτα περισσότερο παρά ένα εκτελέσιμο (.exe) αρχείο. Προκειμένου να υλοποιηθεί αυτή η επικοινωνία με το εκτελέσιμο αρχείο μιας μηχανής σκακιού αποφασίστηκε να αξιοποιηθεί η δυνατότητα που προσφέρει η βιβλιοθήκη Qt μέσω μιας κλάσης με το όνομα QProcess, η οποία επιτρέπει στο πρόγραμμά μας να εκκινήσει ένα εκτελέσιμο αρχείο, καθώς και να διαβάσει και να γράψει εντολές συμβολοσειρών από και προς αυτό. Η αλληλεπίδραση με τη μηχανή σκακιού ξεκινά με μία εντολή "uci", η οποία επικοινωνεί με τη μηχανή λέγοντας της να ταυτοποιήσει τον εαυτό της, δηλαδή να δώσει σαν έξοδο τα χαρακτηριστικά της όπως την ονομασία της, την έκδοσή της κλπ.  Έπειτα, δέχεται εντολές που μπορούν να αλλάξουν ορισμένες προεπιλεγμένες τιμές ιδιοτήτων που επηρεάζουν τα δεδομένα τα οποία θα προβάλλονται σαν έξοδος από τη μηχανή. Μετέπειτα, η μηχανή δέχεται ως είσοδο από την εφαρμογή μας την κίνηση που πραγματοποίησε ο χρήστης και εξάγει την επόμενη καλύτερη κίνηση που μπορεί να εκτελέσει ο αντίπαλος, δηλαδή ο υπολογιστής.
+Η μηχανή σκακιού δέχεται σαν παράμετρο το χρόνο τον οποίο έχει για να υπολογίσει την κίνηση αυτή, ψάχνοντας για την καλύτερη δυνατή κίνηση. Ξεκινά την αναζήτηση και εκτιμά την καλύτερη κίνηση που υπάρχει πριν λήξει το χρονικό περιθώριο που ορίζεται στην αρχή της εκτέλεσης της μηχανής. 
+
+Για την εφαρμογή μας, θεωρήσαμε ότι το χρονικό αυτό περιθώριο πρέπει να είναι ιδιαίτερα μικρό (40ms), ώστε να μην "παγώνει" η απεικόνιση των εικονικών αντικειμένων και να μπορούμε να παίρνουμε άμεσα feedback από το πρόγραμμα. Συνήθως οι μηχανές σκακιού δεν έχουν τη δυνατότητα να αντιλαμβάνονται αν μία εντολή κίνησης που δίνεται από το χρήστη είναι έγκυρη ή όχι, με βάση τον τύπο των πιονιών και την κατάσταση της σκακιέρας. Για το λόγο αυτό επιλέχθηκε να χρησιμοποιηθεί η μηχανή iCE [link], η οποία ελέγχει αν η κίνηση που γίνεται είναι επιτρεπτή ή όχι. Αν η κίνηση δεν επιτρέπεται, τότε η μηχανή επιστρέφει ως έξοδο τη συμβολοσειρά "Invalid chess move". Αυτή η ιδιότητα επιτρέπει την υλοποίηση μιας αρχιτεκτονικής στον κώδικά μας, η οποία δε θα είναι επιρρεπής σε λανθασμένες κινήσεις όταν αυτές γίνονται κατά λάθος από το χρήστη. Επιπλέον, η μηχανή που χρησιμοποιήθηκε μπορεί να ανιχνεύσει αν το παιχνίδι ολοκληρώθηκε και ποιος είναι νικητής ώστε να μπορούμε να ενημερώσουμε το χρήστη για το αποτέλεσμα του παιχνιδιού. 
+
+Συμπερασματικά, υλοποίησαμε τη βασική λειτουργικότητα για την αποστολή και λήψη συμβολοσειρών προς και από τη μηχανή σκακιού και με βάση αυτές τις συμβολοσειρές το πρόγραμμά μας εκτελεί συγκεκριμένες δράσεις.
 
 
 
