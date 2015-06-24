@@ -169,7 +169,7 @@ description of the evaluation performed with two tasks and the experimental set-
 
 
 
-\section{Διαδικασία Βαθμονόμησης}
+\section{Βαθμονόμηση της Κάμερας}
 
 
 Για την εύρεση των εσωτερικών παραμέτρων της κάμερας επιλέχθηκε η απλή, έτοιμη και αποτελεσματική λύση του εργαλείου βαθμονόμησης που παρέχεται μέσω της OpenCV. Η OpenCV διαθέτει έτοιμες συναρτήσεις και εργαλεία για την βαθμονόμηση της κάμερας που βασίζονται σε μεθόδους που αναφέρθηκαν στο κεφάλαιο 2. Επιπλέον μέσω της OpenCV μπορούμε να μάθουμε τους συντελεστές παραμόρφωσης της κάμερας. 
@@ -186,7 +186,7 @@ description of the evaluation performed with two tasks and the experimental set-
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6, angle=0]{Files/Figures/pattern.png}
+    \includegraphics[scale=0.4, angle=0]{Files/Figures/pattern.png}
     \caption[Πρότυπο σκακιέρας για τη βαθμονόμησης της κάμερας]{Πρότυπο σκακιέρας για τη βαθμονόμησης της κάμερας}
     \label{fig:pattern}
 \end{figure}
@@ -255,68 +255,136 @@ Avg_Reprojection_Error = 0.20315774320090751
 \section{Δημιουργία Markerboard}
 %ΑΝΑΛΥΣΕ ΤΟ ARUCO FEATURE KAI ΠΩΣ ΓΙΝΕΤΑΙ ΤΟ MARKER TRACKING ΑΠΟ ΤΗΝ ARUCO ΚΑΙ ΤΟ BOARD.
 
-Since the game of chess is a tabletop game that always uses a chessboard as a base for placing the chess pieces on, we considered that using a markerboard would be really similar to the use of a chessboard and the occlusion of the markerboard from the users hand would not affect the rendering of virtual chess pieces during a piece movement. That is why, we created a markerboard which consists of 64 markers in a 8x8 grid, just like a board that is used in chess games, as the main marker of the system. A paper published by the founders of ArUco described the methodology that can be used in order to create speci c marker IDs for the markerboard which will have a high number of bit transitions so that they are less likely to be confused with environment objects. While previous works impose xed dictionaries, the latest version of ArUco library proposes an automatic method for generating a board of marker with the desired number of markers and with the desired number of bits. We used the ArUco samples and created a board of highly reliable markers which corresponds to the size and dimensions of a real chessboard as described by the World Chess Organization.
+Ως επαύξηση της πραγματικότητας ορίζεται η διαδικασία πρόσθεσης εικονικής πληροφορίας σε εικόνες ή βίντεο. Για να συμβεί κάτι τέτοιο, πρέπει να γνωρίζουμε που ακριβώς πρέπει να απεικονιστεί η εικονική πληροφορία. Παρά το γεγονός ότι ορισμένες εφαρμογές αξιοποιούν τα φυσικά χαρακτηριστικά μιας σκηνής όπως η υφή ή σημεία κλειδιά, τα markers αποτελούν ακόμα έναν ελκυστικό τρόπο προσέγγισης επειδή είναι εύκολη η γρήγορη ανίχνευσή τους και η ακρίβεια που μπορεί να επιτευχθεί, όπως παρουσιάστηκε και στο~\ref{ssec:markerpose}. Μέσω της ανίχνευσης ενός marker όπως αυτοί που χρησιμοποιούνται από την ArUco μπορούν να υπολογιστούν οι εξωτερικές παράμετροι της κάμερας, δηλαδή η θέση και ο προσανατολισμός της σε σχέση με το marker ώστε να γνωρίζει το πρόγραμμα που πρέπει να σχεδιάσει τα 3D αντικείμενα και που είναι η αρχή των αξόνων (0,0,0) του συστήματος κοσμικών συντεταγμένων της σκηνής. 
+
+Όπως συζητήθηκε και στην ενότητα~\ref{ssec:markerboard} η ανίχνευση ενός και μόνο marker μπορεί να αποτύχεια για πολλούς λόγους. Επομένως, για να αντιμετωπιστεί αυτό το πρόβλημα, αποφασίστηκε η χρήση markerboards της ArUco, δηλαδή ενός marker που αποτελείται από μια διάταξη πολλών markers.
+
+Το γνωστό επιτραπέζιο παιχνίδι του σκακιού απαιτεί τη χρήση μιας σκακιέρας ως βάση προκειμένου να τοποθετηθούν τα πιόνια επάνω της.Kατά τη διάρκεια ενός παιχνιδιού σκακιού, ο χρήστης συχνά πρέπει να μετακινεί τα πιόνια με το χέρι του. Όταν συμβαίνει αυτό, το χέρι του χρήστη περνά πάνω από τη σκακιέρα αποκρύπτοντας ένα αρκετά σημαντικό μέρος της. 
+
+Στα πλαίσια της παρούσας διπλωματικής εργασίας και προκειμένου να δημιουργήσουμε ένα σκάκι επαυξημένης πραγματικότητας θεωρήθηκε ότι η αξιοποίηση ενός markerboard προσομοιώνει τις ιδιότητες μιας σκακιέρας, ενώ η απόκρυψη μέρους του markerboard από το χέρι του χρήστη δεν επηρεάζει την απεικόνιση των εικονικών πιονιών κατά τη διάρκεια της μετακίνησης ενός πιονιού από το χρήστη. Επομένως αποφασίστηκε η δημιουργία ενός markerboard με μια διάταξη από 64 markers, σε ένα πλέγμα 8x8, με διαστάσεις ίδιες με αυτές μιας σκακιέρας.
+
+
+Οι δημιουργοί της βιβλιοθήκης ArUco δημοσίευσαν μία επιστημονική εργασία \cite{garrido2014automatic} όπου αναλύεται η μεθοδολογία για τη δημιουργία markerboard με markers τα στα οποία αντιστοιχίζονται συγκεκριμένα IDs με στόχο τον υψηλό αριθμό μεταβολών bits ώστε να μην μπερδεύονται τα markers με πραγματικά αντικείμενα του περιβάλλοντος, να ανιχνεύονται δηλαδή ευκολότερα από το σύστημα. 
+
+Προτείνεται λοιπόν μια αυτόματη μέθοδος για την παραγωγή ενός markerboard με τον επιθυμητό αριθμό markers και τον επιθυμητό αριθμό bits. Χρησιμοποιώντας το έτοιμο εργαλείο που παρέχεται από τη βιβλιοθήκη ArUco για το σκοπό αυτό, δημιουργήσαμε μία "σκακιέρα" από markers υψηλής αξιοπιστίας, όπως φαίνεται και στην εικόνα~\ref{fig:markerboard}
+
+
+
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.1, angle=0]{Files/Figures/markerboard.jpg}
+    \includegraphics[width=0.8\textwidth]{Files/Figures/markerboard.jpg}
     \caption[Το markerboard που δημιουργήθηκε μέσω της ArUco]{Το markerboard που δημιουργήθηκε μέσω της ArUco}
-    \label{fig:ps3game}
+    \label{fig:markerboard}
 \end{figure}
 
-\section{Αναγνώριση Χειρονομίας Τσιμπήματος}
+
+
+
+
+\section{Αναγνώριση Χειρονομίας Τσιμπήματος} \label{section:pinch}
 %ΠΩΣ ΑΚΡΙΒΩΣ ΚΑΝΩ ΤΗ ΧΕΙΡΟΝΟΜΙΑ ΤΣΙΜΠΗΜΑΤΟΣ-ΤΑ ΘΕΩΡΗΤΙΚΑ ΜΕΡΗ
 
 
 
-Before describing the gestures that we implemented in our
-system, we first discuss the challenges that we faced while
-we designed our system and the high-level principles that we
-followed to address them.
+Προκειμένου να ορίσουμε τον τρόπο με τον οποίο θα γίνεται ο εντοπισμός των χειρονομιών, καθώς και το είδος των χειρονομιών που πρέπει να ανιχνευτούν, χρειάζεται να καθοριστούν οι απαιτήσεις του συστήματος με λεπτομέρειες.
+Για να αναπτυχθεί ένα σκάκι επαυξημένης πραγματικότητας απαιτείται προφανώς αλληλεπίδραση σε πραγματικό χρόνο, σχετικά φθηνός εξοπλισμός και αλληλεπίδραση με όσο περισσότερο φυσικό τρόπο γίνεται, δηλαδή χωρίς τη χρήση ειδικών γαντιών ή καλωδίων. 
 
-A small number of simple hand poses Although a human hand has 27 DOFs, only a few poses are comfortable and can be reproduced without training. Guided by this idea, we built our system mostly on the pinch pose inspired by Andrew Wilson’s [26] Thumb and Fore-Finger Interface. We use pinching as an analog of the mouse click to indicate the selection of an object. We also explore pointing for specifying remote locations, and touching the desktop with fingers to turn the desk surface into a multi-touch interface. 
-
--Use precise and memorable gestures 
-To create precise and memorable gestures, we use metaphors that correspond closely to physical actions. We directly map 3D physical positions to virtual positions. Once a user understands a virtual scene, reaching for the object leverages his physical intuition to reach for a point in 3D space. We also adopt a physicallybasedmentalmodel to design hand gestures for rotation. Motivated by work showing that users tend to perform rotation and translation separately [15], we decouple camera rotation and camera translation as two distinct gestures to provide precise and physically-based control for both. 
-
--Limited hand motion 
-Unrestricted 3D interactions and large movements are tiring and only useful for short periods of time. We exploit the desktop environment to address the fatigue issue and design our system such that users can rest their elbows or forearms on the desk most of the time. Inspired by the Eden system, [11], we also allow the user to pass objects between the hands (throw-and-catch) to minimize dragging. We also amplify the user’s 3D motion so that only small gestures are needed, e.g. we map a 10◦ hand rotation to 20◦ in the modeler.
+Οι απαιτήσεις του συστήματος για εκτέλεση των αλληλεπιδράσεων σε πραγματικό χρόνο, περιορίζει το επίπεδο της ανίχνευσης χειρονομιών που μπορεί να επιτευχθεί, ενώ παράλληλα οι απαιτήσεις για εξοπλισμό χαμηλού κόστους περιορίζουν την ποιότητα της εικόνας που πρέπει να καταγραφεί. Ο τρίτος περιορισμός που εισάγεται, προϋποθέτει τη χρήση τεχνικών όρασης υπολογιστών για την αναγνώριση των χειρονομιών του χρήστη, η απόδοση των οποίων περιορίζεται από τον επεξεργαστή του συστήματος. 
 
 
 
-Once the captured video frame has been stabilized and occlusion has been detected and defined in terms of binary blobs, the interaction problem becomes one of gesture recognition. As described in chapter 4, target occlusion is detected and defined relative to the target plane. Since all virtual augmentation is defined relative to the target plane, interaction between real and virtual objects can occur within this common coordinate system. One of the most significant contributions of this thesis is the following handbased interaction system using gesture recognition. Our goal is to provide a simple gesture recognition system for two-dimensional manipulative interaction. Currently, using a mouse to manipulate a window interface is commonplace. Our system provides a mouse-like gesture based interface to an immersed AR user without the need for the cumbersome mouse. To simulate a mouse requires the recognition of both point and select gestures in order to generate the appropriate mouse-down and mouse-up events at the indicated location. This goal is achieved without the need for a sophisticated gesture recognition system such as [OKA02] involving complex finger tracking for gesture inference through motion. Instead, the gesture model is specialized for the task of mouse replacement. Performing the gesture analysis in pattern-space simplifies the image processing and creates a very robust gesture recognition system.
-
-In order to define the appropriate gestures, the requirements of the application must be defined in detail. The requirements of the gesture system discussed in this thesis are: • real-time performance • commercial pc and camera hardware • hand-based interaction without hardware or glove-based facilities The real-time requirement of the system poses great restriction on the level of gesture recognition that can be implemented. Commercial hardware may also limit system performance, as well as limit the quality of image capture on which all computer visionbased, image analysis techniques rely. The third requirement forces the use of computer vision to recognize hand gestures, which is performance bound by the processor. Given these restrictions an interactive application is described and a particular hand gesture model is defined. The goal of this interaction system is to provide the user with a virtual interface to control the augmentation system properties. In other words, the goal is to allow the user to change system parameters through gestures in real-time. The interface is designed to be a control panel that is augmented on the planar pattern. The user should be able to interact directly with this augmented control panel on the 2D planar pattern. This allows the user to directly manipulate the set of controls provided on the panel. The original 2D planar target pattern can be fixed in the environment or carried by the user and shown to the camera when the interaction is desired. For these reasons it is assumed that only one hand will be free to perform the gestures over the target pattern. With the application requirements described, a gesture model can be defined. Complex manipulation such as finger tapping can be recognized with the use of multiple cameras to capture finger depth information. However, under the constraints of a single camera system, the occlusion blob detection described in the previous chapter provides only two-dimensional information about the occluding hand. For this reason, the gesture language is based exclusively on hand posture. The hand is described in pixel-space as the union of the detected occlusion blobs (the occluder set found in chapter 4). Each blob representing a finger or a set of grouped fingers. Given that our goal is to replace a mouse, there are only two classifications to which the recognized hand postures can belong: a pointing posture and a selecting posture. The notion of pointing and selecting can vary between applications, so they must be clearly defined for each application. In this application, pointing is the act of indicating a location on the planar target relative to its top left corner. Selecting is the act of indicating the desire to perform an action with respect to the pointer location. In terms of the gesture model, the parameters associated with each posture are: a pointer location defined by the prominent finger tip and a finger count defined by the number of fingers detected by the system. With the gesture model defined, a gesture system can be constructed.
-
-The gesture recognition system proposed in this chapter applies the defined gesture model to a working Augmented Reality application system. The system flow is shown in figure 5.1. The system begins by analyzing the captured video frame using computer vision techniques. At this point, posture analysis is performed to extract the posture parameters in order to classify the gesture. If classification succeeds, the recognized gesture is translated into the event-driven command understood by the interactive application.
-%wang,popovi
-Pinch / Click Detection A robust pinch detector is the basis
-of our gestures, and we address it separately from 3D tracking.
-Our pinch detection is based on detecting separation of
-the tips of the index finger and thumb in at least one of the
-two camera images. First, we check for extrema [18] of the
-silhouette close to the predicted locations of the index finger
-and thumb from our 3D pose estimate. Thumb-index separation
-is detected if the geodesic distance between the extrema
-is longer than the Euclidean distance. If no separation is detected
-in either view, we register a pinch (Figure 12).
-
-%--
+Η χειρονομία "τσιμπήματος" είναι μία χειρονομία που μπορεί να χρησιμοποιηθεί για την αλλεπίδραση με αντικείμενα στον 3D χώρο. On a user-based gesture taxonomy developed [22], [30], several gestures such as ponting, pinch, grab, stretch (using both hands) have been classified according to user experience. Η χειρονομία τσιμπήματος μπορεί να πραγματοποιηθεί αρκετές φορές και υποδηλώνει φυσική κίνηση για επιλογή ενός αντικειμένου. Επομένως η αναγνώρισή της είναι βασική προϋπόθεση για την υλοποίηση βασικών αλληλεπιδράσεων με τα εικονικά αντικείμενα. 
 
 
-The pinch is a basic gesture that can be used to interact on a 3D space rather than a pointing gesture that is usually used on 2D view systems, which is simpler and well performed. On a user-based gesture taxonomy developed [22], [30], several gestures such as ponting, pinch, grab, stretch (using both hands) have been classified according to user experience. The pinch gesture in an AR interaction space is performed several times to imply natural movements and other gestures like selection, shrink/stretch in different axis, rotation, either using one hand or both[30]. Hence, its recognition is fundamental for following basic interactions. On this work, we have implemented a pinch recognition algorithm that triggers a grabbing action to move and release virtual objects in the AR scene based on the hand coordinates exposed from the Leap Motion’s API. The algorithm, Figure 14 runs on a Hand Controller -explained in the next section- which gets the information tracked from the device. Once a hand is recognized, a list of fingers ordered from thumb[0] to pinky[4] are obtained. It consists on identify the thumb fingertip (thumb = finger[0]); calculate a fixed threshold value experimentally based on a proportion of 0.7 times the thumb’s size; from the Fingers list, obtain the fingertip position of each remaining fingers and compare the euclidean distance, equation 3.1 from the thumb to the current finger positions with the threshold value, if the resulting PinchDistance is lower, then a flag is activated, indicating that a pinch has been performed.Afterwards, the grabbing function is performed when the pinch flag is activated. It generates a bounding sphere around the pinch position of the thumb and initializes a vector GrabDistance that will be used to store the difference of distance from the pinch position to the found collided object -this is used to grab only a single object that is closer to the pinch position-; then it identifies each object that collides with the bounding sphere and updates the GrabDistance vector with the difference of the pinch position and the collided object. If the updated distance is less than the GrabDistance of the previous collided object, the object is set as grabbed and a force -a vector calculated from the difference of the pinch position and the position of the grabbed object- is added to the rigid body of the object in order to follow the position of the pinch. When the PinchDistance is higher, the grabbing and pinching flags are disabled. This grabbing function is based on [1] example algorithms.The design is compared with a built-in pinch strength measure from the SDK, the most recent version of the Leap Motion’s SDK provides an automatic measure of the pinch strength value that ranges from [0-1], where 0 corresponds to the open hand with fingers extended and 1 to a full pinch, varying while you move the thumb and other fingers toward each other. On the next chapter 4, the evaluation is explained in more detail
+Κατά τη διάρκεια της μετακίνησης ενός πιονιού στο σκάκι, μέρος του χεριού και των δακτύλων του χρήστη δεν είναι ορατά από την κάμερα. Για το λόγο αυτό, σκεφτήκαμε ότι η χρήση τεχνικών εντοπισμού της πόζας του χεριού μέσω ενός σκελετικού μοντέλου ή μέσω των μεθόδων που παρέχονται από το RealSense SDK θα ήταν υπερβολική για το συγκεκριμένο είδος εφαρμογής. Επομένως, δε χρειάζεται να ανιχνεύσουμε ούτε ολόκληρο το χέρι του χρήστη, ούτε τα δάκτυλα του αυτούσια. 
+
+
+Με βάση τους παραπάνω περιορισμούς, η ανάπτυξη του συστήματος βασίστηκε στην εργασία του Andrew Wilson \cite{Wilson2006} όπου παρουσιάζεται μία τεχνική υπολογιστικής όρασης για την εύκολη και γρήγορη αναγνώριση της κίνησης κατά την οποία ο αντίχειρα και ο δείκτης ενός χρήστη έρχονται κοντά (χειρονομία "τσιμπήματος") για εφαρμογές μικρής εμβέλειας και σχετικά ελεγχόμενες συνθήκες θέασης. Η τεχνική αυτή αποφεύγει πολύπλοκους και εύθραυστους αλγορίθμους εντοπισμού των χεριών εντοπίζοντας την οπή που σχηματίζεται όταν ο δείκτης αγγίζει τον αντίχειρα του χρήστη και παρουσιάστηκε στην ενότητα~\ref{ssection:pinch}. Το πρόβλημα της αλληλεπίδρασης μετατρέπεται ουσιαστικά σε πρόβλημα αναγνώρισης χειρονομιών. Περιγράφεται, δηλαδή, ένας εύκολος και γρήγορος τρόπος για την αναγνώριση της χειρονομίας τσιμπήματος. 
+
+
+Στην παρούσα διπλωματική εργασία, υλοποιήθηκε ένα αλγόριθμος ανίχνευσης χειρονομιών, ο οποίος ενεργοποιεί μία εντολή αρπαγής και απελευθέρωσης των εικονικών πιονιών στην σκηνή της επαυξημένης πραγματικότητας. Χρησιμοποιούμε, δηλαδή, τη χειρονομία αυτή για να επιλέξουμε ένα πιόνι στη σκακιέρα και να μπορέσουμε να το μετακινήσουμε σε κάποια άλλη θέση.
+
+Οι συναρτήσεις του SDK επιτρέπουν την ανίχνευση αντικειμένων μπροστά από την κάμερα, όπως είναι τα blobs και την εξαγωγή περιγραμμάτων και σημείων ενδιαφέροντος για αυτά τα blobs. Η ανίχνευση των blobs είναι μία εναλλακτική που βολεύει σε σχέση με τον εντοπισμό των χεριών που παρέχει το SDK, αφού η εφαρμογή μας δεν απαιτεί την ανίχνευση και τον εντοπισμό χεριών. Κάθε blob διαθέτει μία εξωτερική γραμμή περιγράμματος (contour line) και ανάλογα με στο σχήμα του blob, μία ή περισσότερες εσωτερικές γραμμές περιγράμματος. Κάθε τέτοια γραμμή περιγράμματος αναπαρίσταται από μία σειρά σημείων. Οι εξωτερικές γραμμές περιγραμμάτων (εξωτερικά σύνορα), καθώς και οι εσωτερικές γραμμές των περιγραμμάτων ορίζονται από ένα πίνακα σημείων.
+
+
+Η προσέγγιση μας, αξιοποιεί τα δεδομένα των blob και την οπή που σχηματίζεται όταν ο αντίχειρας ακουμπά ή βρίσκεται πολύ κοντά στον δείκτη. Πιο συγκεκριμένα, υλοποιήθηκε ένας αλγόριθμος που ανιχνεύει πότε λαμβάνει χώρα μία χειρονομία τσιμπήματος και που ακριβώς στον 3Δ χώρο. Γνωρίζοντας το σημείο στο 3Δ χώρο στο οποίο συμβαίνει η χειρονομία, μπορούμε να επιλέξουμε το σωστό πιόνι και να το μετακινήσουμε ανάλογα. Η απρόσκοπτη ανίχνευση μιας χειρονομίας τσιμπήματος είναι η βάση για τη σωστή λειτουργία του συστήματός μας και για αυτό το λόγο θα αναφερθούμε ξεχωριστά στην αναγνώριση και την ανίχνευση της θέσης στην οποία πραγματοποιείται η χειρονομία. Ο αλγόριθμος που σχεδιάστηκε αναλύεται στη συνέχεια.
 
 
 
-\section{Ανίχνευση Θέσης Τσιμπήματος}
+Σε κάθε frame, παίρνουμε τις εικόνες βάθους και χρώματος που καταγράφει η συσκευή μας. Λόγω της λανθασμένης ευθυγράμμισης και της φυσικής απόκλισης της θέσης του αισθητήρα χρώματος σε σχέση με τον αισθητήρα βάθους (αφού δεν βρίσκονται ο ένας πάνω στον άλλο), χρειάζεται ένας τρόπος να αντιστοιχηθούν τα εικονοστιχεία χρώματος με τα εικονοστοιχεία βάθους και αντίστροφα. Για το συγκεκριμένο λόγο, η βιβλιοθήκη RealSense παρέχει μία δομή UVMap η οποία επιτελεί αυτό το συγκεκριμένο σκοπό.
+
+Στην αρχή της διαδικασίας, χρειάζεται να χρησιμοποιήσουμε τις ιδιότητες τιης βιβλιοθήκης για εξαγωγή των blobs. Πριν συμβεί αυτό, πρέπει να ορίσουμε κάποιες παραμέτρους, όπως τον μέγιστο αριθμό blobs που θέλουμε να ανιχνευτούν και το επίπεδο της εξομάλυνσης κατά την κατάτμηση της εικόνας για να πάρουμε τα σωστά περιγράμματα του blob. 
+
+Στην προσέγγιση μας, επιλέξαμε να ανιχνεύεται το κοντινότερο blob της εικόνας βάθους ως προς την κάμερα, διότι κατά τη διάρκεια ενός παιχνιδιού σκακιού ως προς το σημείο παρατήρησης του χρήστη (π.χ τα μάτια του), το ρόλο αυτό παίζουν τα χέρια του, τα οποία και όντως θέλουμε να εντοπίσουμε. Μόλις αναγνωριστεί το κοντινότερο blob, ωστόσο, πρέπει να το επεξεργαστούμε για να δούμε αν όντως πρόκειται για ένα blob χεριού ή για κάποιο άλλο αντικείμενο.
+
+
+Για το λόγο αυτό, παίρνουμε μέσω του SDK τον αριθμό των περιγραμμάτων που ανιχνεύθηκαν στο συγκεκριμένο blob. Αν ο αριθμός αυτός είναι μικρότερος του 2, αυτόματα συνεπάγεται ότι δεν υπάρχουν εσωτερικά περιγράμματα και επομένως δεν υπάρχει οπή στην εικόνα μας. Έτσι το πρόγραμμα γνωρίζει σίγουρα ότι ο χρήστης δεν εκτέλεσε χειρονομία "τσιμπήματος". Από την άλλη πλευρά, αν ο αριθμός των περιγραμμάτων είναι μεγαλύτερος του 2, τότε είναι πιθανό να έλαβε χώρα μια χειρονομία τσιμπήματος. 
+
+
+Για να ελέγξουμε αν συνέβη κάτι τέτοιο, παίρνουμε τον αριθμό των σημείων που απαρτίζουν το εσωτερικό περίγραμμα που ανιχνεύθηκε. Αν ο αριθμός των σημείων αυτών είναι μικρότερος από ένα κατώφλι, δηλαδή μία τιμή που ορίζεται μέσω δοκιμών, τότε μπορούμε είτε να συμπεράνουμε ότι τα δεδομένα του περιγράμματος δε σχετίζονται με το χέρι του χρήστη, είε ότι το χέρι είναι πολύ μακριά από την κάμερα, και μπορούμε να συνεχίσουμε την ανάλυση του επόμενου frame. Αν όμως ο αριθμός των σημείων είναι μεγαλύτερος της τιμής κατωφλίου που ορίστηκε, τότε μπορούμε να αποφανθούμε ότι έχουμε μία χειρονομία "τσιμπήματος". Όταν συμβεί κάτι τέτοιο πρέπει να ελέγξουμε τη θέση στην οποία συνέβη η χειρονομία στο 3D χώρο. Η διαδικασία αυτή περιγράφεται στην επόμενη ενότητα, ενώ ο αλγόριθμος αναγνώρισης χειρονομίας "τσιμπήματος" που περιγράφηκε φαίνεται στο σχήμα~\ref{fig:gesture_rec}.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7, angle=0]{Files/Figures/2.png}
+    \caption[Παράδειγμα blob χεριού και περιγραμμάτων που σχηματίζονται]{Παράδειγμα blob χεριού και περιγραμμάτων που σχηματίζονται}
+    \label{fig:gesture_rec}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5, angle=0]{Files/Figures/pinch_gesture_detection.png}
+    \caption[Διάγραμμα του αλγορίθμου ανίχνευσης χειρονομίας "τσιμπήματος"]{Διάγραμμα του αλγορίθμου ανίχνευσης χειρονομίας "τσιμπήματος"}
+    \label{fig:gesture_rec}
+\end{figure}
+
+
+
+
+
+
+\section{Ανίχνευση Θέσης Χειρονομίας "Τσιμπήματος"}
 %ΠΩΣ ΑΝΙΧΝΕΥΕΤΑΙ Η 3D ΘΕΣΗ ΤΣΙΜΠΗΜΑΤΟΣ ΜΕ ΒΑΣΗ ΤΗ ΜΕΘΟΔΟΛΟΓΙΑ ΜΟΥ
 
 
-To determine the location of the user’s point and select actions, a pointer location must be chosen from the hand point set. To simplify this process, the current system constraints were exploited and a number of assumptions were made. The first useful constraint deals with the amount of target occlusion permitted. The planar tracking system used for augmentation assumes that approximately half of the target corners are visible at all times during the tracking phase. To satisfy this constraint, only a portion of a hand can occlude the target at any given time. For this reason, the assumption is made that the only portion of the hand to occlude the target will be the fingers. From this we get: Assumption 1: Separated fingers will be detected as separate blobs in the image analysis phase. Due to the simplicity of the desired interaction, a second assumption was made: Assumption 2: Fingers will remain extended and relatively parallel to each other.
+One of the most significant contributions of this thesis is the following handbased interaction system using gesture recognition. Our goal is to provide a simple gesture recognition system for two-dimensional manipulative interaction. Currently, using a mouse to manipulate a window interface is commonplace. Our system provides a mouse-like gesture based interface to an immersed AR user without the need for the cumbersome mouse. To simulate a mouse requires the recognition of both point and select gestures in order to generate the appropriate mouse-down and mouse-up events at the indicated location. This goal is achieved without the need for a sophisticated gesture recognition system such as [OKA02] involving complex finger tracking for gesture inference through motion. Instead, the gesture model is specialized for the task of mouse replacement. Performing the gesture analysis in pattern-space simplifies the image processing and creates a very robust gesture recognition system.
 
-The simple gesture model introduced in this chapter describes two gestures classified by the interaction system – point and selection. The point gesture is the combination of a single finger and a pointer location. A single group of fingers along with a pointer location is also classified as the gesture of pointing. The selection gesture is the combination of multiple fingers and a pointer location. Figure 5.3 shows an example of these two gestures, displayed in pattern-space. A sample point and select gesture are shown in figure 5.4(a) and 5.4(b) respectively. These images are the grayscale representations of full colour screenshots. In this demonstration application the gesture system recognizes the colour region occupied by the finger pointer and also recognizes when selection has occurred. The fact that selection has been recognized from the two finger blobs is shown clearly in the text annotation at the top of the figure.
 
-The interaction created by this gesture model is a point and select mechanism similar to the commonly used mouse interaction with a window-based operating system. To allow a closed system of human-computer interaction, the actions generated by the hand gestures define a set of system states. The possible states of the gesture system are pointing, selecting and no hand detection. The transitions between states are triggered by a change in finger count. This transition is represented by a pair of values, (cp,cc), indicating the previous and current finger counts. The possible values for cp and cc are 0, indicating no hand detection, 1, indicating a single detected finger pointer, and n, indicating more than one detected finger pointer. This state machine is shown in figure 5.5 and the system begins in the no hand detection state.
+
+To determine the location of the user’s select actions, a pointer location must be chosen from the hand point set. To simplify this process, the current system constraints were exploited and a number of assumptions were made. The first useful constraint deals with the amount of target occlusion permitted. The planar tracking system used for augmentation assumes that approximately half of the target corners are visible at all times during the tracking phase. To satisfy this constraint, only a portion of a hand can occlude the target at any given time. For this reason, the assumption is made that the only portion of the hand to occlude the target will be the fingers. From this we get: Assumption 1: Separated fingers will be detected as separate blobs in the image analysis phase. Due to the simplicity of the desired interaction, a second assumption was made: Assumption 2: Fingers will remain extended and relatively parallel to each other.
+
+
+
+
+
+
+%δικο μου
+Αν κατά το στάδιο της ανίχνευσης μιας χειρονομίας "τσιμπήματος" διαπιστώθηκε ότι έχουμε όντως μία τέτοια χειρονομία, δηλαδή ο αριθμός των περιγραμμάτων του blob είναι μεγαλύτερος ή ίσος του 2 και ο αριθμός των σημείων του εσωτερικού περιγράμματος είναι μεγαλύτερος από μία τιμή κατωφλίου, μπορούμε να συνεχίσουμε για να βρούμε τη θέση στην οποία πραγματοποιήθηκε η χειρονομία ως προς την κάμερα.
+
+Για να συμβεί αυτό, αρχικά επιλέγεται το σημείο του εσωτερικού περιγράμματος που βρίσκεται όσο γίνεται πιο αριστερά, όσον αφορά την εικόνα βάθους, καθώς και το σημείο του εσωτερικού περιγράμματος που βρίσκεται όσο γίνεται πιο δεξιά. Με βάση αυτά τα 2 σημεία, μπορούμε να βρούμε μία μοναδική ευθεία που ορίζεται από αυτά. Στη συνέχεια, μπορούμε να δημιουργήσουμε μία περιοχή ή καλύτερα μία "γειτονιά"  ενός παραμετρικού αριθμού σημείων, που ανήκουν στη συγκεκριμένη ευθεία που υπολογίστηκε και βρίσκονται αριστερά από το πιο αριστερό σημείο του εσωτερικού περιγράμματος.  Ο αριθμός των σημείων που μπορούμε να πάρουμε μπορεί να οριστεί ως παράμετρος στο πρόγραμμά μας. Προφανώς, όσο περισσότερα σημεία επιλέξουμε, τόσο πιο ακριβές θα είναι το αποτέλεσμα, αλλά τόσο πιο αργό θα γίνεται το πρόγραμμα όπως θα διαπιστωθεί στη συνέχεια. 
+
+
+Μόλις εκτιμηθεί αυτή η "γειτονιά" σημείων στο frame της εικόνας βάθους, μπορούμε να υπολογίσουμε τις τιμές βάθους για καθένα από αυτά τα σημεία και επομένως να εκτιμήσουμε τη μέση τιμή βάθους των εικονοστοιχείων της "γειτονιάς" τα οποία έχουν έγκυρες τιμές. Αυτή η μέση τιμή βάθους, μπορεί να χρησιμποιηθεί αργότερα ως η τιμή βάθους στην οποία πραγματοποιείται η χειρονομία "τσιμπήματος" στον τρισδιάστατο χώρο της σκηνής. 
+
+Αξιοποιώντας, τη δομή UVMap, στην οποία αναφερθήκαμε στην ενότητα~\ref{section:pinch}, μπορούμε να αντιστοιχίσουμε κάθε σημείο, δηλαδή κάθε εικονοστοιχείο της "γειτονιάς" σημείων στην εικόνα χρώματος που καταγράφει ο αισθητήρας στο ίδιο frame. Υπολογίζουμε τη μέση τιμή των συντεταγμένων εικόνας στην οποία βρίσκεται κάθε σημείο και έχει έγκυρες τιμές (αφού κατά την αντιστοίχιση μπορεί να έχουμε λανθασμένες προσεγγίσεις). Ωστόσο οι τιμές αυτές μετρώνται σε pixels ενώ εμείς θέλουμε να βρούμε το σημείο στο οποίο έλαβε χώρα η χειρονομία στο 3D χώρο σε μονάδες του πραγματικού κόσμου (π.χ μέτρα). Επομένως, πρέπει να προβάλλουμε αυτά τα εικονοστοιχεία χρώματος στο σύστημα συντεταγμένων της κάμερας ώστε να πάρουμε τις αποστάσεις σε μονάδες του πραγματικού κόσμου, δηλαδή στην περίπτωσή μας σε μέτρα. 
+
+
+Μόλις ολοκληρωθεί αυτή η διαδικασία, έχουμε τις τιμές των συντεταγμένων x,y,z για ένα συγκεκριμένο σημείο στον τρισδιάστατο χώρο σε μέτρα, το οποίο θεωρούμε ως το σημείο στο οποίο πραγματοποιήθηκε η χειρονομία "τσιμπήματος" από το χρήστη, ή αλλιώς ως το σημείο στον τρισδιάστατο χώρο όπου ο χρήστης αποφάσισε να "τσιμπήσει" κάποιο εικονικό αντικείμενο. Προφανώς, μόλις συμβεί κάτι τέτοιο και αν οι συντεταγμένες έχουν μία έγκυρη τιμή, ενεργοποιείται μία σημεία που υποδηλώνει στο πρόγραμμά μας ότι πραγματοποίηθηκε μία χειρονομία "τσιμπήματος". 
+
+Εν τέλει, έχουμε το σημείο "τσιμπήματος" στον τρισδιάστατο χώρο ως προς τον αισθητήρα χρώματος της συσκευής. Με βάση την μεθοδολογία που αναφέρθηκε, μπορούμε να αναπτύξουμε την εφαρμογή μας και να υλοποιήσουμε τη λογική του βιντεοπαιχνιδιού σκακιού επαυξημένης πραγματικότητας. 
+
+
+Αφού όλα τα εικονικά αντικείμενα απεικονίζονται ως προς την αρχή των συντεταγμένων του κέντρου της σκακιέρας, δηλαδή του markerboard, η αλληλεπίδραση ανάμεσα στα πραγματικά και τα εικονικά αντικείμενα θα πρέπει να πραγματοποείται ως προς αυτό το κοινό σύστημα συντεταγμένων. Επομένως, στην επόμενη ενότητα θα παρουσιαστεί η διαδικασία μετατροπής του 3D σημείου όπου πραγματοποιήθηκε η χειρονομία "τσιμπήματος", από το σύστημα συντεταγμένων κάμερας στο σύστημα συντεταγμένων του markerboard.
+
+
+
+
+
+
 
 
 \begin{figure}
@@ -355,6 +423,11 @@ The interaction created by this gesture model is a point and select mechanism si
 
 Coordinate Systems Matching A first step is to consider a unified coordinate system between the AR target and hand tracking sensor. The simplest coordinate systems matching is based on the assumption that our AR marker and sensor are placed on the same origin, when this is not the case, i.e. the sensor and marker are placed in different areas from the camera view perspective, a translation of the Leap Motion’s pose matrix needs to be performed by using the AR marker as a reference. A solution to this, is to use the image target to act as the world center and bring the Leap Motion’s coordinate system by multiplying the inverse pose of our main target (image target) by the pose of the Leap Motion’s target. This creates an offset matrix that can be used to bring points from Leap Motion to image target coordinate system[47]. Nevertheless, for our prototype purpose, it is assumed that the AR marker and sensor are placed in the same origin, where it matches both coordinate systems. This is done, both programmatically, through the game engine and physically where are adjusted in the same origin from a camera view perspective as seen on the Figure.
 
+Ο μηχανισμός αλληλεπίδρασης που παρουσιάστηκε σε αυτή και την προηγούμενη ενότητα αφορά τη μοντελοποίηση ενός τρόπου επιλογής και χειρισμού εικονικών αντικειμένων που θα μπορούσε κάποιος να παρομοιάσει με το κλικάρισμα ενός ποντικιού και τη μετακίνηση του όπως μετακινούμε ένα εικονίδιο σε μία επιφάνεια εργασίας ενός λειτουργικού συστήματος.
+
+Για να δημιουργηθεί ένα σύστημα αλληλεπίδρασης ανθρώπου - υπολογιστή, οι δράσεις που παράγονται όταν λαμβάνει χώρα μία χειρονομία πρέπει να ορίζονται από ένα σύνολο καταστάσεων του συστήματος. Στις επόμενες ενότητες, θα δούμε πώς η δημιουργία τέτοιων καταστάσεων εξυπηρετεί τη λειτουργικότητα της εφαρμογής κατά τη διάρκεια ενός παιχνιδιού σκακιού επαυξημένης πραγματικότητας.
+
+
 
 \section{Απεικόνιση Εικονικών Αντικειμένων} \label{s:rendering}
 %clarke
@@ -392,66 +465,11 @@ With this visual feedback mechanism in place, a mechanism for initiating interac
 \section{Αντιμετώπιση Απόκρυψης Αντικειμένων} \label{s:occlusion}
 %OCCLUSION HANDLING
 
-In this section, the depth estimation of real world is described.
-The depth estimation is used to compose the image
-of the virtual objects and the image of the real world without
-occlusion conflicts. In order to avoid occlusion conflicts, we
-need the depth information of only the region onto which
-virtual objects are projected. When the positions of virtual
-objects are known, the region for depth estimation can be
-limited as shown in Figure 4. Therefore, the depth estimation
-region of real world can be determined by projecting
-a CG object’s bounding box using the model-view matrix
-estimated in Section 3.1. The following steps describe a
-method of depth estimation of real world.
-1. A position of the CG object in the world coordinate
-system is transformed into its position in the camera
-coordinate system using the estimated model-view matrix
-M.
-2. A bounding box of the virtual object is projected onto
-the left image as shown in Figure 4. A depth estimation
-region is obtained as a bounding rectangle of the
-projected box. The same process is done for the right
-image as well.
-3. By adopting the Sobel filter, edges are detected in the
-region of depth estimation on the left and right images
-4. Stereo matching is performed and the depth value is
-computed. Note that only pixels on detected edges in
-the left image are matched to those in the right image,
-matching window size is 5 x 5 pixels, and similarity
-measure is the sum of absolute differences (SAD). In
-the same way, the right image as a reference image is
-matched to the left image.
-5. Matching errors are excluded by considering the consistency
-between left-to-right and right-to-left matchings.
-The depth values at the pixels between the edges
-are interpolated.
 
-By using the estimated model-view matrix and the depth
-map of the real world, CG images of virtual objects are
-mixed into the image of real world. At this stage, the depth
-of real world and each virtual object are compared. When
-the real objects are closer to the user’s viewpoint, a transparent
-virtual object is drawn at the 3-D position where the
-real objects exist. By using a hardware z buffering algorithm,
-the virtual objects that are farther than the transparent
-objects are not actually drawn on the frame buffer. Therefore
-the composed image is looked as if the real objects are
-occluding the virtual objects. These rendering steps are illustrated
-with examples in Figure 5.
-First, only the background image of a real scene is rendered
-on the frame buffer as in Figure 5 (a). Z-buffer value
-is also set to the farthest value through out the screen. Then,
-Z-buffer of the real objects are set to the depth of the real
-objects in Figure 5 (c). The regions of real objects are illustrated
-with gray levels of depth in Figure 5 (b). Finally, the
-virtual objects are rendered by using the model-view matrix
-in Figure 5 (d),(e). These steps are applied to both left and right images for obtaining a stereo pair of composite
-images.
 
 %-----
 Για να μπορέσει ένας χρήστης να εκτελέσει επιτυχώς ορισμένες διεργασίες σε περιβάλλοντα επαυξημένης πραγματικότητας, χρειάζεται να παρέχεται από το σύστημα ένα συγκεκριμένο επίπεδο "εμβύθισης" του χρήστη. Πρέπει δηλαδή ο χρήστης να πιστέψει, όσο γίνεται, ότι τα εικονικά αντικείμενα είναι πραγματικά. 
-Στις περισσότερες προσεγγίσεις, οι αποκρύψεις των εικονικών αντικειμένων δεν λαμβάνονται υπ'όψην και επομένως τα εικονικά αντικείμενα απεικονίζονται πάντα πάνω από το frame του βίντεο, συνεπώς πάνω από τα πραγματικά αντικείμενα της σκηνής. 
+Στις περισσότερες προσεγγίσεις, οι αποκρύψεις των εικονικών αντικειμένων δεν λαμβάνονται υπόψη και επομένως τα εικονικά αντικείμενα απεικονίζονται πάντα πάνω από το frame του βίντεο, συνεπώς πάνω από τα πραγματικά αντικείμενα της σκηνής. 
 Ωστόσο, για να δημιουργηθούν καθηλωτικές και ρεαλιστικές εφαρμογές, η απόκρυψη ανάμεσα στα εικονικά και τα πραγματικά αντικείμενα πρέπει να πραγματοποιηθεί σωστά, ώστε οι χρήστες να μπορούν να κοιτάξουν σε μία σκηνή, όπου το εικονικό περιεχόμενο θα είναι εναρμονισμένο με το φυσικό περιβάλλον. Μία τέτοια προσέγγιση μας επιτρέπει να πετύχουμε υψηλό επίπεδο "εμβύθισης" αφού τα εικονικά αντικείμενα μπορούν να εναρμονιστούν με τα χέρια του χρήστη, ώστε να εμφανίζεται σωστά το ένα πάνω από το άλλο ή το αντίθετο. 
 
 Κάτι τέτοιο συνήθως δε συμβαίνει στις περισσότερες εφαρμογές επαυξημένης πραγματικότητας. Στην OpenGL, όταν ένα αντικείμενο απεικονίζεται στην οθόνη, το βάθος ενός pixel που παράγεται (z coordinate) αποθηκεύεται σε ένα buffer που ονομάζεται z-buffer ή buffer βάθους (depth buffer). Αυτός ο buffer ορίζεται συνήθως ως ένα δισδιάστατος πίνακας (x-y) με ένα στοιχείο για κάθε εικονοστοιχείο της οθόνης. Αν κάποιο άλλο αντικείμενο της σκηνής πρέπει να απεικονιστεί στο ίδιο εικονοστοιχείο, η μέθοδος συγκρίνει τα 2 βάθη και αντικαθιστά το τρέχων εικονοστοιχείο, αν το αντικείμενο είναι πιο κοντά στο θεατή. Έπειτα, το επιλεγμένο βάθος αποθηκεύεται στο z-buffer, αντικαθιστώντας την προηγούμενη τιμή. Εν τέλει, ο z-buffer θα επιτρέψει στη μέθοδο να αναπαράγει σωστά την αντίληψη του βάθους, δηλαδή το γεγονός ότι ένα αντικείμενο που βρίσκεται πιο κοντά θα πρέπει να κρύβει ένα άλλο που βρίσκεται πιο μακριά.
@@ -486,6 +504,13 @@ A=\frac{Z_{far}Z_{near}}{Z_{far}-Z_{near}}\\ B=\frac{Z_{far}}{Z_{far}-Z_{near}}
 Τέλος πρέπει να προσέξουμε το γεγονός ότι τα σημεία μπροστά από το σημείο παρατήρησης (viewpoint) στην OpenGL έχουν αρνητικές τιμές συντεταγμένων στον άξονα Z. Αφού εφαρμόσουμε το μετασχηματισμό που αναφέρθηκε με την προηγούμενη εξίσωση, μπορούμε να γράψουμε τις τιμές των δεδομένων στον z-buffer. Μόλις συμβεί αυτό, παρατηρούμε ότι τα πραγματικά και τα εικονικά αντικείμενα "δένουν" αρμονικά μαζί στη σκηνή με αρκετά μεγάλη ακρίβεια. 
 
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Files/Figures/occlusion2.png}
+    \caption[Το markerboard που δημιουργήθηκε μέσω της ArUco]{Το markerboard που δημιουργήθηκε μέσω της ArUco}
+    \label{fig:occlusion}
+\end{figure}
 
 
 \section{Ενσωμάτωση Μηχανής Σκακιού}
